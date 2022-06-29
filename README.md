@@ -12,7 +12,7 @@ library("devtools"); install_github("BavoDC/actuaRE", dependencies = TRUE, build
 This approach builds the package from source, i.e. `make` and compilers must be installed on your system -- see the R FAQ for your operating system; you may also need to install dependencies manually. Specify `build_vignettes=FALSE` if you have trouble because your system is missing some of the `LaTeX/texi2dvi` tools.
 
 ## Documentation
-The basic functionality of the package are explained and demonstrated in the vignette, which you can access using
+The basic functionality of the package is explained and demonstrated in the vignette, which you can access using
 ```
 vignette("actuaRE")
 ```
