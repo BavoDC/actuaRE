@@ -1,0 +1,184 @@
+---
+title: "Introduction to actuaRE"
+author: "Bavo DC Campo"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    fig_caption: yes
+    toc: true
+bibliography: references.bib
+latex_engine: xelatex
+biblio-style: "apalike"
+vignette: >
+  %\VignetteIndexEntry{actuaRE}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
+# Handling hierarchically multi-level factors using random effects models
+Multi-level factors (MLFs) are nominal variables with too many levels for ordinary generalized linear model (GLM) estimation [@Ohlsson]. Within the machine learning literature, these type of risk factors are better known as high-cardinality attributes [@Micci2001]. This package focuses on MLFs that exhibit a hierarchical structure and a typical example hereof, within workers' compensation insurance, is the NACE code. In our illustration, we work with a hierarchical MLF that has two hierarchical levels: industry and branch. Figure 1 visualizes this hierarchical structure with a hypothetical example.
+
+```{r hMLF, fig.align = 'center', fig.cap = "Figure 1: Hierarchical structure of a hypothetical example", fig.topcaption = TRUE, echo = FALSE}
+knitr::include_graphics("./HierarchicalStructureAdj.png")
+```
+
+## Which random effects models can we fit using actuaRE?
+With the current version of the `actuaRE` package, you are able to  fit random effects models with the following functional form
+
+\begin{align*}
+g(E[Y_{ijkt} | U_j, U_{jk}]) &= \mu + \boldsymbol{x}_{ijkt}^\top \boldsymbol{\beta} + U_j + U_{jk} \\&= \zeta_{ijkt}.\\
+\end{align*}
+
+Here, $Y_{ijkt}$ denotes the loss cost of risk profile $i$ (based on the company-specific risk factors) operating in branch $k$ within industry $j$ at time $t$. We calculate the loss cost as 
+
+\begin{align*}
+  Y_{ijkt} = \frac{Z_{ijkt}}{w_{ijkt}}
+\end{align*}
+where $Z_{ijkt}$ denotes the total claim cost and $w_{ijkt}$ is an appropriate volume measure. $g(\cdot)$ denotes the link function (for example the identity or log link), $\mu$ the intercept, $\boldsymbol{x}_{ijkt}$ the company-specific covariate vector and $\boldsymbol{\beta}$ the corresponding parameter vector. With the model parameters $\mu$ and $\boldsymbol{\beta}$ we capture the company-specific effects. To assess the effect of the hierarchical MLF, we introduce the random effects $U_j$ and $U_{jk}$ which capture the unobservable effects of the industry and the branch in which the company operates. $U_j$ denotes the industry-specific deviation from $\mu + \boldsymbol{x}_{ijkt}^\top \boldsymbol{\beta}$ and $U_{jk}$ denotes the branch-specific deviation from $\mu + \boldsymbol{x}_{ijkt}^\top \boldsymbol{\beta} + U_{j}$. We assume that the random industry effects $U_j$ are independent and identically distributed (i.i.d.) with $E[U_j] = 0$ and $Var(U_j) = \sigma_{I}^2$. Similarly, the random branch effects $U_{jk}$ are assumed to be i.i.d. with $E[U_{jk}] = 0$ and $Var(U_{jk}) = \sigma_{B}^2$.
+
+This package offers three different estimation methods to estimate the model parameters:
+ <br /> - Hierarchical credibility model [@JewellModel]
+ <br /> - Combining the hierarchical credibility model with a GLM [@Ohlsson2008]
+ <br /> - Mixed models [@Molenberghs2005]
+
+
+## Just the code please
+
+### Example data set
+To illustrate the functions, we make use of two different data sets. We illustrate the hierarchical credibility model of Jewell [@JewellModel] using the Hachemeister [@Hachemeister] data set. The other functions make use of the `dataCar` data set.
+
+### Hierarchical credibility model
+To estimate the parameters using the hierarchical credibility model, we use the function `hierCredibility`. By default, the additive hierarchical credibility model [@Dannenburg] is fit
+
+\begin{align*}
+		E[Y_{ijkt} | U_j, U_{jk}] &= \mu + U_j + U_{jk}.
+\end{align*}
+
+```{r}
+capture.output(library(actuaRE), file = tempfile()) # suppress startup message
+data("hachemeisterLong")
+fitHC = hierCredibility(ratio, weight, cohort, state, hachemeisterLong)
+fitHC
+```
+
+To fit the multiplicative hierarchical credibility model [@OhlssonJewell]
+\begin{align*}
+		E[Y_{ijkt} | \widetilde{U}_j, \widetilde{U}_{jk}] &= \tilde{\mu} \ \widetilde{U}_j \ \widetilde{U}_{jk}
+\end{align*}
+you have to specify `type = "multiplicative"`.
+```{r, eval = FALSE}
+fitHCMult = hierCredibility(ratio, weight, cohort, state, hachemeisterLong, type = "multiplicative")
+fitHCMult
+```
+
+
+
+To get a summary of the model fit, we use the `summary` function. 
+```{r}
+summary(fitHC)
+```
+
+To obtain the fitted values, we use the `fitted` function
+```{r}
+fitted(fitHC)
+```
+
+and we use `ranef` to extract the estimated random effects.
+```{r}
+ranef(fitHC)
+```
+
+We can inspect the estimated random effects using the function `plotRE`.
+```{r, fig.show = 'hold'}
+ggPlots = plotRE(fitHC, plot = FALSE)
+ggPlots[[1]]
+ggPlots[[2]]
+```
+
+To obtain predictions for a new data frame, we use the `predict` function.
+```{r}
+newDt = hachemeisterLong[sample(1:nrow(hachemeisterLong), 5, F), ]
+predict(fitHC, newDt)
+```
+
+### Combining the hierarchical credibility model with a GLM
+To allow for company-specific risk factors, we extend the multiplicative hierarchical credibility model to 
+\begin{align*}
+		E[Y_{ijkt} | \widetilde{U}_j, \widetilde{U}_{jk}] &= \tilde{\mu} \ \gamma_{ijkt} \ \widetilde{U}_j \ \widetilde{U}_{jk} = \gamma_{ijkt} V_{jk}
+\end{align*}
+where $\gamma_{ijkt}$ denotes the effect of the company-specific covariates. To estimate this model using Ohlsson's GLMC algorithm [@Ohlsson2008], we use can either use the function `hierCredGLM` or `hierCredTweedie`. `hierCredGLM` allows the user to specify the power parameter $p$. Conversely, `hierCredTweedie` estimates the power parameter $p$ along with the other parameters using the `cpglm` function from the `cplm` package.
+
+
+```{r}
+data("dataCar")
+fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w)
+summary(fit)
+```
+We use the same syntax as used by the package `lme4` to specify the model formula. Here, `(1 | VehicleType / VehicleBody)` specifies a random effect $U_j$ for `VehicleType` and a nested random effect $U_{jk}$ for `VehicleBody`. We extract the estimated parameters using `fixef` (company-specific effects) and `ranef` (random effects).
+```{r}
+fixef(fit)
+ranef(fit)
+```
+
+In addition, the same functions as before can be used.
+```{r }
+head(fitted(fit))
+predict(fit, newdata = dataCar[1:2, ], type = "response")
+ggPlots = plotRE(fit, plot = FALSE)
+```
+
+### Mixed models
+Alternatively, we can rely on the mixed models framework [@Molenberghs2005] to estimate the model parameters. Here, we can use the \code{\link[cplm]{cpglmm}} function to estimate a 
+Tweedie generalized linear mixed model. Fitting the model, however, takes quite some time. We can speed up the fitting process by providing some initial estimates and this is exactly
+what the `tweedieGLMM` function does! Nonetheless, even with the initial estimates the fitting process does take some time (approximately 5 minutes using Windows 10 with an intel i7 and 32 gigabytes of RAM).
+
+```{r, eval = FALSE}
+fitGLMM = tweedieGLMM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w, verbose = TRUE)
+```
+
+### Balance property
+For insurance applications, it is crucial that the models provide us a reasonable premium volume at portfolio level. Hereto, we examine the balance property [@Buhlmann2005][@Wuthrich] on the training set. That is,
+\begin{equation}
+	\begin{aligned}
+		\sum_{i, j, k, t} w_{ijkt} \ Y_{ijkt} &= \sum_{i, j, k, t} w_{ijkt} \ \widehat{Y}_{ijkt}\\
+	\end{aligned}
+\end{equation}
+where $i$ serves as an index for the tariff class. GLMs fulfill the balance property when we use the canonical link (see [@Wuthrich]). For LMMs and hence, the hierarchical credibility model this property also holds. Conversely, most GLMMs do not have this property. To regain the balance property, we introduce a quantity $\alpha$ 
+\begin{equation}
+	\begin{aligned}
+		\alpha &= \frac{\sum_{i, j, k, t} w_{ijkt} \ Y_{ijkt}}{\sum_{i, j, k, t} w_{ijkt} \ \widehat{Y}_{ijkt}}\\
+	\end{aligned}
+\end{equation}
+which quantifies the deviation of the total predicted damage from the total observed damage. In case of the log link, we can then use $\alpha$ to update the intercept to $\hat{\mu} + \log(\alpha)$ to regain the balance property.
+
+By default, the intercept is updated when fitting models using `hierCredGLM`, `hierCredTweedie` and `tweedieGLMM`. If you do not wish to update the intercept, you can set the argument `balanceProperty = FALSE`.
+
+```{r}
+fitnoBP  = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w, balanceProperty = F)
+yHatnoBP = fitted(fitnoBP)
+w        = weights(fitnoBP, "prior")
+y        = fitnoBP$y
+
+fitBP  = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w, balanceProperty = T)
+yHatBP = fitted(fitBP)
+
+sum(w * y) / sum(w * yHatnoBP)
+sum(w * y) / sum(w * yHatBP)
+```
+Alternatively, you can use the build-in function `BalanceProperty`. You can use this function with any object that has the slots `fitted`, `weights` and `y`.
+```{r}
+BalanceProperty(fitnoBP)
+BalanceProperty(fitBP)
+```
+
+# References
+
+<div id="refs"></div>
