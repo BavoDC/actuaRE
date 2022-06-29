@@ -15,3 +15,4 @@ This approach builds the package from source, i.e. `make` and compilers must be 
 The basic functionality of the package are explained and demonstrated in the vignette, which you can access using
 ```
 vignette("actuaRE")
+```
