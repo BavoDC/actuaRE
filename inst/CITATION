@@ -1,14 +1,16 @@
 citHeader("To cite the 'actuaRE' R package in publications, please use:")
 
-citEntry(entry = "Article",
+citEntry(entry = "article",
   title = "Insurance pricing with hierarchically structured data: An illustration with a workers' compensation insurance portfolio",
-  author = personList(person(given="Bavo", family="Campo"),
-                      person(given="Katrien", family="Antonio")),
-  journal = "arXiv",
+  author = personList(person(given = "Bavo", family = "Campo"),
+                      person(given = "Katrien", family = "Antonio")),
+  journal = "arXiv e-prints",
+  eid = "arXiv:2206.15244",
   year = "2022",
-  #url="https://doi.org/10.32614/RJ-2016-021",
-  #
+  url = "https://arxiv.org/abs/2206.15244",
+  archivePrefix = "arXiv",
+  eprint = "2206.15244",
   textVersion =
-  paste("Campo, B.D.C. and Antonio, K. (2022)",
-        "Insurance pricing with hierarchically structured data: An illustration with a workers' compensation insurance portfolio",
-        "arXiv"))
+  paste("Campo, B.D.C. and Antonio, K. (2022).",
+        "Insurance pricing with hierarchically structured data: An illustration with a workers' compensation insurance portfolio.",
+        "arXiv e-prints, arXiv:2206.15244. Available at https://arxiv.org/abs/2206.15244."))
