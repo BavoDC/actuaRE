@@ -1,4 +1,7 @@
-actuaRE: Handling hierarchically structured risk factors using random effects models. <img style="vertical-align:middle" src="inst/figures/actuaRE.png" alt="image" align="right" height="200"/>
+<div>
+<img style="vertical-align:middle" src="inst/figures/actuaRE.png" alt="image" align="right" height="200"/>
+actuaRE: Handling hierarchically structured risk factors using random effects models.
+</div>
 <br clear="right">
 ====
 
