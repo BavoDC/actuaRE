@@ -1,4 +1,5 @@
 <br /> actuaRE: Handling hierarchically structured <br /> risk factors using random effects models. <img style= "float:right;position: relative; top: -80px" src="vignettes/actuaRE.png" alt="" align="right" width="15%" height = "15%">
+====
 <br clear="right">
 
 
