@@ -37,3 +37,13 @@ vignettes/*.pdf
 
 # Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
+docs
+
+# files produced from pkgdown
+*.yml
+.github/
+
+# logo package
+./inst/figures
+/doc/
+/Meta/

@@ -23,6 +23,16 @@ knitr::opts_chunk$set(
 options(rmarkdown.html_vignette.check_title = FALSE)
 ```
 
+<div>
+```{r logo, echo=FALSE, out.width="25%"}
+knitr::include_graphics("./actuaRE.png")
+```
+</div>
+<br clear="right">
+In this document, we give you a brief overview of the basic functionality of the `actuaRE` package. For a more detailed overview of the functions, you can consult the help-pages. Please feel free to send any suggestions and bug reports to the package author.
+
+
+
 # Handling hierarchically multi-level factors using random effects models
 Multi-level factors (MLFs) are nominal variables with too many levels for ordinary generalized linear model (GLM) estimation [@Ohlsson]. Within the machine learning literature, these type of risk factors are better known as high-cardinality attributes [@Micci2001]. This package focuses on MLFs that exhibit a hierarchical structure and a typical example hereof, within workers' compensation insurance, is the NACE code. In our illustration, we work with a hierarchical MLF that has two hierarchical levels: industry and branch. Figure 1 visualizes this hierarchical structure with a hypothetical example.
 

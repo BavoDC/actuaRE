@@ -1,4 +1,4 @@
-actuaRE: Handling hierarchically structured risk factors using random effects models.
+actuaRE: Handling hierarchically structured risk factors using random effects models. <img src="inst/figures/actuaRE.png" align="right" />
 ====
 
 ## Installation
@@ -16,3 +16,4 @@ The basic functionality of the package is explained and demonstrated in the vign
 ```
 vignette("actuaRE")
 ```
+or via the [homepage](https://bavodc.github.io/websiteactuaRE/articles/actuaRE.html) of the package.

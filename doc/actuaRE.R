@@ -5,6 +5,9 @@ knitr::opts_chunk$set(
 )
 options(rmarkdown.html_vignette.check_title = FALSE)
 
+## ----logo, echo=FALSE, out.width="25%"----------------------------------------
+knitr::include_graphics("./actuaRE.png")
+
 ## ----hMLF, fig.align = 'center', fig.cap = "Figure 1: Hierarchical structure of a hypothetical example", fig.topcaption = TRUE, echo = FALSE----
 knitr::include_graphics("./HierarchicalStructureAdj.png")
 
@@ -14,9 +17,9 @@ data("hachemeisterLong")
 fitHC = hierCredibility(ratio, weight, cohort, state, hachemeisterLong)
 fitHC
 
-## -----------------------------------------------------------------------------
-fitHCMult = hierCredibility(ratio, weight, cohort, state, hachemeisterLong, type = "multiplicative")
-fitHCMult
+## ---- eval = FALSE------------------------------------------------------------
+#  fitHCMult = hierCredibility(ratio, weight, cohort, state, hachemeisterLong, type = "multiplicative")
+#  fitHCMult
 
 ## -----------------------------------------------------------------------------
 summary(fitHC)
