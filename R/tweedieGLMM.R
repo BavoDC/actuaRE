@@ -90,7 +90,8 @@ tweedieGLMM <- function(formula, data, weights, muHatGLM = F, epsilon = 1e-4,
       inits = list(
         beta = coef(initTw$fitGLM),
         phi = initTw$fitGLM$phi,
-        p = initTw$fitGLM$p
+        p = initTw$fitGLM$p,
+        Sigma = rep(1, 2)
       )
     )
   ArgzFn$formula = formula
