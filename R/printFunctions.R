@@ -12,6 +12,7 @@ print.hierCredibility <- function(x, ...) {
   cat("  Var(V[j]):", x$Variances[3], "\n")
   cat(paste0("Unique number of categories of ", x$Hierarchy$sector, ": ", NrUnique(x$RawResults$Dfj[[Sect]]), "\n"))
   cat(paste0("Unique number of categories of ", x$Hierarchy$group, ": ", NrUnique(x$RawResults$Dfjk[[Grp]])))
+  return(invisible(x))
 }
 
 #' @inherit base::summary
@@ -37,6 +38,7 @@ summary.hierCredibility <- function(object, ...) {
   cat("\nEstimates at the", object$Hierarchy$group, "level:\n\n")
   Dfjk = object$RawResults$Dfjk
   print(Dfjk[, !colnames(Dfjk) %in% c("Vj", "Yj_BarTilde"), with = F], ...)
+  return(invisible(object))
 }
 
 #' @inherit base::print.default
@@ -54,6 +56,7 @@ print.hierCredGLM <- function(x, ...) {
   cat(paste0("Unique number of categories of ", x$HierarchicalResults$Hierarchy$group, ": ", NrUnique(x$HierarchicalResults$RawResults$Dfjk[[Grp]])))
   cat("\n\nResults contract-specific risk factors:\n\n")
   print(x$fitGLM)
+  return(invisible(x))
 }
 
 #' @inherit base::summary
@@ -73,6 +76,7 @@ summary.hierCredGLM <- function(object, ...) {
   cat(paste0("Unique number of categories of ", object$HierarchicalResults$Hierarchy$group, ": ", NrUnique(object$HierarchicalResults$RawResults$Dfjk[[Grp]])))
   cat("\n\nResults contract-specific risk factors:\n\n")
   print(summary(object$fitGLM))
+  return(invisible(object))
 }
 
 #' @inherit base::print.default
