@@ -10,14 +10,14 @@ hierCredGLM(
   weights,
   p = 1.5,
   link.power = 0,
-  muHatGLM = T,
+  muHatGLM = TRUE,
   epsilon = 1e-04,
   maxiter = 500,
   maxiterGLM = 500,
-  verbose = F,
-  returnData = T,
-  balanceProperty = T,
-  y = T,
+  verbose = FALSE,
+  returnData = TRUE,
+  balanceProperty = TRUE,
+  y = TRUE,
   ...
 )
 }
@@ -81,7 +81,8 @@ See \code{\link{hierCredTweedie}} when you also want to estimate the p.
 }
 \examples{
 data("dataCar")
-fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w, p = 1.75, epsilon = 1e-4)
+fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,
+p = 1.7)
 fit
 summary(fit)
 ranef(fit)

@@ -46,5 +46,6 @@
   fit = hierCredibility(ratio, weight, cohort, state, hachemeisterLong)
 
   # Combination of the hierarchical credibility model with a GLM (Ohlsson, 2008)
-  fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w, p = 1.75, epsilon = 1e-6)
+  fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,
+  p = 1.7)
 }

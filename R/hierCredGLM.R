@@ -38,14 +38,15 @@
 #'
 #' @examples
 #' data("dataCar")
-#' fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w, p = 1.75, epsilon = 1e-4)
+#' fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,
+#' p = 1.7)
 #' fit
 #' summary(fit)
 #' ranef(fit)
 #' fixef(fit)
 hierCredGLM <-
-  function(formula, data, weights, p = 1.5, link.power = 0, muHatGLM = T, epsilon = 1e-4,
-           maxiter = 5e2, maxiterGLM = 5e2, verbose = F, returnData = T,  balanceProperty = T, y = T, ...) {
+  function(formula, data, weights, p = 1.5, link.power = 0, muHatGLM = TRUE, epsilon = 1e-4,
+           maxiter = 5e2, maxiterGLM = 5e2, verbose = FALSE, returnData = TRUE,  balanceProperty = TRUE, y = TRUE, ...) {
     # Combining the hierarchical credibility model with a GLM (Ohlsson, 2008)
     call = match.call()
     if(!is.logical(muHatGLM))
@@ -54,6 +55,11 @@ hierCredGLM <-
       stop("Has to be of type formula.")
     if(!all(all.vars(formula) %in% names(data)))
       stop("Did not find the variables in the formula in the dataframe")
+
+    # Fix 'No visible global binding for global variable' note
+    # https://stackoverflow.com/questions/9439256/how-can-i-handle-r-cmd-check-no-visible-binding-for-global-variable-notes-when
+
+
 
     ## Copied from lme4: glmer
     ## extract x, y, etc from the model formula and frame
@@ -235,16 +241,17 @@ hierCredGLM <-
 #' @examples
 #' \dontrun{
 #' data("dataCar")
-#' fit = hierCredTweedie(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w, epsilon = 1e-6)
+#' fit = hierCredTweedie(Y ~ area + (1 | VehicleType / VehicleBody), dataCar,
+#' weights = w, epsilon = 1e-6)
 #' fit
 #' summary(fit)
 #' ranef(fit)
 #' fixef(fit)
 #' }
 hierCredTweedie <-
-  function(formula, data, weights, muHatGLM = T, epsilon = 1e-4,
-           maxiter = 5e2, verbose = F, returnData = T, cpglmControl = list(bound.p = c(1.01, 1.99)),
-           balanceProperty = T, optimizer = "bobyqa", y = T, ...) {
+  function(formula, data, weights, muHatGLM = TRUE, epsilon = 1e-4,
+           maxiter = 5e2, verbose = FALSE, returnData = TRUE, cpglmControl = list(bound.p = c(1.01, 1.99)),
+           balanceProperty = TRUE, optimizer = "bobyqa", y = TRUE, ...) {
     # Combining the hierarchical credibility model with a GLM (Ohlsson, 2008)
     call = match.call()
     if(!is.logical(muHatGLM))
@@ -408,5 +415,6 @@ hierCredTweedie <-
       Results
     )
   }
-
+utils::globalVariables(c(".", ".MLFj", ".MLFjk", "Gammai", "Ytilde", "Yijkt", "wtilde", "wijkt", "Yjk_BarTilde", "wjk",
+                         "wjsq", "zjk", "qj", "Vj", "Vjk", "Uj", "Ujk", "..REs"))
 

@@ -1,7 +1,3 @@
-#' @inherit stats::fitted
-fitted.hierCredibility <- function(object, ...) object$fitted.values
-
-
 #' Model predictions
 #'
 #' Obtain predictions based on the model fit

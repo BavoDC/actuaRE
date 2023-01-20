@@ -7,9 +7,10 @@
 adjustIntercept(obj, data)
 }
 \arguments{
-\item{obj}{an object of type \code{glm, speedglm, cpglm} or \code{cpglmm} containing the model fit.}
+\item{obj}{an object of type \code{\link{glm}}, \code{\link{speedglm}}, \code{\link{cpglm}} or \code{\link{cpglmm}}
+containing the model fit.}
 
-\item{data}{a \code{data.frame} or \code{data.table} object that was used to fit the model.}
+\item{data}{a \code{\link{data.frame}} or \code{\link{data.table}} object that was used to fit the model.}
 }
 \value{
 The object with the adjusted (fixed effects) coefficients.
@@ -20,7 +21,8 @@ This function updates the intercept term of the model fit such that the balance 
 \examples{
 library(statmod)
 datas  = dataCar[1:1e3, ]
-Fit    = glm(Y ~ area + gender, data = datas, weights = datas$w, family = tweedie(1.75, 0), model = TRUE, control = glm.control(epsilon = 1e-4, maxit = 5e2))
+Fit    = glm(Y ~ area + gender, data = datas, weights = datas$w, family = tweedie(1.75, 0),
+model = TRUE, control = glm.control(epsilon = 1e-4, maxit = 5e2))
 w      = weights(Fit, "prior")
 y      = Fit$y
 sum(w * y) == sum(w * fitted(Fit))

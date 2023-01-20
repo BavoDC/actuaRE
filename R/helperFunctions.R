@@ -9,7 +9,7 @@
 #' set.seed(1)
 #' x = sample(letters, 50, TRUE)
 #' NrUnique(x)
-NrUnique <- function(x, na.rm = T) {
+NrUnique <- function(x, na.rm = TRUE) {
   if(!is.vector(x))
     stop("Provide object of type vector.")
   if (na.rm)
@@ -73,34 +73,46 @@ is.formula <- function(x) {
   return(string)
 }
 
-#' @inherit nlme::random.effects
+
+#' Extract the random effect estimates from a fitted random effects model
+#'
+#' @name ranef-actuaRE
+#' @param object an object of type \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
+#' @param ... Currently ignored.
+#'
+#' @method ranef hierCredibility
 ranef.hierCredibility <- function(object, ...) {
   object$Relativity
 }
-#' @inherit nlme::random.effects
+#' @rdname ranef-actuaRE
+#' @method ranef hierCredGLM
 ranef.hierCredGLM     <- function(object, ...) {
   object$HierarchicalResults$Relativity
 }
-#' @inherit nlme::random.effects
+#' @rdname ranef-actuaRE
+#' @method ranef hierCredTweedie
 ranef.hierCredTweedie <- function(object, ...) {
   object$HierarchicalResults$Relativity
 }
-#' Extract fixed-effects estimates
+#' Extract the fixed-effects estimates from a fitted random effects model
 #'
-#' @param object any fitted model object from which fixed effects estimates can be extracted.
+#' @param object an object of type \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
 #' @param ... ignored.
+#' @method fixef hierCredGLM
 #'
 #' @return a named, numeric vector of fixed-effects estimates.
 #'
 #' @examples
 #' \dontrun{
-#' fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w, p = 1.75, epsilon = 1e-6)
+#' fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar,
+#' weights = w, p = 1.75, epsilon = 1e-6)
 #' fixef(fit)
 #' }
 fixef.hierCredGLM     <- function(object, ...) {
   coef(object$fitGLM)
 }
 #' @rdname fixef.hierCredGLM
+#' @method fixef hierCredTweedie
 fixef.hierCredTweedie <- function(object, ...) {
   coef(object$fitGLM)
 }
@@ -111,12 +123,15 @@ fixef.hierCredTweedie <- function(object, ...) {
 #'
 #' @param obj an object containing the model fit
 #'
-#' @return a list with the slots \code{BalanceProperty} (logical indicating whether this is satisfied) and \code{Alpha} (Ratio total observed damage to total predicted damage).
+#' @return a list with the slots \code{call} (the original call), \code{BalanceProperty} (logical indicating whether the balance
+#' property is satisfied) and \code{Alpha} (Ratio total observed damage to total predicted damage).
 #'
 #' @examples
-#' fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w, p = 1.75, epsilon = 1e-6)
+#' fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,
+#'  p = 1.75, epsilon = 1e-6)
 #' BalanceProperty(fit)
 BalanceProperty <- function(obj) {
+  call  = match.call
   yHat  = fitted(obj)
   w     = weights(obj, "prior")
   y     = obj$y
@@ -134,24 +149,28 @@ BalanceProperty <- function(obj) {
   }
   Results =
     structure(
-      list(BalanceProperty = BP,
+      list(call,
+           BalanceProperty = BP,
            Alpha = Alpha),
       class = "BalanceProperty"
     )
   return(invisible(Results))
 }
 
-#' Extract model weights
+#' Extract the model weights
 #'
 #' \code{weights} is a generic function which extracts fitting weights from objects returned by modeling functions.
 #' Methods can make use of \code{\link[stats]{napredict}} methods to compensate for the omission of missing values. The default methods does so.
 #'
-#' @param object an object for which the extraction of model weights is meaningful.
+#' @name weights-actuaRE
+#' @param object an object for which the extraction of model weights is meaningful. Can be either \code{\link{cpglm}},
+#' \code{\link{speedglm}}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
 #' @param type indicates if prior or working weights need to be extracted.
 #' @param ... ignored
 #'
 #' @return Weights extracted from the object \code{object}: the default method looks for component "weights" and if not \code{NULL} calls \code{\link[stats]{napredict}} on it.
 #' @method weights cpglm
+#' @seealso \code{\link[stats]{weights}}, \code{\link{cpglm}}, \code{\link{speedglm}}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
 weights.cpglm <- function(object, type = c("prior", "working"), ...) {
   type = match.arg(type)
   res  = if(type == "prior") object$prior.weights else object$weights
@@ -161,7 +180,8 @@ weights.cpglm <- function(object, type = c("prior", "working"), ...) {
     naresid(object$na.action, res)
 }
 
-#' @rdname weights.cpglm
+#' @rdname weights-actuaRE
+#' @method weights speedglm
 weights.speedglm <- function(object, type = c("prior", "working"), ...) {
   type = match.arg(type)
   res  = if(type == "prior") object$prior.weights else object$weights
@@ -171,7 +191,8 @@ weights.speedglm <- function(object, type = c("prior", "working"), ...) {
     naresid(object$na.action, res)
 }
 
-#' @rdname weights.cpglm
+#' @rdname weights-actuaRE
+#' @method weights hierCredGLM
 weights.hierCredGLM <- function(object, type = c("prior", "working"), ...) {
   type = match.arg(type)
   res  = if(type == "prior") object$prior.weights else object$weights
@@ -181,7 +202,8 @@ weights.hierCredGLM <- function(object, type = c("prior", "working"), ...) {
     naresid(object$na.action, res)
 }
 
-#' @rdname weights.cpglm
+#' @rdname weights-actuaRE
+#' @method weights hierCredTweedie
 weights.hierCredTweedie <- function(object, type = c("prior", "working"), ...) {
   type = match.arg(type)
   res  = if(type == "prior") object$prior.weights else object$weights

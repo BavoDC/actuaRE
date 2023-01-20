@@ -22,10 +22,11 @@
 #' @examples
 #' \dontrun{
 #' data("dataCar")
-#' fitTweedieGLMM = tweedieGLMM(Y ~ area + gender + (1 | VehicleType / VehicleBody), dataCar, weights = w, verbose = TRUE, epsilon = 1e-4)
+#' fitTweedieGLMM = tweedieGLMM(Y ~ area + gender + (1 | VehicleType / VehicleBody), dataCar,
+#'  weights = w, verbose = TRUE, epsilon = 1e-4)
 #' }
-tweedieGLMM <- function(formula, data, weights, muHatGLM = F, epsilon = 1e-4,
-                        maxiter = 5e2, verbose = F, balanceProperty = T) {
+tweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4,
+                        maxiter = 5e2, verbose = FALSE, balanceProperty = TRUE) {
   # Combining the hierarchical credibility model with a GLM (Ohlsson, 2008)
   call = match.call()
   if(!is.logical(muHatGLM))

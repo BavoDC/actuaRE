@@ -2,24 +2,26 @@
 % Please edit documentation in R/plotRE.R
 \name{plotRE}
 \alias{plotRE}
-\title{Plotting the random effect estimates}
+\title{Visualizing the random effect estimates using ggplot2}
 \usage{
 plotRE(obj, levelRE = c("all", "first", "second"), colour = "black", plot = T)
 }
 \arguments{
-\item{obj}{an object of type \code{hierCredibility}, \code{hierCredGLM} or \code{hierCredTweedie}}
+\item{obj}{an object of type \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}}
 
-\item{levelRE}{indicates which hierarchical level has to be used.}
+\item{levelRE}{indicates which hierarchical level has to be used. \code{"all"} plots both levels in the hierarchy,
+\code{"first"} the first level in the hierarchy and \code{"second"} the second level.}
 
-\item{colour}{colour for \code{geom_point}}
+\item{colour}{colour for \code{\link[ggplot2]{geom_point}}}
 
-\item{plot}{logical indicating if the \code{ggplot} objects have to be plotted.}
+\item{plot}{logical indicating if the \code{\link{ggplot}} objects have to be plotted.}
 }
 \value{
 a list with \code{ggplot} objects.
 }
 \description{
-Plotting the random effect estimates
+Using this function, you can create plots of the random effect estimates from fitted random effects models. To make
+the plots, we rely on the \code{\link{ggplot2}} package.
 }
 \examples{
 \dontrun{

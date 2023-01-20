@@ -10,12 +10,14 @@ BalanceProperty(obj)
 \item{obj}{an object containing the model fit}
 }
 \value{
-a list with the slots \code{BalanceProperty} (logical indicating whether this is satisfied) and \code{Alpha} (Ratio total observed damage to total predicted damage).
+a list with the slots \code{call} (the original call), \code{BalanceProperty} (logical indicating whether the balance
+property is satisfied) and \code{Alpha} (Ratio total observed damage to total predicted damage).
 }
 \description{
 Assesses whether the balance property holds
 }
 \examples{
-fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w, p = 1.75, epsilon = 1e-6)
+fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,
+ p = 1.75, epsilon = 1e-6)
 BalanceProperty(fit)
 }

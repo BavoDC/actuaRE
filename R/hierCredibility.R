@@ -34,15 +34,15 @@
 #' data("hachemeister", package = "actuar")
 #' Df = as.data.frame(hachemeister)
 #' X  = as.data.frame(cbind(cohort = c(1, 2, 1, 2, 2), hachemeister))
-#' Df = reshape(X, idvar = "state", varying = list(paste0("ratio.", 1:12), paste0("weight.", 1:12)), direction = "long")
-
-#' fitActuar  = cm(~ cohort + cohort:state, data = X, ratios = ratio.1:ratio.12, weights = weight.1:weight.12, method = "Ohlsson")
+#' Df = reshape(X, idvar = "state", varying = list(paste0("ratio.", 1:12),
+#'  paste0("weight.", 1:12)), direction = "long")
+#' fitActuar  = cm(~ cohort + cohort:state, data = X, ratios = ratio.1:ratio.12,
+#' weights = weight.1:weight.12, method = "Ohlsson")
 #' fitActuaRE = hierCredibility(ratio.1, weight.1, cohort, state, Df)
-
 #' summary(fitActuar)
 #' summary(fitActuaRE)
 hierCredibility <- function(Yijkt, wijkt, sector, group, data, muHat = NULL, type = c("additive", "multiplicative"),
-                            returnData = F) {
+                            returnData = FALSE) {
   #### 1. Settings ####
   Argz = as.list(match.call())[-1]
   call = match.call()

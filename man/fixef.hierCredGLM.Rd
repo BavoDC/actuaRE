@@ -3,14 +3,14 @@
 \name{fixef.hierCredGLM}
 \alias{fixef.hierCredGLM}
 \alias{fixef.hierCredTweedie}
-\title{Extract fixed-effects estimates}
+\title{Extract the fixed-effects estimates from a fitted random effects model}
 \usage{
 \method{fixef}{hierCredGLM}(object, ...)
 
 \method{fixef}{hierCredTweedie}(object, ...)
 }
 \arguments{
-\item{object}{any fitted model object from which fixed effects estimates can be extracted.}
+\item{object}{an object of type \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}}
 
 \item{...}{ignored.}
 }
@@ -18,11 +18,12 @@
 a named, numeric vector of fixed-effects estimates.
 }
 \description{
-Extract fixed-effects estimates
+Extract the fixed-effects estimates from a fitted random effects model
 }
 \examples{
 \dontrun{
-fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w, p = 1.75, epsilon = 1e-6)
+fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar,
+weights = w, p = 1.75, epsilon = 1e-6)
 fixef(fit)
 }
 }

@@ -1,4 +1,22 @@
-#' @inherit base::print.default
+#' Class "hierCredibility" of fitted hierarchical credibility models
+#'
+#' @name hierCredibility-class
+#' @method print hierCredibility
+#' @param x an object of class \code{\link{hierCredibility}}
+#' @param object an object of class \code{\link{hierCredibility}}
+#' @param ... currently ignored.
+#' @seealso \code{\link{hierCredibility}}
+#'
+#'
+#' @section {S3 methods}:
+#' \describe{
+#'  \item{\code{print}:}{Prints the \code{call}, the estimated variance parameters and the unique number of categories
+#'   of the hierarchical MLF. The \code{...} argument is currently ignored. Returns an invisible copy of the original
+#'   object.}
+#'  \item{\code{summary}:}{In addition to the output of the \code{print.hierCredibility} function, the \code{summary} function
+#'   prints the random effect estimates as well. Returns an invisible copy of the original object.}
+#'   \item{\code{fitted}:}{Returns the fitted values.}
+#' }
 print.hierCredibility <- function(x, ...) {
   cat("Call:\n",
       paste(deparse(x$call), sep = "\n", collapse = "\n"),
@@ -14,8 +32,8 @@ print.hierCredibility <- function(x, ...) {
   cat(paste0("Unique number of categories of ", x$Hierarchy$group, ": ", NrUnique(x$RawResults$Dfjk[[Grp]])))
   return(invisible(x))
 }
-
-#' @inherit base::summary
+#' @rdname hierCredibility-class
+#' @method summary hierCredibility
 summary.hierCredibility <- function(object, ...) {
   cat("Call:\n",
       paste(deparse(object$call), sep = "\n", collapse = "\n"),
@@ -40,8 +58,25 @@ summary.hierCredibility <- function(object, ...) {
   print(Dfjk[, !colnames(Dfjk) %in% c("Vj", "Yj_BarTilde"), with = F], ...)
   return(invisible(object))
 }
-
-#' @inherit base::print.default
+#' Class "hierCredGLM" of fitted random effects models estimated with Ohlsson's GLMC algorithm
+#'
+#' @name hierCredGLM-class
+#' @method print hierCredGLM
+#' @param x an object of class \code{\link{hierCredGLM}}
+#' @param object an object of class \code{\link{hierCredGLM}}
+#' @param ... currently ignored.
+#' @seealso \code{\link{hierCredGLM}}
+#'
+#' @section {S3 methods}:
+#' \describe{
+#'  \item{\code{print}:}{Prints the \code{call}, the estimated variance parameters, the unique number of categories
+#'   of the hierarchical MLF and the output of the GLM part. The \code{...} argument is currently ignored. Returns an
+#'   invisible copy of the original object.}
+#'  \item{\code{summary}:}{In addition to the output of the \code{print.hierCredGLM} function, the \code{summary} function
+#'   also prints the random effect estimates and a summary of the GLM (see \code{\link{summary.speedglm}}). Returns an
+#'   invisible copy of the original object.}
+#'   \item{\code{fitted}:}{Returns the fitted values.}
+#' }
 print.hierCredGLM <- function(x, ...) {
   cat("Call:\n",
       paste(deparse(x$call), sep = "\n", collapse = "\n"),
@@ -59,7 +94,8 @@ print.hierCredGLM <- function(x, ...) {
   return(invisible(x))
 }
 
-#' @inherit base::summary
+#' @rdname hierCredGLM-class
+#' @method summary hierCredGLM
 summary.hierCredGLM <- function(object, ...) {
   cat("Call:\n",
       paste(deparse(object$call), sep = "\n", collapse = "\n"),
@@ -79,9 +115,28 @@ summary.hierCredGLM <- function(object, ...) {
   return(invisible(object))
 }
 
-#' @inherit base::print.default
+#' Class "hierCredTweedie" of fitted random effects models estimated with Ohlsson's GLMC algorithm
+#'
+#' @name hierCredTweedie-class
+#' @method print hierCredTweedie
+#' @param x an object of class \code{\link{hierCredTweedie}}
+#' @param object an object of class \code{\link{hierCredTweedie}}
+#' @param ... currently ignored.
+#' @seealso \code{\link{hierCredTweedie}}
+#'
+#' @section {S3 methods}:
+#' \describe{
+#'  \item{\code{print}:}{Prints the \code{call}, the estimated variance parameters, the unique number of categories
+#'   of the hierarchical MLF and the output of the GLM part. The \code{...} argument is currently ignored. Returns an
+#'   invisible copy of the original object.}
+#'  \item{\code{summary}:}{In addition to the output of the \code{print.hierCredTweedie} function, the \code{summary} function
+#'   also prints the random effect estimates and a summary of the GLM (see \code{\link{summary.speedglm}}). Returns an
+#'    invisible copy of the original object.}
+#'    \item{\code{fitted}:}{Returns the fitted values.}
+#' }
 print.hierCredTweedie <- print.hierCredGLM
-#' @inherit base::summary
+#' @rdname hierCredTweedie-class
+#' @method summary hierCredTweedie
 summary.hierCredTweedie <- summary.hierCredGLM
 
 .startactuaRE <- function() {
@@ -112,13 +167,37 @@ summary.hierCredTweedie <- summary.hierCredGLM
   packageStartupMessage("This is version ", packageVersion(pkgname), " of ", pkgname)
 }
 
-#' @inherit base::print.default
+
+#' Print method for an object of class \code{BalanceProperty}
+#'
+#' @param x an object of type \code{BalanceProperty}
+#' @param ... Currently ignored.
+#' @seealso \code{\link{BalanceProperty}}
+#'
+#' @return Prints the call and whether the balance property is satisfied or not. Returns an invisible copy
+#' of the original object.
 print.BalanceProperty <- function(x, ...) {
+  cat("Call:\n",
+      paste(deparse(x$call), sep = "\n", collapse = "\n"),
+      "\n\n", sep = "")
   if(x$BalanceProperty) {
     cat("\nBalance property is satisfied.\n\n")
   } else {
     warning("\nBalance property is not satisfied.\n", immediate. = T)
     cat("\nRatio total observed damage to total predicted damage:", x$Alpha, "\n\n")
   }
+  invisible(x)
 }
+
+#' @rdname hierCredibility-class
+#' @method fitted hierCredibility
+fitted.hierCredibility <- function(object, ...) object$fitted.values
+
+#' @rdname hierCredGLM-class
+#' @method fitted hierCredGLM
+fitted.hierCredGLM <- function(object, ...) object$fitted.values
+
+#' @rdname hierCredTweedie-class
+#' @method fitted hierCredTweedie
+fitted.hierCredTweedie <- function(object, ...) object$fitted.values
 

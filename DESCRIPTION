@@ -1,13 +1,13 @@
 Package: actuaRE
 Type: Package
 Title: Handling hierarchically structured risk factors using random effects models
-Version: 0.1.0
-Author: Bavo DC Campo
-Maintainer: Bavo DC Campo <bavo.decock@kuleuven.be>
+Version: 0.1.1
+Author: Bavo D.C. Campo
+Maintainer: Bavo D.C. Campo <bavo.decock@kuleuven.be>
 Description: Using this package, you can fit a random effects model using either the hierarchical credibility model, a combination of the hierarchical credibility model with a GLM or a Tweedie generalized linear mixed model.
 License: GPL (>= 3)
-Depends: R (>= 3.5.0), magrittr, speedglm, data.table, ggplot2, knitr, stats, methods, cplm
-Imports: statmod, nlme, boot, lme4
+Depends: R (>= 3.5.0), stats, methods, cplm
+Imports: statmod, nlme, lme4, magrittr, speedglm, data.table, ggplot2, knitr
 Suggests: 
     plyr,
     insuranceData,
@@ -15,7 +15,8 @@ Suggests:
     utils
 LazyData: true
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-URL: https://bavodc.github.io/websiteactuaRE/
+URL: https://bavodc.github.io/websiteactuaRE/,
+    https://bavodc.github.io/actuaRE/
