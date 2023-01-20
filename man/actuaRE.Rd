@@ -39,7 +39,7 @@
   vignette(package = "actuaRE")
 
   # Load data
-  data(hachemeister)
+  data(hachemeisterLong)
   data(dataCar)
 
   # Hierarchical credibility model of Jewell

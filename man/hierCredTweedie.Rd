@@ -8,15 +8,15 @@ hierCredTweedie(
   formula,
   data,
   weights,
-  muHatGLM = T,
+  muHatGLM = TRUE,
   epsilon = 1e-04,
   maxiter = 500,
-  verbose = F,
-  returnData = T,
+  verbose = FALSE,
+  returnData = TRUE,
   cpglmControl = list(bound.p = c(1.01, 1.99)),
-  balanceProperty = T,
+  balanceProperty = TRUE,
   optimizer = "bobyqa",
-  y = T,
+  y = TRUE,
   ...
 )
 }
@@ -96,5 +96,7 @@ fixef(fit)
 Ohlsson, E. (2008). Combining generalized linear models and credibility models in practice. \emph{Scandinavian Actuarial Journal} \bold{2008}(4), 301–314.
 }
 \seealso{
-\code{\link{hierCredibility}}, \code{\link{hierCredGLM}}, \code{\link[cplm]{cpglm}}
+\code{\link{hierCredTweedie-class}}, \code{\link{fitted.hierCredTweedie}}, \code{\link{predict.hierCredTweedie}}, \code{\link{ranef-actuaRE}},
+ \code{\link{weights-actuaRE}}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}}, \code{\link[cplm]{cpglm}}, \code{\link{plotRE}},
+ \code{\link{adjustIntercept}}, \code{\link{BalanceProperty}}
 }

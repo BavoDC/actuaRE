@@ -4,7 +4,12 @@
 \alias{plotRE}
 \title{Visualizing the random effect estimates using ggplot2}
 \usage{
-plotRE(obj, levelRE = c("all", "first", "second"), colour = "black", plot = T)
+plotRE(
+  obj,
+  levelRE = c("all", "first", "second"),
+  colour = "black",
+  plot = TRUE
+)
 }
 \arguments{
 \item{obj}{an object of type \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}}

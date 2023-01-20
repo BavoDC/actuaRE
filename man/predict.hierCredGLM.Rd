@@ -17,8 +17,11 @@
 If \code{newdata} is omitted the predictions are based on the data used for the fit.
 }
 \description{
-Obtain predictions based on the model fit
+Obtain predictions based on the model fit with \code{hierCredGLM}
 }
 \details{
 The random effects are taken into account by specifying these as an offset in the \code{\link[speedglm]{predict.speedglm}} function.
+}
+\seealso{
+\code{\link{hierCredGLM}}
 }

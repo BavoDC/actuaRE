@@ -1,6 +1,6 @@
 #' Model predictions
 #'
-#' Obtain predictions based on the model fit
+#' Obtain predictions based on a model fit with \code{hierCredibility}
 #'
 #' @param object a model object for which prediction is desired.
 #' @param newdata optionally, a data frame in which to look for variables with which to predict. If omitted, the fitted values are used.
@@ -8,6 +8,7 @@
 #'
 #' @method predict hierCredibility
 #' @return If \code{newdata} is omitted the predictions are based on the data used for the fit.
+#' @seealso \code{\link{hierCredibility}}
 predict.hierCredibility <- function(object, newdata = NULL, ...) {
   if(missing(newdata)) {
     return(fitted(object))
@@ -26,7 +27,7 @@ predict.hierCredibility <- function(object, newdata = NULL, ...) {
 
 #' Model predictions
 #'
-#' Obtain predictions based on the model fit
+#' Obtain predictions based on the model fit with \code{hierCredGLM}
 #'
 #' @param object a model object for which prediction is desired.
 #' @param newdata optionally, a data frame in which to look for variables with which to predict. If omitted, the fitted values are used.
@@ -36,6 +37,7 @@ predict.hierCredibility <- function(object, newdata = NULL, ...) {
 #'
 #' @method predict hierCredGLM
 #' @return If \code{newdata} is omitted the predictions are based on the data used for the fit.
+#' @seealso \code{\link{hierCredGLM}}
 predict.hierCredGLM <- function(object, newdata = NULL, ...) {
   if(missing(newdata)) {
     return(fitted(object))
@@ -47,7 +49,7 @@ predict.hierCredGLM <- function(object, newdata = NULL, ...) {
 
 #' Model predictions
 #'
-#' Obtain predictions based on the model fit
+#' Obtain predictions based on the model fit with \code{hierCredTweedie}
 #'
 #' @param object a model object for which prediction is desired.
 #' @param newdata optionally, a data frame in which to look for variables with which to predict. If omitted, the fitted values are used.
@@ -56,6 +58,7 @@ predict.hierCredGLM <- function(object, newdata = NULL, ...) {
 #' @details The random effects are taken into account by specifying these as an offset in the \code{predict.cpglm} function.
 #' @method predict hierCredTweedie
 #' @return If \code{newdata} is omitted the predictions are based on the data used for the fit.
+#' @seealso \code{\link{hierCredTweedie}}
 predict.hierCredTweedie <- function(object, newdata = NULL, ...) {
   if(missing(newdata)) {
     return(fitted(object))

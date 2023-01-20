@@ -33,7 +33,9 @@
 #' @return \item{prior.weights}{the weights (exposure) initially supplied.}
 #' @return \item{y}{if requested, the response vector. Default is \code{TRUE}.}
 #'
-#' @seealso \code{\link{hierCredibility}}, \code{\link{hierCredTweedie}}
+#' @seealso \code{\link{hierCredGLM-class}}, \code{\link{fitted.hierCredGLM}}, \code{\link{predict.hierCredGLM}}, \code{\link{ranef-actuaRE}},
+#' \code{\link{weights-actuaRE}}, \code{\link{hierCredibility}}, \code{\link{hierCredTweedie}}, \code{\link{plotRE}},
+#'  \code{\link{adjustIntercept}}, \code{\link{BalanceProperty}}
 #' @references Ohlsson, E. (2008). Combining generalized linear models and credibility models in practice. \emph{Scandinavian Actuarial Journal} \bold{2008}(4), 301–314.
 #'
 #' @examples
@@ -235,7 +237,9 @@ hierCredGLM <-
 #'
 #' @details When estimating the GLM part, this function uses the \code{\link[cplm]{cpglm}} function from the \code{cplm} package.
 #'
-#' @seealso \code{\link{hierCredibility}}, \code{\link{hierCredGLM}}, \code{\link[cplm]{cpglm}}
+#' @seealso \code{\link{hierCredTweedie-class}}, \code{\link{fitted.hierCredTweedie}}, \code{\link{predict.hierCredTweedie}}, \code{\link{ranef-actuaRE}},
+#'  \code{\link{weights-actuaRE}}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}}, \code{\link[cplm]{cpglm}}, \code{\link{plotRE}},
+#'  \code{\link{adjustIntercept}}, \code{\link{BalanceProperty}}
 #' @references Ohlsson, E. (2008). Combining generalized linear models and credibility models in practice. \emph{Scandinavian Actuarial Journal} \bold{2008}(4), 301–314.
 #'
 #' @examples

@@ -4,7 +4,7 @@
 \alias{NrUnique}
 \title{Number of unique elements in a vector}
 \usage{
-NrUnique(x, na.rm = T)
+NrUnique(x, na.rm = TRUE)
 }
 \arguments{
 \item{x}{object of type \code{vector}.}

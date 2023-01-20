@@ -8,11 +8,11 @@ tweedieGLMM(
   formula,
   data,
   weights,
-  muHatGLM = F,
+  muHatGLM = FALSE,
   epsilon = 1e-04,
   maxiter = 500,
-  verbose = F,
-  balanceProperty = T
+  verbose = FALSE,
+  balanceProperty = TRUE
 )
 }
 \arguments{

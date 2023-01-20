@@ -17,5 +17,8 @@
 If \code{newdata} is omitted the predictions are based on the data used for the fit.
 }
 \description{
-Obtain predictions based on the model fit
+Obtain predictions based on a model fit with \code{hierCredibility}
+}
+\seealso{
+\code{\link{hierCredibility}}
 }

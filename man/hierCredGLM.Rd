@@ -92,5 +92,7 @@ fixef(fit)
 Ohlsson, E. (2008). Combining generalized linear models and credibility models in practice. \emph{Scandinavian Actuarial Journal} \bold{2008}(4), 301–314.
 }
 \seealso{
-\code{\link{hierCredibility}}, \code{\link{hierCredTweedie}}
+\code{\link{hierCredGLM-class}}, \code{\link{fitted.hierCredGLM}}, \code{\link{predict.hierCredGLM}}, \code{\link{ranef-actuaRE}},
+\code{\link{weights-actuaRE}}, \code{\link{hierCredibility}}, \code{\link{hierCredTweedie}}, \code{\link{plotRE}},
+ \code{\link{adjustIntercept}}, \code{\link{BalanceProperty}}
 }

@@ -12,7 +12,7 @@ hierCredibility(
   data,
   muHat = NULL,
   type = c("additive", "multiplicative"),
-  returnData = F
+  returnData = FALSE
 )
 }
 \arguments{
@@ -80,4 +80,8 @@ Jewell, W. S. (1975). \emph{The use of collateral data in credibility theory: a 
 Dannenburg, D. R., Kaas, R. and Goovaerts, M. J. (1996). \emph{Practical actuarial credibility models}. Amsterdam: IAE (Institute of Actuarial Science and Econometrics of the University of Amsterdam).
 
 Ohlsson, E. (2005). Simplified estimation of structure parameters in hierarchical credibility. \emph{Presented at the Zurich ASTIN Colloquium}.\url{http://www.actuaries.org/ASTIN/Colloquia/Zurich/Ohlsson.pdf}
+}
+\seealso{
+\code{\link{hierCredibility-class}}, \code{\link{fitted.hierCredibility}}, \code{\link{predict.hierCredibility}}, \code{\link{ranef-actuaRE}},
+ \code{\link{weights-actuaRE}}, \code{\link{hierCredTweedie}}, \code{\link{hierCredGLM}}, \code{\link[cplm]{cpglm}}, \code{\link{plotRE}}
 }

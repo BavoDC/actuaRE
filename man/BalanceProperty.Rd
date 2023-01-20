@@ -14,7 +14,7 @@ a list with the slots \code{call} (the original call), \code{BalanceProperty} (l
 property is satisfied) and \code{Alpha} (Ratio total observed damage to total predicted damage).
 }
 \description{
-Assesses whether the balance property holds
+Function to assess whether the balance property holds
 }
 \examples{
 fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,

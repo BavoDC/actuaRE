@@ -76,6 +76,8 @@ is.formula <- function(x) {
 
 #' Extract the random effect estimates from a fitted random effects model
 #'
+#' A generic function to extract the estimates/predictions of the random effects from a fitted random effects model.
+#'
 #' @name ranef-actuaRE
 #' @param object an object of type \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
 #' @param ... Currently ignored.
@@ -96,6 +98,9 @@ ranef.hierCredTweedie <- function(object, ...) {
 }
 #' Extract the fixed-effects estimates from a fitted random effects model
 #'
+#' A generic function to extract the fixed effects (i.e. the company-specific effects) estimates from a fitted random effects model.
+#'
+#' @name fixef-actuaRE
 #' @param object an object of type \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
 #' @param ... ignored.
 #' @method fixef hierCredGLM
@@ -111,7 +116,7 @@ ranef.hierCredTweedie <- function(object, ...) {
 fixef.hierCredGLM     <- function(object, ...) {
   coef(object$fitGLM)
 }
-#' @rdname fixef.hierCredGLM
+#' @rdname fixef-actuaRE
 #' @method fixef hierCredTweedie
 fixef.hierCredTweedie <- function(object, ...) {
   coef(object$fitGLM)
@@ -119,7 +124,7 @@ fixef.hierCredTweedie <- function(object, ...) {
 
 #' Balance property
 #'
-#' Assesses whether the balance property holds
+#' Function to assess whether the balance property holds
 #'
 #' @param obj an object containing the model fit
 #'

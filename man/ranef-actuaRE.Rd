@@ -19,5 +19,5 @@
 \item{...}{Currently ignored.}
 }
 \description{
-Extract the random effect estimates from a fitted random effects model
+A generic function to extract the estimates/predictions of the random effects from a fitted random effects model.
 }
