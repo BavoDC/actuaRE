@@ -80,6 +80,7 @@ Fit a random effects model using Ohlsson's methodology. In this function you exp
 See \code{\link{hierCredTweedie}} when you also want to estimate the p.
 }
 \examples{
+\dontrun{
 data("dataCar")
 fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,
 p = 1.7)
@@ -87,6 +88,7 @@ fit
 summary(fit)
 ranef(fit)
 fixef(fit)
+}
 }
 \references{
 Ohlsson, E. (2008). Combining generalized linear models and credibility models in practice. \emph{Scandinavian Actuarial Journal} \bold{2008}(4), 301–314.

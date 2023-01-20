@@ -39,6 +39,7 @@
 #' @references Ohlsson, E. (2008). Combining generalized linear models and credibility models in practice. \emph{Scandinavian Actuarial Journal} \bold{2008}(4), 301–314.
 #'
 #' @examples
+#' \dontrun{
 #' data("dataCar")
 #' fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,
 #' p = 1.7)
@@ -46,6 +47,7 @@
 #' summary(fit)
 #' ranef(fit)
 #' fixef(fit)
+#' }
 hierCredGLM <-
   function(formula, data, weights, p = 1.5, link.power = 0, muHatGLM = TRUE, epsilon = 1e-4,
            maxiter = 5e2, maxiterGLM = 5e2, verbose = FALSE, returnData = TRUE,  balanceProperty = TRUE, y = TRUE, ...) {

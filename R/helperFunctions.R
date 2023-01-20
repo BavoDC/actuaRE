@@ -132,9 +132,11 @@ fixef.hierCredTweedie <- function(object, ...) {
 #' property is satisfied) and \code{Alpha} (Ratio total observed damage to total predicted damage).
 #'
 #' @examples
+#' \dontrun{
 #' fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,
 #'  p = 1.75, epsilon = 1e-6)
 #' BalanceProperty(fit)
+#' }
 BalanceProperty <- function(obj) {
   call  = match.call
   yHat  = fitted(obj)

@@ -35,6 +35,7 @@
   \code{\link{BalanceProperty}}
 }
 \examples{
+\dontrun{
   # Vignette of the package
   vignette(package = "actuaRE")
 
@@ -48,4 +49,5 @@
   # Combination of the hierarchical credibility model with a GLM (Ohlsson, 2008)
   fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,
   p = 1.7)
+}
 }

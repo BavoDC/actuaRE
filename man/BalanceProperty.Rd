@@ -17,7 +17,9 @@ property is satisfied) and \code{Alpha} (Ratio total observed damage to total pr
 Function to assess whether the balance property holds
 }
 \examples{
+\dontrun{
 fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,
  p = 1.75, epsilon = 1e-6)
 BalanceProperty(fit)
+}
 }

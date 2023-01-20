@@ -1,6 +1,6 @@
 Package: actuaRE
 Type: Package
-Title: Handling hierarchically structured risk factors using random effects models
+Title: Handling Hierarchically Structured Risk Factors using Random Effects Models
 Version: 0.1.1
 Author: Bavo D.C. Campo
 Maintainer: Bavo D.C. Campo <bavo.decock@kuleuven.be>
@@ -18,5 +18,4 @@ Encoding: UTF-8
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-URL: https://bavodc.github.io/websiteactuaRE/,
-    https://bavodc.github.io/actuaRE/
+URL: https://bavodc.github.io/websiteactuaRE/index.html
