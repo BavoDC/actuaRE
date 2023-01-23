@@ -39,7 +39,7 @@
 #' @references Ohlsson, E. (2008). Combining generalized linear models and credibility models in practice. \emph{Scandinavian Actuarial Journal} \bold{2008}(4), 301–314.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("dataCar")
 #' fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,
 #' p = 1.7)
@@ -116,7 +116,9 @@ hierCredGLM <-
     RelFactorsHist = list()
     FormulaGLM     = formula(paste0(deparse(formulaGLM, width.cutoff = 5e2), "+ offset(log(Uj)) + offset(log(Ujk))"))
     Covars         = all.vars(FormulaGLM)[-1]
-    cat("\rRunning algorithm.")
+
+    if(verbose)
+      cat("\nRunning algorithm.")
     while(!Conv) {
       Start = Sys.time()
       #### 1. Fit GLM ####
@@ -245,7 +247,7 @@ hierCredGLM <-
 #' @references Ohlsson, E. (2008). Combining generalized linear models and credibility models in practice. \emph{Scandinavian Actuarial Journal} \bold{2008}(4), 301–314.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("dataCar")
 #' fit = hierCredTweedie(Y ~ area + (1 | VehicleType / VehicleBody), dataCar,
 #' weights = w, epsilon = 1e-6)
@@ -319,7 +321,8 @@ hierCredTweedie <-
     FormulaGLM     = formula(paste0(deparse(formulaGLM, width.cutoff = 5e2), "+ offset(log(Uj)) + offset(log(Ujk))"))
     Covars         = all.vars(FormulaGLM)[-1]
 
-    cat("\nRunning algorithm.")
+    if(verbose)
+      cat("\nRunning algorithm.")
     while(!Conv) {
       Start = Sys.time()
       #### 1. Fit GLM ####

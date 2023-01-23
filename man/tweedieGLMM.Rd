@@ -43,7 +43,7 @@ This function first estimates the random effects model using Ohlsson's GLMC algo
 these estimates as initial estimates when fitting a Tweedie GLMM.
 }
 \examples{
-\dontrun{
+\donttest{
 data("dataCar")
 fitTweedieGLMM = tweedieGLMM(Y ~ area + gender + (1 | VehicleType / VehicleBody), dataCar,
  weights = w, verbose = TRUE, epsilon = 1e-4)

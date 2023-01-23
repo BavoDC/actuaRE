@@ -20,7 +20,7 @@
 #' @seealso \code{\link[cplm]{cpglmm}} and \code{\link{hierCredTweedie}}
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("dataCar")
 #' fitTweedieGLMM = tweedieGLMM(Y ~ area + gender + (1 | VehicleType / VehicleBody), dataCar,
 #'  weights = w, verbose = TRUE, epsilon = 1e-4)

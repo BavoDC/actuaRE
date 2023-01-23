@@ -80,7 +80,7 @@ Fit a random effects model using Ohlsson's methodology. In this function you exp
 See \code{\link{hierCredTweedie}} when you also want to estimate the p.
 }
 \examples{
-\dontrun{
+\donttest{
 data("dataCar")
 fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,
 p = 1.7)

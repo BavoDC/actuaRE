@@ -82,7 +82,7 @@ you want fix p.
 When estimating the GLM part, this function uses the \code{\link[cplm]{cpglm}} function from the \code{cplm} package.
 }
 \examples{
-\dontrun{
+\donttest{
 data("dataCar")
 fit = hierCredTweedie(Y ~ area + (1 | VehicleType / VehicleBody), dataCar,
 weights = w, epsilon = 1e-6)

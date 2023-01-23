@@ -20,6 +20,27 @@
 
 \item{object}{an object of class \code{\link{hierCredTweedie}}}
 }
+\value{
+The function \code{\link{hierCredGLM}} returns an object of class \code{hierCredGLM}, which has the following slots:
+
+\item{call}{the matched call}
+
+\item{HierarchicalResults}{results of the hierarchical credibility model.}
+
+\item{fitGLM}{the results from fitting the GLM part.}
+
+\item{iter}{total number of iterations.}
+
+\item{Converged}{logical indicating whether the algorithm converged.}
+
+\item{LevelsCov}{object that summarizes the unique levels of each of the contract-specific covariates.}
+
+\item{fitted.values}{the fitted mean values, resulting from the model fit.}
+
+\item{prior.weights}{the weights (exposure) initially supplied.}
+
+\item{y}{if requested, the response vector. Default is \code{TRUE}.}
+}
 \description{
 Class "hierCredTweedie" of fitted random effects models estimated with Ohlsson's GLMC algorithm
 }

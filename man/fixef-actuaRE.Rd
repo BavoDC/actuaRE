@@ -22,7 +22,7 @@ a named, numeric vector of fixed-effects estimates.
 A generic function to extract the fixed effects (i.e. the company-specific effects) estimates from a fitted random effects model.
 }
 \examples{
-\dontrun{
+\donttest{
 fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar,
 weights = w, p = 1.75, epsilon = 1e-6)
 fixef(fit)

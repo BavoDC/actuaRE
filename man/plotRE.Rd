@@ -29,7 +29,7 @@ Using this function, you can create plots of the random effect estimates from fi
 the plots, we rely on the \code{\link{ggplot2}} package.
 }
 \examples{
-\dontrun{
+\donttest{
 fitHGLM <- hierCredGLM(Y ~ area + gender + (1 | VehicleType / VehicleBody), dataCar, weights = w)
 plotRE(fitHGLM)
 }

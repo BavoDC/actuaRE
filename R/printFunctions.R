@@ -17,6 +17,20 @@
 #'   prints the random effect estimates as well. Returns an invisible copy of the original object.}
 #'   \item{\code{fitted}:}{Returns the fitted values.}
 #' }
+#'
+#' @return The function \code{\link{hierCredibility}} returns an object of class \code{hierCredibility}, which has the following slots:
+#' @return \item{call}{the matched call}
+#' @return \item{type}{Whether additive or multiplicative hierarchical credibility model is used.}
+#' @return \item{Variances}{The estimated variance components. \code{s2} is the estimated variance of the individual contracts,
+#'  \code{tausq} the estimate of \eqn{Var(V[j])} and \code{nusq} is the estimate of \eqn{Var(V[jk])}.}
+#' @return \item{Means}{The estimated averages at the portfolio level (intercept term \eqn{\mu}), at the first
+#' hierarchical level (\eqn{bar(Y)[\%.\% j \%.\% \%.\%]^z}) and at the second hierarchical level (\eqn{bar(Y)[\%.\% jk \%.\%]}).}
+#' @return \item{Weights}{The weights at the first hierarchical level \eqn{z[j\%.\%]} and at the second hierarchical level \eqn{w[\%.\%jk\%.\%]}.}
+#' @return \item{Credibility}{The credibility weights at the first hierarchical level \eqn{q[j\%.\%]} and at the second hierarchical level \eqn{z[jk]}.}
+#' @return \item{Premiums}{The overall expectation \eqn{widehat(\mu)}, sector expectation \eqn{widehat(V)[j]} and group expectation \eqn{widehat(V)[jk]}.}
+#' @return \item{Relativity}{The estimated random effects \eqn{widehat(U)[j]} and \eqn{widehat(U)[jk]} of the sector and group, respectively.}
+#' @return \item{RawResults}{Objects of type \code{data.table} with all intermediate results.}
+#' @return \item{fitted.values}{the fitted mean values, resulting from the model fit.}
 print.hierCredibility <- function(x, ...) {
   cat("Call:\n",
       paste(deparse(x$call), sep = "\n", collapse = "\n"),
@@ -77,6 +91,18 @@ summary.hierCredibility <- function(object, ...) {
 #'   invisible copy of the original object.}
 #'   \item{\code{fitted}:}{Returns the fitted values.}
 #' }
+#'
+#'
+#' @return The function \code{\link{hierCredGLM}} returns an object of class \code{hierCredGLM}, which has the following slots:
+#' @return \item{call}{the matched call}
+#' @return \item{HierarchicalResults}{results of the hierarchical credibility model.}
+#' @return \item{fitGLM}{the results from fitting the GLM part.}
+#' @return \item{iter}{total number of iterations.}
+#' @return \item{Converged}{logical indicating whether the algorithm converged.}
+#' @return \item{LevelsCov}{object that summarizes the unique levels of each of the contract-specific covariates.}
+#' @return \item{fitted.values}{the fitted mean values, resulting from the model fit.}
+#' @return \item{prior.weights}{the weights (exposure) initially supplied.}
+#' @return \item{y}{if requested, the response vector. Default is \code{TRUE}.}
 print.hierCredGLM <- function(x, ...) {
   cat("Call:\n",
       paste(deparse(x$call), sep = "\n", collapse = "\n"),
@@ -134,6 +160,17 @@ summary.hierCredGLM <- function(object, ...) {
 #'    invisible copy of the original object.}
 #'    \item{\code{fitted}:}{Returns the fitted values.}
 #' }
+#'
+#' @return The function \code{\link{hierCredGLM}} returns an object of class \code{hierCredGLM}, which has the following slots:
+#' @return \item{call}{the matched call}
+#' @return \item{HierarchicalResults}{results of the hierarchical credibility model.}
+#' @return \item{fitGLM}{the results from fitting the GLM part.}
+#' @return \item{iter}{total number of iterations.}
+#' @return \item{Converged}{logical indicating whether the algorithm converged.}
+#' @return \item{LevelsCov}{object that summarizes the unique levels of each of the contract-specific covariates.}
+#' @return \item{fitted.values}{the fitted mean values, resulting from the model fit.}
+#' @return \item{prior.weights}{the weights (exposure) initially supplied.}
+#' @return \item{y}{if requested, the response vector. Default is \code{TRUE}.}
 print.hierCredTweedie <- print.hierCredGLM
 #' @rdname hierCredTweedie-class
 #' @method summary hierCredTweedie

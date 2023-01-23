@@ -82,6 +82,9 @@ is.formula <- function(x) {
 #' @param object an object of type \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
 #' @param ... Currently ignored.
 #'
+#' @return A list of data frames, one for each grouping factor for the random effects. The number of rows in the data frame is the number of levels of the grouping factor.
+#' The first (two) columns correspond(s) to the grouping factor. The last column corresponds to the estimated random effect.
+#'
 #' @method ranef hierCredibility
 ranef.hierCredibility <- function(object, ...) {
   object$Relativity
@@ -108,7 +111,7 @@ ranef.hierCredTweedie <- function(object, ...) {
 #' @return a named, numeric vector of fixed-effects estimates.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar,
 #' weights = w, p = 1.75, epsilon = 1e-6)
 #' fixef(fit)
@@ -132,7 +135,7 @@ fixef.hierCredTweedie <- function(object, ...) {
 #' property is satisfied) and \code{Alpha} (Ratio total observed damage to total predicted damage).
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,
 #'  p = 1.75, epsilon = 1e-6)
 #' BalanceProperty(fit)

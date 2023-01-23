@@ -18,6 +18,10 @@
 
 \item{...}{Currently ignored.}
 }
+\value{
+A list of data frames, one for each grouping factor for the random effects. The number of rows in the data frame is the number of levels of the grouping factor.
+The first (two) columns correspond(s) to the grouping factor. The last column corresponds to the estimated random effect.
+}
 \description{
 A generic function to extract the estimates/predictions of the random effects from a fitted random effects model.
 }

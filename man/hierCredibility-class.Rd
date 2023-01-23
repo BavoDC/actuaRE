@@ -20,6 +20,31 @@
 
 \item{object}{an object of class \code{\link{hierCredibility}}}
 }
+\value{
+The function \code{\link{hierCredibility}} returns an object of class \code{hierCredibility}, which has the following slots:
+
+\item{call}{the matched call}
+
+\item{type}{Whether additive or multiplicative hierarchical credibility model is used.}
+
+\item{Variances}{The estimated variance components. \code{s2} is the estimated variance of the individual contracts,
+ \code{tausq} the estimate of \eqn{Var(V[j])} and \code{nusq} is the estimate of \eqn{Var(V[jk])}.}
+
+\item{Means}{The estimated averages at the portfolio level (intercept term \eqn{\mu}), at the first
+hierarchical level (\eqn{bar(Y)[\%.\% j \%.\% \%.\%]^z}) and at the second hierarchical level (\eqn{bar(Y)[\%.\% jk \%.\%]}).}
+
+\item{Weights}{The weights at the first hierarchical level \eqn{z[j\%.\%]} and at the second hierarchical level \eqn{w[\%.\%jk\%.\%]}.}
+
+\item{Credibility}{The credibility weights at the first hierarchical level \eqn{q[j\%.\%]} and at the second hierarchical level \eqn{z[jk]}.}
+
+\item{Premiums}{The overall expectation \eqn{widehat(\mu)}, sector expectation \eqn{widehat(V)[j]} and group expectation \eqn{widehat(V)[jk]}.}
+
+\item{Relativity}{The estimated random effects \eqn{widehat(U)[j]} and \eqn{widehat(U)[jk]} of the sector and group, respectively.}
+
+\item{RawResults}{Objects of type \code{data.table} with all intermediate results.}
+
+\item{fitted.values}{the fitted mean values, resulting from the model fit.}
+}
 \description{
 Class "hierCredibility" of fitted hierarchical credibility models
 }

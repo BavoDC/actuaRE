@@ -41,22 +41,22 @@ the summed exposure was less than 100. Hereby, we ensure that there is sufficien
 
 
 \examples{
-  \dontrun{
+  # How to construct the data set using the original dataCar data set from the insuranceData package
   library(plyr)
+  library(magrittr)
   data("dataCar", package = "insuranceData")
   dataCar$Y = with(dataCar, claimcst0 / exposure)
   dataCar$w = dataCar$exposure
   dataCar   = dataCar[which(dataCar$Y < 1e6), ]
   Yw = ddply(dataCar, .(veh_body), function(x) c(crossprod(x$Y, x$w) / sum(x$w), sum(x$w)))
-  dataCar = dataCar[!dataCar$veh_body %in% Yw[Yw$V2 < 1e2, "veh_body"], ]
-  dataCar$veh_body %<>% droplevels()
+  dataCar = dataCar[!dataCar$veh_body \%in\% Yw[Yw$V2 < 1e2, "veh_body"], ]
+  dataCar$veh_body \%<>\% droplevels()
   dataCar$VehicleType = sapply(tolower(dataCar$veh_body), function(x) {
-    if(x %in% c("sedan", "ute", "hback"))
+    if(x \%in\% c("sedan", "ute", "hback"))
       "Common vehicle"
     else
       "Uncommon vehicle"
   })
   dataCar$VehicleBody = dataCar$veh_body
-  }
 }
 \keyword{datasets}

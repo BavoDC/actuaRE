@@ -12,7 +12,7 @@
 #' @return a list with \code{ggplot} objects.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' fitHGLM <- hierCredGLM(Y ~ area + gender + (1 | VehicleType / VehicleBody), dataCar, weights = w)
 #' plotRE(fitHGLM)
 #' }
