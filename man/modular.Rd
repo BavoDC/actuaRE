@@ -138,7 +138,8 @@
   }
 }
 \examples{
-  \dontrun{
+  \donttest{
+  library(lme4)
   ### Fitting a linear mixed model in 4 modularized steps
 
   ## 1.  Parse the data and formula:

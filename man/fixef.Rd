@@ -18,7 +18,8 @@
   from a fitted model.
 }
 \examples{
-  \dontrun{
+  \donttest{
+  library(lme4)
   fixef(lmer(Reaction ~ Days + (1|Subject) + (0+Days|Subject), sleepstudy))
   fm2 <- lmer(Reaction ~ Days + Days2 + (1|Subject),
               data=transform(sleepstudy,Days2=Days))

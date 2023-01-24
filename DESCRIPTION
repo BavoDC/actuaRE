@@ -12,7 +12,8 @@ Suggests:
     plyr,
     insuranceData,
     actuar,
-    utils
+    utils,
+    lattice
 LazyData: true
 Encoding: UTF-8
 RoxygenNote: 7.2.3

@@ -1,4 +1,8 @@
 ## Resubmission
+In this resubmission, I replaced the \dontrun examples by \donttest in modular.Rd, fixef.Rd, ranef.Rd and actuaRE.Rd (my apologies for not having noticed this).
+
+
+## Previous resubmission
 This is a resubmission. In this version I have:
  - Description file: 
   + replaced Author, Maintainer field by Authors@R

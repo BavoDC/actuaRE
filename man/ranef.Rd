@@ -32,7 +32,7 @@
   \code{ranef} is a data frame with k rows and j columns.
 }
 \examples{
-  \dontrun{
+  \donttest{
   library(lattice) ## for dotplot, qqmath
   library(lme4)
   fm1 <- lmer(Reaction ~ Days + (Days|Subject), sleepstudy)

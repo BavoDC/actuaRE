@@ -35,7 +35,8 @@
   \code{\link{BalanceProperty}}
 }
 \examples{
-\dontrun{
+\donttest{
+  library(actuaRE)
   # Vignette of the package
   vignette(package = "actuaRE")
 
