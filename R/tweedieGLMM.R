@@ -16,6 +16,7 @@
 #' @param balanceProperty logical indicating if the balance property should be satisfied.
 #'
 #' @return an object of class \code{cpglmm}, containing the model fit.
+#' @references   Campo, B.D.C. and Antonio, Katrien (2023). Insurance pricing with hierarchically structured data an illustration with a workers' compensation insurance portfolio. \emph{Scandinavian Actuarial Journal}, doi: 10.1080/03461238.2022.2161413
 #'
 #' @seealso \code{\link[cplm]{cpglmm}} and \code{\link{hierCredTweedie}}
 #'

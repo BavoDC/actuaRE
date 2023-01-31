@@ -49,6 +49,9 @@ fitTweedieGLMM = tweedieGLMM(Y ~ area + gender + (1 | VehicleType / VehicleBody)
  weights = w, verbose = TRUE, epsilon = 1e-4)
 }
 }
+\references{
+Campo, B.D.C. and Antonio, Katrien (2023). Insurance pricing with hierarchically structured data an illustration with a workers' compensation insurance portfolio. \emph{Scandinavian Actuarial Journal}, doi: 10.1080/03461238.2022.2161413
+}
 \seealso{
 \code{\link[cplm]{cpglmm}} and \code{\link{hierCredTweedie}}
 }

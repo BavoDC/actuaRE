@@ -2,15 +2,24 @@ citHeader("To cite the 'actuaRE' R package in publications, please use:")
 
 citEntry(entry = "article",
   title = "Insurance pricing with hierarchically structured data: An illustration with a workers' compensation insurance portfolio",
-  author = personList(person(given = "Bavo", family = "Campo"),
+  author = personList(person(given = "Bavo D.C.", family = "Campo"),
                       person(given = "Katrien", family = "Antonio")),
-  journal = "arXiv e-prints",
-  eid = "arXiv:2206.15244",
-  year = "2022",
-  url = "https://arxiv.org/abs/2206.15244",
-  archivePrefix = "arXiv",
-  eprint = "2206.15244",
+  journal = "Scandinavian Actuarial Journal",
+  doi = "10.1080/03461238.2022.2161413",
+  year = "2023",
+  url = "https://doi.org/10.1080/03461238.2022.2161413",
   textVersion =
-  paste("Campo, B.D.C. and Antonio, K. (2022).",
+  paste("Campo, B.D.C. and Antonio, K. (2023).",
         "Insurance pricing with hierarchically structured data: An illustration with a workers' compensation insurance portfolio.",
-        "arXiv e-prints, arXiv:2206.15244. Available at https://arxiv.org/abs/2206.15244."))
+        "Scandinavian Actuarial Journal, doi: 10.1080/03461238.2022.2161413"))
+
+citEntry(entry = "Manual",
+         title = "The actuaRE package: Handling Hierarchically Structured Risk Factors using Random Effects Models.",
+         author  = personList(c(person(given = "Bavo D.C.", family = "Campo"))),
+         year = "2023",
+         note = "R package version 0.1.3",
+         url = "https://cran.r-project.org/package=actuaRE",
+         textVersion  =
+           paste(" Campo, B.D.C. (2023). The actuaRE package: Handling Hierarchically Structured Risk Factors using Random Effects Models. R package version 0.1.3,",
+                 "https://cran.r-project.org/package=actuaRE")
+)

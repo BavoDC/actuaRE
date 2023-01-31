@@ -23,3 +23,8 @@ fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights =
 BalanceProperty(fit)
 }
 }
+\references{
+Campo, B.D.C. and Antonio, Katrien (2023). Insurance pricing with hierarchically structured data an illustration with a workers' compensation insurance portfolio. \emph{Scandinavian Actuarial Journal}, doi: 10.1080/03461238.2022.2161413
+
+Wüthrich, M. V. (2020). Bias regularization in neural network models for general insurance pricing. \emph{European actuarial journal} \bold{10}(1), 179–202.
+}

@@ -134,6 +134,8 @@ fixef.hierCredTweedie <- function(object, ...) {
 #' @return a list with the slots \code{call} (the original call), \code{BalanceProperty} (logical indicating whether the balance
 #' property is satisfied) and \code{Alpha} (Ratio total observed damage to total predicted damage).
 #'
+#' @references Campo, B.D.C. and Antonio, Katrien (2023). Insurance pricing with hierarchically structured data an illustration with a workers' compensation insurance portfolio. \emph{Scandinavian Actuarial Journal}, doi: 10.1080/03461238.2022.2161413
+#' @references Wüthrich, M. V. (2020). Bias regularization in neural network models for general insurance pricing. \emph{European actuarial journal} \bold{10}(1), 179–202.
 #' @examples
 #' \donttest{
 #' fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,

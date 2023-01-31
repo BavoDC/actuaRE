@@ -25,8 +25,9 @@
 #' @return \item{RawResults}{Objects of type \code{data.table} with all intermediate results.}
 #' @return \item{fitted.values}{the fitted mean values, resulting from the model fit.}
 #'
-#' @references Jewell, W. S. (1975). \emph{The use of collateral data in credibility theory: a hierarchical model}. Laxenburg: IIASA.
+#' @references Campo, B.D.C. and Antonio, Katrien (2023). Insurance pricing with hierarchically structured data an illustration with a workers' compensation insurance portfolio. \emph{Scandinavian Actuarial Journal}, doi: 10.1080/03461238.2022.2161413
 #' @references Dannenburg, D. R., Kaas, R. and Goovaerts, M. J. (1996). \emph{Practical actuarial credibility models}. Amsterdam: IAE (Institute of Actuarial Science and Econometrics of the University of Amsterdam).
+#' @references Jewell, W. S. (1975). \emph{The use of collateral data in credibility theory: a hierarchical model}. Laxenburg: IIASA.
 #' @references Ohlsson, E. (2005). Simplified estimation of structure parameters in hierarchical credibility. \emph{Presented at the Zurich ASTIN Colloquium}.\url{http://www.actuaries.org/ASTIN/Colloquia/Zurich/Ohlsson.pdf}
 #' @seealso \code{\link{hierCredibility-class}}, \code{\link{fitted.hierCredibility}}, \code{\link{predict.hierCredibility}}, \code{\link{ranef-actuaRE}},
 #'  \code{\link{weights-actuaRE}}, \code{\link{hierCredTweedie}}, \code{\link{hierCredGLM}}, \code{\link[cplm]{cpglm}}, \code{\link{plotRE}}

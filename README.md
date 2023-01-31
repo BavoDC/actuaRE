@@ -19,3 +19,9 @@ The basic functionality of the package is explained and demonstrated in the vign
 vignette("actuaRE")
 ```
 or via the [homepage](https://bavodc.github.io/websiteactuaRE/articles/actuaRE.html) of the package.
+
+## Citation
+If you use this package, please cite:
+
+- Campo, B.D.C. and Antonio, Katrien (2023). Insurance pricing with hierarchically structured data an illustration with a workers' compensation insurance portfolio. _Scandinavian Actuarial Journal_, doi: 10.1080/03461238.2022.2161413
+- Campo, B.D.C. (2023). _The actuaRE package: Handling Hierarchically Structured Risk Factors using Random Effects Models_. R package version 0.1.3, [https://cran.r-project.org/package=actuaRE](https://cran.r-project.org/package=actuaRE)

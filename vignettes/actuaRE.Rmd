@@ -1,6 +1,6 @@
 ---
 title: "Introduction to actuaRE"
-author: "Bavo DC Campo"
+author: "Bavo D.C. Campo"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
@@ -36,7 +36,7 @@ In this document, we give you a brief overview of the basic functionality of the
 # Handling hierarchically multi-level factors using random effects models
 Multi-level factors (MLFs) are nominal variables with too many levels for ordinary generalized linear model (GLM) estimation [@Ohlsson]. Within the machine learning literature, these type of risk factors are better known as high-cardinality attributes [@Micci2001]. This package focuses on MLFs that exhibit a hierarchical structure and a typical example hereof, within workers' compensation insurance, is the NACE code. In our illustration, we work with a hierarchical MLF that has two hierarchical levels: industry and branch. Figure 1 visualizes this hierarchical structure with a hypothetical example.
 
-```{r hMLF, fig.align = 'center', fig.cap = "Figure 1: Hierarchical structure of a hypothetical example", fig.topcaption = TRUE, echo = FALSE}
+```{r hMLF, fig.align = 'center', fig.cap = "Figure 1: Hierarchical structure of a hypothetical example", fig.topcaption = TRUE, echo = FALSE, out.width="100%"}
 knitr::include_graphics("./HierarchicalStructureAdj.png")
 ```
 
