@@ -13,11 +13,11 @@ Suggests:
     insuranceData,
     actuar,
     utils,
-    lattice
+    lattice, 
+    minqa
 LazyData: true
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-URL: https://bavodc.github.io/websiteactuaRE/index.html,
-    https://bavodc.github.io/actuaRE/
+URL: https://bavodc.github.io/websiteactuaRE/

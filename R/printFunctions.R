@@ -176,32 +176,27 @@ print.hierCredTweedie <- print.hierCredGLM
 #' @method summary hierCredTweedie
 summary.hierCredTweedie <- summary.hierCredGLM
 
-.startactuaRE <- function() {
+
+.onAttach <- function(libname, pkgname) {
   msg = c(
     "              _                 ______  _____ ",
     "             | |                | ___ \\|  ___|",
     "  __ _   ___ | |_  _   _   __ _ | |_/ /| |__  ",
     " / _` | / __|| __|| | | | / _` ||    / |  __| ",
     "| (_| || (__ | |_ | |_| || (_| || |\\ \\ | |___ ",
-    " \\__,_| \\___| \\__| \\__,_| \\__,_|\\_| \\_|\\____/ "
+    " \\__,_| \\___| \\__| \\__,_| \\__,_|\\_| \\_|\\____/ ",
+    "\nType 'citation(\"actuaRE\")' for citing this R package in publications."
   )
+  if(!interactive())
+    msg <- paste("\nPackage 'actuaRE' version", packageVersion("actuaRE"))
 
 
   for(i in seq_along(msg)) {
-    cat("\r", msg[[i]])
-    cat("\n")
+    packageStartupMessage("\r", msg[[i]])
     Sys.sleep(0.075)
   }
-  cat("\n\nType 'citation(\"actuaRE\")' for citing this R package in publications.")
-}
-
-.onAttach <- function(libname, pkgname) {
-  msg <- .startactuaRE()
-  if(!interactive())
-    msg[1] <- paste("Package 'actuaRE' version", packageVersion("actuaRE"))
-  packageStartupMessage(msg)
   invisible()
-  packageStartupMessage("This is version ", packageVersion(pkgname), " of ", pkgname)
+  packageStartupMessage("\nThis is version ", packageVersion(pkgname), " of ", pkgname)
 }
 
 

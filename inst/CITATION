@@ -1,8 +1,8 @@
 citHeader("To cite the 'actuaRE' R package in publications, please use:")
 
-citEntry(entry = "article",
+bibentry(bibtype = "Article",
   title = "Insurance pricing with hierarchically structured data: An illustration with a workers' compensation insurance portfolio",
-  author = personList(person(given = "Bavo D.C.", family = "Campo"),
+  author = c(person(given = "Bavo D.C.", family = "Campo"),
                       person(given = "Katrien", family = "Antonio")),
   journal = "Scandinavian Actuarial Journal",
   doi = "10.1080/03461238.2022.2161413",
@@ -13,9 +13,9 @@ citEntry(entry = "article",
         "Insurance pricing with hierarchically structured data: An illustration with a workers' compensation insurance portfolio.",
         "Scandinavian Actuarial Journal, doi: 10.1080/03461238.2022.2161413"))
 
-citEntry(entry = "Manual",
+bibentry(bibtype = "Manual",
          title = "The actuaRE package: Handling Hierarchically Structured Risk Factors using Random Effects Models.",
-         author  = personList(c(person(given = "Bavo D.C.", family = "Campo"))),
+         author  = person(given = "Bavo D.C.", family = "Campo", role = "aut"),
          year = "2023",
          note = "R package version 0.1.3",
          url = "https://cran.r-project.org/package=actuaRE",
