@@ -42,7 +42,7 @@ which used the intercept as estimated by the GLM. If \code{FALSE}, the estimate 
 
 \item{maxiter}{maximum number of iterations.}
 
-\item{maxiterGLM}{maximum number of iterations when fitting the GLM part. Passed to \code{\link[speedglm]{speedglm}}.}
+\item{maxiterGLM}{maximum number of iterations when fitting the GLM part. Passed to \code{glm}.}
 
 \item{verbose}{logical indicating if output should be produced during the algorithm.}
 
@@ -52,7 +52,7 @@ which used the intercept as estimated by the GLM. If \code{FALSE}, the estimate 
 
 \item{y}{logical indicating whether the response vector should be returned as a component of the returned value.}
 
-\item{...}{arguments passed to \code{\link[speedglm]{speedglm}}}
+\item{...}{arguments passed to \code{glm}}
 }
 \value{
 An object of type \code{hierCredGLM} with the following slots:

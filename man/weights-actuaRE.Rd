@@ -3,14 +3,11 @@
 \name{weights-actuaRE}
 \alias{weights-actuaRE}
 \alias{weights.cpglm}
-\alias{weights.speedglm}
 \alias{weights.hierCredGLM}
 \alias{weights.hierCredTweedie}
 \title{Extract the model weights}
 \usage{
 \method{weights}{cpglm}(object, type = c("prior", "working"), ...)
-
-\method{weights}{speedglm}(object, type = c("prior", "working"), ...)
 
 \method{weights}{hierCredGLM}(object, type = c("prior", "working"), ...)
 
@@ -18,7 +15,7 @@
 }
 \arguments{
 \item{object}{an object for which the extraction of model weights is meaningful. Can be either \code{\link{cpglm}},
-\code{\link{speedglm}}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}}
+\code{\link{glm}}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}}
 
 \item{type}{indicates if prior or working weights need to be extracted.}
 
@@ -32,5 +29,5 @@ Weights extracted from the object \code{object}: the default method looks for co
 Methods can make use of \code{\link[stats]{napredict}} methods to compensate for the omission of missing values. The default methods does so.
 }
 \seealso{
-\code{\link[stats]{weights}}, \code{\link{cpglm}}, \code{\link{speedglm}}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
+\code{\link[stats]{weights}}, \code{\link{cpglm}}, \code{glm}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
 }

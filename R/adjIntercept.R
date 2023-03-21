@@ -2,7 +2,7 @@
 #'
 #' This function updates the intercept term of the model fit such that the balance property is satisfied.
 #'
-#' @param obj an object of type \code{\link{glm}}, \code{\link{speedglm}}, \code{\link{cpglm}} or \code{\link{cpglmm}}
+#' @param obj an object of type \code{\link{glm}}, \code{\link{cpglm}} or \code{\link{cpglmm}}
 #' containing the model fit.
 #' @param data a \code{\link{data.frame}} or \code{\link{data.table}} object that was used to fit the model.
 #'
@@ -33,7 +33,7 @@ adjustIntercept <- function(obj, data) {
       stop("Function can only be used with the log-link function.")
   }
 
-  if(any(c("speedglm", "glm", "cpglm") %in% class(obj))) {
+  if(any(c("glm", "cpglm") %in% class(obj))) {
     yHat  = fitted(obj)
     w     = weights(obj, "prior")
     y     = obj$y

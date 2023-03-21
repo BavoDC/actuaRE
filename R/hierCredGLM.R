@@ -15,12 +15,12 @@
 #' @param epsilon positive convergence tolerance \eqn{\epsilon}; the iterations converge when 7
 #' \eqn{||\theta[k] - \theta[k - 1]||^2[[2]]/||\theta[k - 1]||^2[[2]] < \epsilon}. Here, \eqn{\theta[k]} is the parameter vector at the \eqn{k^{th}} iteration.
 #' @param maxiter maximum number of iterations.
-#' @param maxiterGLM maximum number of iterations when fitting the GLM part. Passed to \code{\link[speedglm]{speedglm}}.
+#' @param maxiterGLM maximum number of iterations when fitting the GLM part. Passed to \code{glm}.
 #' @param verbose logical indicating if output should be produced during the algorithm.
 #' @param returnData logical indicating if input data has to be returned.
 #' @param balanceProperty logical indicating if the balance property should be satisfied.
 #' @param y logical indicating whether the response vector should be returned as a component of the returned value.
-#' @param ... arguments passed to \code{\link[speedglm]{speedglm}}
+#' @param ... arguments passed to \code{glm}
 #'
 #' @return An object of type \code{hierCredGLM} with the following slots:
 #' @return \item{call}{the matched call}
@@ -123,8 +123,8 @@ hierCredGLM <-
     while(!Conv) {
       Start = Sys.time()
       #### 1. Fit GLM ####
-      fitGLM = speedglm(FormulaGLM, data = data, weights = data$wijkt, family = tweedie(var.power = p, link.power = link.power),
-                        maxit = maxiterGLM, ...)
+      fitGLM = glm(FormulaGLM, data = data, weights = data$wijkt, family = tweedie(var.power = p, link.power = link.power),
+                   control = glm.control(maxit = maxiterGLM), ...)
       muHat  = coef(fitGLM)[1]
       data[, Gammai := exp(as.vector(as(model.matrix(fitGLM, data = data)[, -1], "sparseMatrix") %*% coef(fitGLM)[-1]))]
       GammaiRaw = coef(fitGLM)[-1]
@@ -172,8 +172,8 @@ hierCredGLM <-
     }
     if(iter > maxiter)
       warning("Maximum number of iterations reached.", immediate. = T)
-    fitGLM = speedglm(FormulaGLM, data = data, weights = data$wijkt, family = tweedie(var.power = p, link.power = 0),
-                      fitted = T, y = T, model = T, ...)
+    fitGLM = glm(FormulaGLM, data = data, weights = data$wijkt, family = tweedie(var.power = p, link.power = 0),
+                 y = T, model = T, ...)
     fitGLM$prior.weights = data$wijkt
     if(balanceProperty)
       fitGLM = adjustIntercept(fitGLM, data = data)

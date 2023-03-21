@@ -51,7 +51,7 @@ Class "hierCredGLM" of fitted random effects models estimated with Ohlsson's GLM
   of the hierarchical MLF and the output of the GLM part. The \code{...} argument is currently ignored. Returns an
   invisible copy of the original object.}
  \item{\code{summary}:}{In addition to the output of the \code{print.hierCredGLM} function, the \code{summary} function
-  also prints the random effect estimates and a summary of the GLM (see \code{\link{summary.speedglm}}). Returns an
+  also prints the random effect estimates and a summary of the GLM (see \code{\link{summary.glm}}). Returns an
   invisible copy of the original object.}
   \item{\code{fitted}:}{Returns the fitted values.}
 }

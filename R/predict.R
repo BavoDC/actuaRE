@@ -31,9 +31,9 @@ predict.hierCredibility <- function(object, newdata = NULL, ...) {
 #'
 #' @param object a model object for which prediction is desired.
 #' @param newdata optionally, a data frame in which to look for variables with which to predict. If omitted, the fitted values are used.
-#' @param ... arguments passed to \code{\link[speedglm]{speedglm}}
+#' @param ... arguments passed to \code{glm}
 #'
-#' @details The random effects are taken into account by specifying these as an offset in the \code{\link[speedglm]{predict.speedglm}} function.
+#' @details The random effects are taken into account by specifying these as an offset in the \code{predict.glm} function.
 #'
 #' @method predict hierCredGLM
 #' @return If \code{newdata} is omitted the predictions are based on the data used for the fit.

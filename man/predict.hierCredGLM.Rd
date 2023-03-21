@@ -11,7 +11,7 @@
 
 \item{newdata}{optionally, a data frame in which to look for variables with which to predict. If omitted, the fitted values are used.}
 
-\item{...}{arguments passed to \code{\link[speedglm]{speedglm}}}
+\item{...}{arguments passed to \code{glm}}
 }
 \value{
 If \code{newdata} is omitted the predictions are based on the data used for the fit.
@@ -20,7 +20,7 @@ If \code{newdata} is omitted the predictions are based on the data used for the 
 Obtain predictions based on the model fit with \code{hierCredGLM}
 }
 \details{
-The random effects are taken into account by specifying these as an offset in the \code{\link[speedglm]{predict.speedglm}} function.
+The random effects are taken into account by specifying these as an offset in the \code{predict.glm} function.
 }
 \seealso{
 \code{\link{hierCredGLM}}

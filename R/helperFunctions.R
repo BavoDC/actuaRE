@@ -176,13 +176,13 @@ BalanceProperty <- function(obj) {
 #'
 #' @name weights-actuaRE
 #' @param object an object for which the extraction of model weights is meaningful. Can be either \code{\link{cpglm}},
-#' \code{\link{speedglm}}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
+#' \code{\link{glm}}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
 #' @param type indicates if prior or working weights need to be extracted.
 #' @param ... ignored
 #'
 #' @return Weights extracted from the object \code{object}: the default method looks for component "weights" and if not \code{NULL} calls \code{\link[stats]{napredict}} on it.
 #' @method weights cpglm
-#' @seealso \code{\link[stats]{weights}}, \code{\link{cpglm}}, \code{\link{speedglm}}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
+#' @seealso \code{\link[stats]{weights}}, \code{\link{cpglm}}, \code{glm}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
 weights.cpglm <- function(object, type = c("prior", "working"), ...) {
   type = match.arg(type)
   res  = if(type == "prior") object$prior.weights else object$weights
@@ -192,16 +192,16 @@ weights.cpglm <- function(object, type = c("prior", "working"), ...) {
     naresid(object$na.action, res)
 }
 
-#' @rdname weights-actuaRE
-#' @method weights speedglm
-weights.speedglm <- function(object, type = c("prior", "working"), ...) {
-  type = match.arg(type)
-  res  = if(type == "prior") object$prior.weights else object$weights
-  if(is.null(object$na.action))
-    res
-  else
-    naresid(object$na.action, res)
-}
+#' #' @rdname weights-actuaRE
+#' #' @method weights speedglm
+#' weights.speedglm <- function(object, type = c("prior", "working"), ...) {
+#'   type = match.arg(type)
+#'   res  = if(type == "prior") object$prior.weights else object$weights
+#'   if(is.null(object$na.action))
+#'     res
+#'   else
+#'     naresid(object$na.action, res)
+#' }
 
 #' @rdname weights-actuaRE
 #' @method weights hierCredGLM
