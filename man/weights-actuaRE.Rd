@@ -22,12 +22,13 @@
 \item{...}{ignored}
 }
 \value{
-Weights extracted from the object \code{object}: the default method looks for component "weights" and if not \code{NULL} calls \code{\link[stats]{napredict}} on it.
+Weights extracted from the object \code{object}: the default method looks for component "weights" and if not \code{NULL}
+ calls \code{\link[stats]{napredict}} on it.
 }
 \description{
 \code{weights} is a generic function which extracts fitting weights from objects returned by modeling functions.
 Methods can make use of \code{\link[stats]{napredict}} methods to compensate for the omission of missing values. The default methods does so.
 }
 \seealso{
-\code{\link[stats]{weights}}, \code{\link{cpglm}}, \code{glm}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
+\code{\link[stats]{weights}}, \code{\link[cplm]{cpglm}}, \code{\link{glm}}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
 }
