@@ -7,10 +7,10 @@
 adjustIntercept(obj, data)
 }
 \arguments{
-\item{obj}{an object of type \code{\link{glm}}, \code{\link{cpglm}} or \code{\link{cpglmm}}
+\item{obj}{an object of type \code{\link{glm}}, \code{\link[cplm]{cpglm}} or \code{\link[cplm]{cpglmm}}
 containing the model fit.}
 
-\item{data}{a \code{\link{data.frame}} or \code{\link{data.table}} object that was used to fit the model.}
+\item{data}{a \code{\link{data.frame}} or \code{\link[data.table]{data.table}} object that was used to fit the model.}
 }
 \value{
 The object with the adjusted (fixed effects) coefficients.

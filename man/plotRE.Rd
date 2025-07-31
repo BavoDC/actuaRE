@@ -19,14 +19,14 @@ plotRE(
 
 \item{colour}{colour for \code{\link[ggplot2]{geom_point}}}
 
-\item{plot}{logical indicating if the \code{\link{ggplot}} objects have to be plotted.}
+\item{plot}{logical indicating if the \code{\link[ggplot2]{ggplot}} objects have to be plotted.}
 }
 \value{
-a list with \code{ggplot} objects.
+a list with \code{\link[ggplot2]{ggplot}} objects.
 }
 \description{
 Using this function, you can create plots of the random effect estimates from fitted random effects models. To make
-the plots, we rely on the \code{\link{ggplot2}} package.
+the plots, we rely on the \code{\link[ggplot2]{ggplot2}} package.
 }
 \examples{
 \donttest{

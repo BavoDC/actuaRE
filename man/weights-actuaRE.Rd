@@ -14,7 +14,7 @@
 \method{weights}{hierCredTweedie}(object, type = c("prior", "working"), ...)
 }
 \arguments{
-\item{object}{an object for which the extraction of model weights is meaningful. Can be either \code{\link{cpglm}},
+\item{object}{an object for which the extraction of model weights is meaningful. Can be either \code{\link[cplm]{cpglm}},
 \code{\link{glm}}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}}
 
 \item{type}{indicates if prior or working weights need to be extracted.}

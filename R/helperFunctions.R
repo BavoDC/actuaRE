@@ -175,7 +175,7 @@ BalanceProperty <- function(obj) {
 #' Methods can make use of \code{\link[stats]{napredict}} methods to compensate for the omission of missing values. The default methods does so.
 #'
 #' @name weights-actuaRE
-#' @param object an object for which the extraction of model weights is meaningful. Can be either \code{\link{cpglm}},
+#' @param object an object for which the extraction of model weights is meaningful. Can be either \code{\link[cplm]{cpglm}},
 #' \code{\link{glm}}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
 #' @param type indicates if prior or working weights need to be extracted.
 #' @param ... ignored

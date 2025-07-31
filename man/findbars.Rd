@@ -28,9 +28,9 @@
   \code{\link{formula}}, \code{\link{model.frame}},
   \code{\link{model.matrix}}.
 
-  Other utilities: \code{\link{mkRespMod}},
-  \code{\link{mkReTrms}}, \code{\link{nlformula}},
-  \code{\link{nobars}}, \code{\link{subbars}}
+  Other utilities: \code{\link[lme4]{mkRespMod}},
+  \code{\link[lme4]{mkReTrms}}, \code{\link[lme4]{nlformula}},
+  \code{\link[lme4]{nobars}}, \code{\link[lme4]{subbars}}
 }
 \examples{
   findbars(f1 <- Reaction ~ Days + (Days | Subject))

@@ -2,9 +2,9 @@
 #'
 #' This function updates the intercept term of the model fit such that the balance property is satisfied.
 #'
-#' @param obj an object of type \code{\link{glm}}, \code{\link{cpglm}} or \code{\link{cpglmm}}
+#' @param obj an object of type \code{\link{glm}}, \code{\link[cplm]{cpglm}} or \code{\link[cplm]{cpglmm}}
 #' containing the model fit.
-#' @param data a \code{\link{data.frame}} or \code{\link{data.table}} object that was used to fit the model.
+#' @param data a \code{\link{data.frame}} or \code{\link[data.table]{data.table}} object that was used to fit the model.
 #'
 #' @return The object with the adjusted (fixed effects) coefficients.
 #'

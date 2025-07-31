@@ -1,15 +1,15 @@
 #' Visualizing the random effect estimates using ggplot2
 #'
 #' Using this function, you can create plots of the random effect estimates from fitted random effects models. To make
-#' the plots, we rely on the \code{\link{ggplot2}} package.
+#' the plots, we rely on the \code{\link[ggplot2]{ggplot2}} package.
 #'
 #' @param obj an object of type \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
 #' @param levelRE indicates which hierarchical level has to be used. \code{"all"} plots both levels in the hierarchy,
 #' \code{"first"} the first level in the hierarchy and \code{"second"} the second level.
 #' @param colour colour for \code{\link[ggplot2]{geom_point}}
-#' @param plot logical indicating if the \code{\link{ggplot}} objects have to be plotted.
+#' @param plot logical indicating if the \code{\link[ggplot2]{ggplot}} objects have to be plotted.
 #'
-#' @return a list with \code{ggplot} objects.
+#' @return a list with \code{\link[ggplot2]{ggplot}} objects.
 #'
 #' @examples
 #' \donttest{
