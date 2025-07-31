@@ -41,7 +41,6 @@ docs
 
 # files produced from pkgdown
 *.yml
-.github/
 
 # logo package
 ./inst/figures
