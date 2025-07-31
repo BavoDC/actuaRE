@@ -180,9 +180,10 @@ BalanceProperty <- function(obj) {
 #' @param type indicates if prior or working weights need to be extracted.
 #' @param ... ignored
 #'
-#' @return Weights extracted from the object \code{object}: the default method looks for component "weights" and if not \code{NULL} calls \code{\link[stats]{napredict}} on it.
+#' @return Weights extracted from the object \code{object}: the default method looks for component "weights" and if not \code{NULL}
+#'  calls \code{\link[stats]{napredict}} on it.
 #' @method weights cpglm
-#' @seealso \code{\link[stats]{weights}}, \code{\link{cpglm}}, \code{glm}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
+#' @seealso \code{\link[stats]{weights}}, \code{\link[cplm]{cpglm}}, \code{glm}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
 weights.cpglm <- function(object, type = c("prior", "working"), ...) {
   type = match.arg(type)
   res  = if(type == "prior") object$prior.weights else object$weights
