@@ -81,7 +81,7 @@ Dannenburg, D. R., Kaas, R. and Goovaerts, M. J. (1996). \emph{Practical actuari
 
 Jewell, W. S. (1975). \emph{The use of collateral data in credibility theory: a hierarchical model}. Laxenburg: IIASA.
 
-Ohlsson, E. (2005). Simplified estimation of structure parameters in hierarchical credibility. \emph{Presented at the Zurich ASTIN Colloquium}.\url{http://www.actuaries.org/ASTIN/Colloquia/Zurich/Ohlsson.pdf}
+Ohlsson, E. (2005). Simplified estimation of structure parameters in hierarchical credibility. \emph{Presented at the Zurich ASTIN Colloquium}.
 }
 \seealso{
 \code{\link{hierCredibility-class}}, \code{\link{fitted.hierCredibility}}, \code{\link{predict.hierCredibility}}, \code{\link{ranef-actuaRE}},
