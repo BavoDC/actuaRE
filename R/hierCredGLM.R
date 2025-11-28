@@ -91,7 +91,7 @@ hierCredGLM <-
     data$.MLFj    = data[[MLFj]]
     data$.MLFjk   = data[[MLFjk]]
     if(!isNested(data$.MLFjk, data$.MLFj))
-      stop(paste(.MLFjk, "is not nested within", .MLFj))
+      stop(paste(MLFjk, "is not nested within", MLFj))
     if(length(all.vars(nobars(formulaGLM))[-1]) == 0) {
       warning("No contract-specific covariates specified. Returning results of the multiplicative hierarchical credibility model", immediate. = T)
       return(eval(
@@ -296,7 +296,7 @@ hierCredTweedie <-
     data$.MLFj    = data[[MLFj]]
     data$.MLFjk   = data[[MLFjk]]
     if(!isNested(data$.MLFjk, data$.MLFj))
-      stop(paste(.MLFjk, "is not nested within", .MLFj))
+      stop(paste(MLFjk, "is not nested within", MLFj))
     if(length(all.vars(nobars(formulaGLM))[-1]) == 0) {
       warning("No contract-specific covariates specified. Returning results of the multiplicative hierarchical credibility model", immediate. = T)
       return(eval(

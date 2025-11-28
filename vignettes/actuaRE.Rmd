@@ -128,8 +128,8 @@ where $\gamma_{ijkt}$ denotes the effect of the company-specific covariates. To 
 
 
 ```{r}
-data("dataCar")
-fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w)
+data("tweedietraindata")
+fit = hierCredGLM(y ~ x1 + (1 | cluster / subcluster), tweedietraindata, weights = wt)
 summary(fit)
 ```
 We use the same syntax as used by the package `lme4` to specify the model formula. Here, `(1 | VehicleType / VehicleBody)` specifies a random effect $U_j$ for `VehicleType` and a nested random effect $U_{jk}$ for `VehicleBody`. We extract the estimated parameters using `fixef` (company-specific effects) and `ranef` (random effects).
@@ -141,7 +141,7 @@ ranef(fit)
 In addition, the same functions as before can be used.
 ```{r }
 head(fitted(fit))
-predict(fit, newdata = dataCar[1:2, ], type = "response")
+predict(fit, newdata = tweedietraindata[1:2, ], type = "response")
 ggPlots = plotRE(fit, plot = FALSE)
 ```
 
@@ -151,7 +151,7 @@ Tweedie generalized linear mixed model. Fitting the model, however, takes quite 
 what the `tweedieGLMM` function does! Nonetheless, even with the initial estimates the fitting process does take some time (approximately 5 minutes using Windows 10 with an intel i7 and 32 gigabytes of RAM).
 
 ```{r, eval = FALSE}
-fitGLMM = tweedieGLMM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w, verbose = TRUE)
+fitGLMM = tweedieGLMM(y ~ x1 + (1 | cluster / subcluster), tweedietraindata, weights = wt, verbose = TRUE)
 ```
 
 ### Balance property
@@ -172,12 +172,12 @@ which quantifies the deviation of the total predicted damage from the total obse
 By default, the intercept is updated when fitting models using `hierCredGLM`, `hierCredTweedie` and `tweedieGLMM`. If you do not wish to update the intercept, you can set the argument `balanceProperty = FALSE`.
 
 ```{r}
-fitnoBP  = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w, balanceProperty = F)
+fitnoBP  = hierCredGLM(y ~ x1 + (1 | cluster / subcluster), tweedietraindata, weights = wt, balanceProperty = F)
 yHatnoBP = fitted(fitnoBP)
 w        = weights(fitnoBP, "prior")
 y        = fitnoBP$y
 
-fitBP  = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w, balanceProperty = T)
+fitBP  = hierCredGLM(y ~ x1 + (1 | cluster / subcluster), tweedietraindata, weights = wt, balanceProperty = T)
 yHatBP = fitted(fitBP)
 
 sum(w * y) / sum(w * yHatnoBP)
