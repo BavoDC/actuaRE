@@ -20,8 +20,8 @@ plotRE <- function(obj, levelRE = c("all", "first", "second"), colour = "black",
                    plot = TRUE) {
   levelRE = match.arg(levelRE)
   REs     = ranef(obj)
-  if(!any(c("hierCredTweedie", "hierCredGLM") %in% class(obj)))
-    stop("Function is only allowed for objects of class hierCredGLM and hierCredGLM.")
+  if(!any(c("hierCredibility", "hierCredTweedie", "hierCredGLM") %in% class(obj)))
+    stop("Function is only allowed for objects of class hierCredibility, hierCredGLM and hierCredGLM.")
   hierObj = if("hierCredibility" %in% class(obj)) obj else obj$HierarchicalResults
   type    = hierObj$type
   MLFj    = hierObj$Hierarchy$sector
