@@ -31,11 +31,11 @@
   # The data sets were generated as follows
   lapply(c("magrittr", "dplyr", "data.table", "tweedie"), library, character.only = TRUE)
   set.seed(1)
-  
+
   # Simulate training data
   set.seed(1)
   nClusters    = 5
-  nSubclusters = 5 
+  nSubclusters = 5
   p            = 5
   Uj           = scale(rnorm(nClusters))
   Ujk          = do.call("c", lapply(seq_len(nClusters), function(x) scale(rnorm(nSubclusters))))
@@ -53,17 +53,18 @@
       sum(cluster == cl),
       TRUE)
   table(subcluster, cluster)
-  eta       = X \%*\% Beta + Uj[match(cluster, seq_len(nClusters))] + Ujk[match(subcluster, seq_len(nClusters * nSubclusters))]
+  eta       = X \%*\% Beta + Uj[match(cluster, seq_len(nClusters))] +
+              Ujk[match(subcluster, seq_len(nClusters * nSubclusters))]
   y         = rtweedie(nPop, mu = exp(as.vector(eta)), phi = 1, power = 1.5)
   wt        = runif(nPop)
   Dt        = data.frame(y, X, wt, cluster, subcluster)
   colnames(Dt) \%<>\% tolower
-  
+
   tweedietraindata = Dt \%>\%
     group_by(subcluster) \%>\%
     sample_n(size = nSample) \%>\%
     as.data.table
-  
+
   tweedietestdata = Dt \%>\%
     group_by(subcluster) \%>\%
     sample_n(size = nSample) \%>\%
