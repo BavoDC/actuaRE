@@ -90,13 +90,53 @@
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span>  <span class="co"># The data sets were generated as follows</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"magrittr"</span>, <span class="st">"dplyr"</span>, <span class="st">"data.table"</span>, <span class="st">"tweedie"</span><span class="op">)</span>, <span class="va">library</span>, character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in FUN(X[[i]], ...):</span> there is no package called ‘dplyr’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘dplyr’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:plyr’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     arrange, count, desc, failwith, id, mutate, rename, summarise,</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     summarize</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:stats’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     filter, lag</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     intersect, setdiff, setequal, union</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘data.table’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:dplyr’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     between, first, last</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "lattice"   "actuar"    "lme4"      "magrittr"  "plyr"      "statmod"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "actuaRE"   "cplm"      "splines"   "Matrix"    "coda"      "stats"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "graphics"  "grDevices" "utils"     "datasets"  "methods"   "base"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "dplyr"     "lattice"   "actuar"    "lme4"      "magrittr"  "plyr"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "statmod"   "actuaRE"   "cplm"      "splines"   "Matrix"    "coda"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "stats"     "graphics"  "grDevices" "utils"     "datasets"  "methods"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "base"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "data.table" "dplyr"      "lattice"    "actuar"     "lme4"      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "magrittr"   "plyr"       "statmod"    "actuaRE"    "cplm"      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "splines"    "Matrix"     "coda"       "stats"      "graphics"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "grDevices"  "utils"      "datasets"   "methods"    "base"      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[4]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "tweedie"    "data.table" "dplyr"      "lattice"    "actuar"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "lme4"       "magrittr"   "plyr"       "statmod"    "actuaRE"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "cplm"       "splines"    "Matrix"     "coda"       "stats"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "graphics"   "grDevices"  "utils"      "datasets"   "methods"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21] "base"      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># Simulate training data</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">nClusters</span>    <span class="op">=</span> <span class="fl">5</span></span></span>
-<span class="r-in"><span>  <span class="va">nSubclusters</span> <span class="op">=</span> <span class="fl">5</span> </span></span>
+<span class="r-in"><span>  <span class="va">nSubclusters</span> <span class="op">=</span> <span class="fl">5</span></span></span>
 <span class="r-in"><span>  <span class="va">p</span>            <span class="op">=</span> <span class="fl">5</span></span></span>
 <span class="r-in"><span>  <span class="va">Uj</span>           <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">nClusters</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">Ujk</span>          <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">nClusters</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">nSubclusters</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -141,26 +181,22 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>         23     0     0     0     0 39643</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         24     0     0     0     0 39934</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         25     0     0     0     0 40222</span>
-<span class="r-in"><span>  <span class="va">eta</span>       <span class="op">=</span> <span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">Beta</span> <span class="op">+</span> <span class="va">Uj</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="va">cluster</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">nClusters</span><span class="op">)</span><span class="op">)</span><span class="op">]</span> <span class="op">+</span> <span class="va">Ujk</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="va">subcluster</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">nClusters</span> <span class="op">*</span> <span class="va">nSubclusters</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="va">eta</span>       <span class="op">=</span> <span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">Beta</span> <span class="op">+</span> <span class="va">Uj</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="va">cluster</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">nClusters</span><span class="op">)</span><span class="op">)</span><span class="op">]</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>              <span class="va">Ujk</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="va">subcluster</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">nClusters</span> <span class="op">*</span> <span class="va">nSubclusters</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-in"><span>  <span class="va">y</span>         <span class="op">=</span> <span class="fu">rtweedie</span><span class="op">(</span><span class="va">nPop</span>, mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">eta</span><span class="op">)</span><span class="op">)</span>, phi <span class="op">=</span> <span class="fl">1</span>, power <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in rtweedie(nPop, mu = exp(as.vector(eta)), phi = 1, power = 1.5):</span> could not find function "rtweedie"</span>
 <span class="r-in"><span>  <span class="va">wt</span>        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">nPop</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">Dt</span>        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, <span class="va">wt</span>, <span class="va">cluster</span>, <span class="va">subcluster</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'y' not found</span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">Dt</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/compound.html" class="external-link">%&lt;&gt;%</a></span> <span class="va">tolower</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'Dt' not found</span>
-<span class="r-in"><span>  </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">tweedietraindata</span> <span class="op">=</span> <span class="va">Dt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>    <span class="fu">group_by</span><span class="op">(</span><span class="va">subcluster</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>    <span class="fu">sample_n</span><span class="op">(</span>size <span class="op">=</span> <span class="va">nSample</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>    <span class="va">as.data.table</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in as.data.table(.):</span> could not find function "as.data.table"</span>
-<span class="r-in"><span>  </span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">tweedietestdata</span> <span class="op">=</span> <span class="va">Dt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>    <span class="fu">group_by</span><span class="op">(</span><span class="va">subcluster</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>    <span class="fu">sample_n</span><span class="op">(</span>size <span class="op">=</span> <span class="va">nSample</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>    <span class="va">as.data.table</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in as.data.table(.):</span> could not find function "as.data.table"</span>
 </code></pre></div>
     </div>
   </div>
