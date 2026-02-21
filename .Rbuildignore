@@ -10,3 +10,5 @@
 ^\.git$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+^.*\.RData$
+^.*\.RDataTmp$

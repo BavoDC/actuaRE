@@ -3,9 +3,9 @@
 #' Using this function, you can create plots of the random effect estimates from fitted random effects models. To make
 #' the plots, we rely on the \code{\link[ggplot2]{ggplot2}} package.
 #'
-#' @param obj an object of type \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}
+#' @param obj an object of type \code{\link{hierCredibility}}, \code{\link{hierCredGLM}}, \code{\link{hierCredTweedie}}, or \code{\link{buhlmannStraub}}
 #' @param levelRE indicates which hierarchical level has to be used. \code{"all"} plots both levels in the hierarchy,
-#' \code{"first"} the first level in the hierarchy and \code{"second"} the second level.
+#' \code{"first"} the first level in the hierarchy and \code{"second"} the second level. For \code{buhlmannStraub} objects, this parameter is ignored.
 #' @param colour colour for \code{\link[ggplot2]{geom_point}}
 #' @param plot logical indicating if the \code{\link[ggplot2]{ggplot}} objects have to be plotted.
 #'
@@ -15,17 +15,59 @@
 #' \donttest{
 #' fitHGLM <- hierCredGLM(Y ~ area + gender + (1 | VehicleType / VehicleBody), dataCar, weights = w)
 #' plotRE(fitHGLM)
+#'
+#' # Buhlmann-Straub example
+#' data("hachemeister", package = "actuar")
+#' X = as.data.frame(hachemeister)
+#' Df = reshape(X, idvar = "state",
+#'              varying = list(paste0("ratio.", 1:12), paste0("weight.", 1:12)),
+#'              direction = "long")
+#' fitBS = buhlmannStraub(ratio.1, weight.1, state, Df)
+#' plotRE(fitBS)
 #' }
 plotRE <- function(obj, levelRE = c("all", "first", "second"), colour = "black",
                    plot = TRUE) {
   levelRE = match.arg(levelRE)
   REs     = ranef(obj)
-  if(!any(c("hierCredibility", "hierCredTweedie", "hierCredGLM") %in% class(obj)))
-    stop("Function is only allowed for objects of class hierCredibility, hierCredGLM and hierCredGLM.")
+
+  # Check object class
+  validClasses = c("hierCredibility", "hierCredTweedie", "hierCredGLM", "buhlmannStraub")
+  if(!any(validClasses %in% class(obj)))
+    stop("Function is only allowed for objects of class hierCredibility, hierCredGLM, hierCredTweedie, and buhlmannStraub.")
+
+  # Handle buhlmannStraub separately (single level)
+  if("buhlmannStraub" %in% class(obj)) {
+    type  = obj$type
+    MLFj  = obj$Hierarchy$MLFj
+
+    ggMLFj =
+      do.call("ggplot", list(data = REs, mapping = substitute(aes(x = Uj, y = reorder(MLFj, Uj)), list(MLFj = as.name(MLFj))))) +
+      geom_point(size = 3, colour = colour) +
+      geom_vline(xintercept = if(type == "additive") 0 else 1) +
+      xlab(expression(U[j])) + ylab(MLFj) +
+      theme_bw() +
+      theme(legend.key = element_rect(fill = "gray"),
+            plot.background=element_blank(),
+            panel.border = element_rect(colour = "black",
+                                        fill = NA),
+            axis.text = element_text(size = 12),
+            axis.title = element_text(size = 14, face = "bold"),
+            legend.position = "none")
+
+    ggPlots = list(ggMLFj = ggMLFj)
+
+    if(plot)
+      print(ggMLFj)
+
+    return(ggPlots)
+  }
+
+  # Handle hierarchical models (two levels)
   hierObj = if("hierCredibility" %in% class(obj)) obj else obj$HierarchicalResults
   type    = hierObj$type
   MLFj    = hierObj$Hierarchy$sector
   MLFjk   = hierObj$Hierarchy$group
+
   ggMLFj =
     do.call("ggplot", list(data = REs[[1]], mapping = substitute(aes(x = Uj, reorder(MLFj, Uj)), list(MLFj = as.name(MLFj))))) +
     geom_point(size = 3, colour = colour) + theme(legend.position="none") +

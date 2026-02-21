@@ -60,6 +60,7 @@ hierCredGLM <-
       stop("Has to be of type formula.")
     if(!all(all.vars(formula) %in% names(data)))
       stop("Did not find the variables in the formula in the dataframe")
+    data$wt = if(is.null(weights)) rep(1, nrow(valdata)) else weights
 
     # Fix 'No visible global binding for global variable' note
     # https://stackoverflow.com/questions/9439256/how-can-i-handle-r-cmd-check-no-visible-binding-for-global-variable-notes-when
@@ -88,6 +89,8 @@ hierCredGLM <-
 
     data$Yijkt   = model.extract(glmod$fr, "response")
     data$wijkt   = model.extract(glmod$fr, "weights")
+    if(is.null(data$wijkt))
+      data[, wijkt := rep(1, nrow(data))]
     data$.MLFj    = data[[MLFj]]
     data$.MLFjk   = data[[MLFjk]]
     if(!isNested(data$.MLFjk, data$.MLFj))
@@ -137,15 +140,15 @@ hierCredGLM <-
         if (muHatGLM) {
           eval(
             substitute(
-            hierCredibility(Ytilde, wijkt, MLFj, MLFjk, data, muHat = exp(muHat), type = "multiplicative"),
-            list(MLFj = as.name(MLFj), MLFjk = as.name(MLFjk))
-          ))
+              hierCredibility(Ytilde, wtilde, MLFj, MLFjk, data, muHat = exp(muHat), type = "multiplicative"),
+              list(MLFj = as.name(MLFj), MLFjk = as.name(MLFjk))
+            ))
         } else {
           eval(
             substitute(
-            hierCredibility(Ytilde, wijkt, MLFj, MLFjk, data, type = "multiplicative"),
-            list(MLFj = as.name(MLFj), MLFjk = as.name(MLFjk))
-          ))
+              hierCredibility(Ytilde, wtilde, MLFj, MLFjk, data, type = "multiplicative"),
+              list(MLFj = as.name(MLFj), MLFjk = as.name(MLFjk))
+            ))
         }
       data[, `:=` (
         Uj  = Jewell$Relativity$sector$Uj[match(.MLFj, Jewell$Relativity$sector[[MLFj]])],
@@ -173,7 +176,7 @@ hierCredGLM <-
     if(iter > maxiter)
       warning("Maximum number of iterations reached.", immediate. = T)
     fitGLM = glm(FormulaGLM, data = data, weights = data$wijkt, family = tweedie(var.power = p, link.power = 0),
-                 y = T, model = T, ...)
+                 y = TRUE, model = TRUE, ...)
     fitGLM$prior.weights = data$wijkt
     if(balanceProperty)
       fitGLM = adjustIntercept(fitGLM, data = data)
@@ -195,7 +198,7 @@ hierCredGLM <-
            fitted.values = fitted,
            prior.weights = fitGLM$prior.weights,
            y = if(y) fitGLM$y else NULL
-           ),
+      ),
       class = "hierCredGLM")
     if(returnData)
       Results$data = data
@@ -293,6 +296,8 @@ hierCredTweedie <-
 
     data$Yijkt   = model.extract(glmod$fr, "response")
     data$wijkt   = model.extract(glmod$fr, "weights")
+    if(is.null(data$wijkt))
+      data[, wijkt := rep(1, nrow(data))]
     data$.MLFj    = data[[MLFj]]
     data$.MLFjk   = data[[MLFjk]]
     if(!isNested(data$.MLFjk, data$.MLFj))
@@ -347,13 +352,13 @@ hierCredTweedie <-
         if (muHatGLM) {
           eval(
             substitute(
-              hierCredibility(Ytilde, wijkt, MLFj, MLFjk, data, muHat = exp(muHat), type = "multiplicative"),
+              hierCredibility(Ytilde, wtilde, MLFj, MLFjk, data, muHat = exp(muHat), type = "multiplicative"),
               list(MLFj = as.name(MLFj), MLFjk = as.name(MLFjk))
             ))
         } else {
           eval(
             substitute(
-              hierCredibility(Ytilde, wijkt, MLFj, MLFjk, data, type = "multiplicative"),
+              hierCredibility(Ytilde, wtilde, MLFj, MLFjk, data, type = "multiplicative"),
               list(MLFj = as.name(MLFj), MLFjk = as.name(MLFjk))
             ))
         }

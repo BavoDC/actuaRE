@@ -67,3 +67,5 @@ predict.hierCredTweedie <- function(object, newdata = NULL, ...) {
     predict(object$fitGLM, newdata, ...)
   }
 }
+
+

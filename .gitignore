@@ -18,6 +18,12 @@
 .Rproj.user/
 .Rproj
 *.Rproj
+.Rdata
+.RData
+.RDataTmp
+*.Rdata
+*.RData
+*.RDataTmp
 
 # produced vignettes
 vignettes/*.html
