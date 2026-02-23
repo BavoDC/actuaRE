@@ -42,27 +42,42 @@ is.formula <- function(x) {
 #' @param newdata an object coercible to \code{data.table}.
 #'
 .addREs <- function(obj, newdata) {
-  if(!any(c("hierCredibility", "hierCredGLM", "hierCredTweedie") %in% class(obj)))
-    stop("Only objects of type hierCredibility, hierCredGLM and hierCredTweedie allowed.")
+  validClasses = c("hierCredibility", "hierCredTweedie", "hierCredGLM", 
+                   "buhlmannStraub", "buhlmannStraubGLM", "buhlmannStraubTweedie")
+  if(!any(validClasses %in% class(obj)))
+    stop(paste0("Function is only allowed for objects of class hierCredibility, hierCredGLM, hierCredTweedie,", 
+                " buhlmannStraub, buhlmannStraubGLM and buhlmannStraubTweedie."))
+  
   if(!is.data.table(newdata))
     newdata = as.data.table(newdata)
+  
+  formulaRE = findbars(obj$call$formula)
+  nREs      = length(formulaRE)
+  
   if("hierCredibility" %in% class(obj)) {
     MLFj  = obj$Hierarchy$sector
     MLFjk = obj$Hierarchy$group
   } else {
-    formulaRE  = lme4::findbars(obj$call$formula)
     MLFj  = all.vars(formulaRE[!sapply(formulaRE, function(x) grepl(":", deparse(x)))][[1]])
-    MLFjk = all.vars(formulaRE[sapply(formulaRE, function(x) grepl(":", deparse(x)))][[1]])[1]
+    if(nREs == 2)
+      MLFjk = all.vars(formulaRE[sapply(formulaRE, function(x) grepl(":", deparse(x)))][[1]])[1]
   }
   newdata$.MLFj  = newdata[[MLFj]]
-  newdata$.MLFjk = newdata[[MLFjk]]
+  if(nREs == 2)
+    newdata$.MLFjk = newdata[[MLFjk]]
 
-  hierObj = if("hierCredibility" %in% class(obj)) obj else obj$HierarchicalResults
-  DtUj    = hierObj$Relativity$sector
-  DtUjk   = hierObj$Relativity$group
+  if(nREs == 2) {
+    hierObj = if("hierCredibility" %in% class(obj)) obj else obj$HierarchicalResults
+    DtUj    = hierObj$Relativity$sector
+    DtUjk   = hierObj$Relativity$group
+    newdata[["Uj"]]  = DtUj$Uj[match(newdata$.MLFj, DtUj[[MLFj]])]
+    newdata[["Ujk"]] = DtUjk$Ujk[match(newdata$.MLFjk, DtUjk[[MLFjk]])]
+  } else {
+    bsObj = if("buhlmannStraub" %in% class(obj)) obj else obj$CredibilityResults
+    DtUj  = bsObj$Relativity$MLFj
+    newdata[["Uj"]] = DtUj$Uj[match(newdata$.MLFj, DtUj[[MLFj]])]
+  }
 
-  newdata[["Uj"]]  = DtUj$Uj[match(newdata$.MLFj, DtUj[[MLFj]])]
-  newdata[["Ujk"]] = DtUjk$Ujk[match(newdata$.MLFjk, DtUjk[[MLFjk]])]
   return(newdata)
 }
 
@@ -99,6 +114,24 @@ ranef.hierCredGLM     <- function(object, ...) {
 ranef.hierCredTweedie <- function(object, ...) {
   object$HierarchicalResults$Relativity
 }
+#' @rdname ranef-actuaRE
+#' @method ranef buhlmannStraubGLM
+ranef.buhlmannStraubGLM <- function(object, ...) {
+  object$CredibilityResults$Relativity
+}
+
+#' @rdname ranef-actuaRE
+#' @method ranef buhlmannStraub
+ranef.buhlmannStraub <- function(object, ...) {
+  object$Relativity
+}
+
+#' @rdname ranef-actuaRE
+#' @method ranef buhlmannStraubTweedie
+ranef.buhlmannStraubTweedie <- function(object, ...) {
+  object$CredibilityResults$Relativity
+}
+
 #' Extract the fixed-effects estimates from a fitted random effects model
 #'
 #' A generic function to extract the fixed effects (i.e. the company-specific effects) estimates from a fitted random effects model.
@@ -124,6 +157,18 @@ fixef.hierCredGLM     <- function(object, ...) {
 fixef.hierCredTweedie <- function(object, ...) {
   coef(object$fitGLM)
 }
+#' @rdname fixef-actuaRE
+#' @method fixef buhlmannStraubGLM
+fixef.buhlmannStraubGLM <- function(object, ...) {
+  coef(object$fitGLM)
+}
+
+#' @rdname fixef-actuaRE
+#' @method fixef buhlmannStraubTweedie
+fixef.buhlmannStraubTweedie <- function(object, ...) {
+  return(coef(object$fitGLM))
+}
+
 
 #' Balance property
 #'
@@ -226,6 +271,28 @@ weights.hierCredTweedie <- function(object, type = c("prior", "working"), ...) {
     naresid(object$na.action, res)
 }
 
+#' @rdname weights-actuaRE
+#' @method weights buhlmannStraubGLM
+weights.buhlmannStraubGLM <- function(object, type = c("prior", "working"), ...) {
+  type = match.arg(type)
+  
+  res  = if(type == "prior") object$prior.weights else object$weights
+  if(is.null(object$na.action))
+    res
+  else
+    naresid(object$na.action, res)
+}
 
+#' @rdname weights-actuaRE
+#' @method weights buhlmannStraubTweedie
+weights.buhlmannStraubTweedie <- function(object, type = c("prior", "working"), ...) {
+  type = match.arg(type)
+  
+  res  = if(type == "prior") object$prior.weights else object$weights
+  if(is.null(object$na.action))
+    res
+  else
+    naresid(object$na.action, res)
+}
 
 

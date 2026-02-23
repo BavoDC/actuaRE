@@ -44,9 +44,9 @@ these estimates as initial estimates when fitting a Tweedie GLMM.
 }
 \examples{
 \donttest{
-data("dataCar")
-fitTweedieGLMM = tweedieGLMM(Y ~ area + gender + (1 | VehicleType / VehicleBody), dataCar,
- weights = w, verbose = TRUE, epsilon = 1e-4)
+data("tweedietraindata")
+fitTweedieGLMM = tweedieGLMM(y ~ x1 + (1 | cluster / subcluster), tweedietraindata,
+ weights = wt, verbose = TRUE, epsilon = 1e-4)
 }
 }
 \references{

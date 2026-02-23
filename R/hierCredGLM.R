@@ -41,8 +41,8 @@
 #'
 #' @examples
 #' \donttest{
-#' data("dataCar")
-#' fit = hierCredGLM(Y ~ area + (1 | VehicleType / VehicleBody), dataCar, weights = w,
+#' data("tweedietraindata")
+#' fit = hierCredGLM(y ~ x1 + (1 | cluster / subcluster), tweedietraindata, weights = wt,
 #' p = 1.7)
 #' fit
 #' summary(fit)
@@ -60,7 +60,6 @@ hierCredGLM <-
       stop("Has to be of type formula.")
     if(!all(all.vars(formula) %in% names(data)))
       stop("Did not find the variables in the formula in the dataframe")
-    data$wt = if(is.null(weights)) rep(1, nrow(valdata)) else weights
 
     # Fix 'No visible global binding for global variable' note
     # https://stackoverflow.com/questions/9439256/how-can-i-handle-r-cmd-check-no-visible-binding-for-global-variable-notes-when

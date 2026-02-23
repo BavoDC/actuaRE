@@ -5,6 +5,9 @@
 \alias{ranef.hierCredibility}
 \alias{ranef.hierCredGLM}
 \alias{ranef.hierCredTweedie}
+\alias{ranef.buhlmannStraubGLM}
+\alias{ranef.buhlmannStraub}
+\alias{ranef.buhlmannStraubTweedie}
 \title{Extract the random effect estimates from a fitted random effects model}
 \usage{
 \method{ranef}{hierCredibility}(object, ...)
@@ -12,6 +15,12 @@
 \method{ranef}{hierCredGLM}(object, ...)
 
 \method{ranef}{hierCredTweedie}(object, ...)
+
+\method{ranef}{buhlmannStraubGLM}(object, ...)
+
+\method{ranef}{buhlmannStraub}(object, ...)
+
+\method{ranef}{buhlmannStraubTweedie}(object, ...)
 }
 \arguments{
 \item{object}{an object of type \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}}

@@ -303,57 +303,6 @@ fitted.buhlmannStraub <- function(object, ...) {
   return(object$fitted.values)
 }
 
-#' @rdname buhlmannStraub-class
-#' @method predict buhlmannStraub
-#' @param newdata optionally, a data frame in which to look for variables with which to predict.
-predict.buhlmannStraub <- function(object, newdata = NULL, ...) {
-  if(is.null(newdata)) {
-    return(fitted(object))
-  }
-
-  MLF = object$Hierarchy$MLFj
-  Argz = as.list(object$call)[-1]
-
-  newDf = copy(newdata)
-  newDf$MLFj = eval(Argz$MLFj, newDf)
-
-  if(is.factor(newDf$MLFj))
-    newDf$MLFj = as.character(newDf$MLFj)
-
-  newDt = as.data.table(newDf)
-
-  # Get premiums for each cluster
-  Premiums = object$Premiums$MLFj
-  setnames(Premiums, MLF, "MLFj")
-  setkeyv(Premiums, "MLFj")
-  setkeyv(newDt, "MLFj")
-
-  # Match clusters and get predictions
-  predictions = Premiums$Vj[match(newDt$MLFj, Premiums$MLFj)]
-
-  # For clusters not in training data, use portfolio mean
-  predictions[is.na(predictions)] = object$Premiums$Portfolio
-
-  return(predictions)
-}
-
-#' @rdname buhlmannStraub-class
-#' @method ranef buhlmannStraub
-ranef.buhlmannStraub <- function(object, ...) {
-  return(object$Relativity$MLFj)
-}
-
-#' @rdname buhlmannStraub-class
-#' @method weights buhlmannStraub
-weights.buhlmannStraub <- function(object, type = c("credibility", "exposure"), ...) {
-  type = match.arg(type)
-
-  if(type == "credibility") {
-    return(object$Credibility$MLFj)
-  } else {
-    return(object$Weights$MLFj)
-  }
-}
 
 #' Class "buhlmannStraubGLM" of fitted Buhlmann-Straub GLM credibility models
 #'
@@ -441,59 +390,93 @@ fitted.buhlmannStraubGLM <- function(object, ...) {
   return(object$fitted.values)
 }
 
-#' @rdname buhlmannStraubGLM-class
-#' @method predict buhlmannStraubGLM
-#' @param newdata optionally, a data frame in which to look for variables with which to predict.
-predict.buhlmannStraubGLM <- function(object, newdata = NULL, ...) {
-  if(is.null(newdata)) {
-    return(fitted(object))
-  }
+#' Class "buhlmannStraubTweedie" of fitted Buhlmann-Straub GLM credibility models
+#'
+#' @name buhlmannStraubTweedie-class
+#' @method print buhlmannStraubTweedie
+#' @param x an object of class \code{\link{buhlmannStraubTweedie}}
+#' @param object an object of class \code{\link{buhlmannStraubTweedie}}
+#' @param ... currently ignored.
+#' @seealso \code{\link{buhlmannStraubTweedie}}
+#'
+#'
+#' @section {S3 methods}:
+#' \describe{
+#'  \item{\code{print}:}{Prints the \code{call}, convergence status, number of iterations, and GLM summary.
+#'   The \code{...} argument is currently ignored. Returns an invisible copy of the original object.}
+#'  \item{\code{summary}:}{In addition to the output of the \code{print.buhlmannStraubTweedie} function, the \code{summary} function
+#'   prints the credibility results and random effect estimates as well. Returns an invisible copy of the original object.}
+#'   \item{\code{fitted}:}{Returns the fitted values.}
+#'   \item{\code{predict}:}{Predict method for new data.}
+#'   \item{\code{ranef}:}{Returns the random effects (cluster relativities).}
+#'   \item{\code{fixef}:}{Returns the fixed effects coefficients.}
+#'   \item{\code{weights}:}{Returns either credibility weights or exposure weights.}
+#' }
+#'
+#' @return The function \code{\link{buhlmannStraubTweedie}} returns an object of class \code{buhlmannStraubTweedie}, which has the following slots:
+#' @return \item{call}{the matched call}
+#' @return \item{CredibilityResults}{results of the Buhlmann-Straub credibility model.}
+#' @return \item{fitGLM}{the results from fitting the GLM part.}
+#' @return \item{iter}{total number of iterations.}
+#' @return \item{Converged}{logical indicating whether the algorithm converged.}
+#' @return \item{LevelsCov}{object that summarizes the unique levels of each of the contract-specific covariates.}
+#' @return \item{fitted.values}{the fitted mean values, resulting from the model fit.}
+#' @return \item{prior.weights}{the weights (exposure) initially supplied.}
+#' @return \item{y}{if requested, the response vector.}
+print.buhlmannStraubTweedie <- function(x, ...) {
+  cat("Call:\n",
+      paste(deparse(x$call), sep = "\n", collapse = "\n"),
+      "\n\n", sep = "")
+  
+  cat("Buhlmann-Straub GLM credibility model\n\n")
+  cat("Convergence:", ifelse(x$Converged, "YES", "NO"), "\n")
+  cat("Number of iterations:", x$iter, "\n\n")
+  
+  cat("Fixed Effects (GLM coefficients):\n")
+  print(coef(x$fitGLM))
+  
+  cat("\n")
+  cat("Variance parameters from Buhlmann-Straub model:\n")
+  cat("  Sigma (within-group variance):", x$CredibilityResults$Variances[1], "\n")
+  cat("  Tau (between-group variance):", x$CredibilityResults$Variances[2], "\n")
+  
+  return(invisible(x))
+}
 
-  # Get predictions from GLM part
-  pred_glm = predict(object$fitGLM, newdata = newdata, type = "response")
-
-  # Get random effects
+#' @rdname buhlmannStraubTweedie-class
+#' @method summary buhlmannStraubTweedie
+summary.buhlmannStraubTweedie <- function(object, ...) {
+  cat("Call:\n",
+      paste(deparse(object$call), sep = "\n", collapse = "\n"),
+      "\n\n", sep = "")
+  
+  cat("Buhlmann-Straub GLM credibility model\n\n")
+  cat("Convergence:", ifelse(object$Converged, "YES", "NO"), "\n")
+  cat("Number of iterations:", object$iter, "\n\n")
+  
+  cat("GLM Summary:\n")
+  print(summary(object$fitGLM))
+  
+  cat("\n")
+  cat("Variance parameters from Buhlmann-Straub model:\n")
+  cat("  Sigma (within-group variance):", object$CredibilityResults$Variances[1], "\n")
+  cat("  Tau (between-group variance):", object$CredibilityResults$Variances[2], "\n\n")
+  
   MLF = object$CredibilityResults$Hierarchy$MLFj
-  Argz = as.list(object$call)[-1]
-
-  newDf = copy(newdata)
-  newDf$MLFj = eval(Argz[[which(names(Argz) == "weights") - 1]], newDf) # Get cluster variable
-
-  if(is.factor(newDf$MLFj))
-    newDf$MLFj = as.character(newDf$MLFj)
-
-  # Get random effects for each cluster
-  Relativity = object$CredibilityResults$Relativity$MLFj
-  setnames(Relativity, MLF, "MLFj")
-
-  Uj = Relativity$Uj[match(newDf$MLFj, Relativity$MLFj)]
-
-  # For clusters not in training data, use 1
-  Uj[is.na(Uj)] = 1
-
-  return(pred_glm * Uj)
+  cat("Random effects at the", MLF, "level:\n\n")
+  Dfj = object$CredibilityResults$RawResults
+  print(Dfj[, c(MLF, "zj", "Uj"), with = FALSE], ...)
+  
+  return(invisible(object))
 }
 
-#' @rdname buhlmannStraubGLM-class
-#' @method ranef buhlmannStraubGLM
-ranef.buhlmannStraubGLM <- function(object, ...) {
-  return(object$CredibilityResults$Relativity$MLFj)
+
+
+#' @rdname buhlmannStraubTweedie-class
+#' @method fitted buhlmannStraubTweedie
+fitted.buhlmannStraubTweedie <- function(object, ...) {
+  return(object$fitted.values)
 }
 
-#' @rdname buhlmannStraubGLM-class
-#' @method fixef buhlmannStraubGLM
-fixef.buhlmannStraubGLM <- function(object, ...) {
-  return(coef(object$fitGLM))
-}
 
-#' @rdname buhlmannStraubGLM-class
-#' @method weights buhlmannStraubGLM
-weights.buhlmannStraubGLM <- function(object, type = c("credibility", "exposure"), ...) {
-  type = match.arg(type)
 
-  if(type == "credibility") {
-    return(object$CredibilityResults$Credibility$MLFj)
-  } else {
-    return(object$CredibilityResults$Weights$MLFj)
-  }
-}

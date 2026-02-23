@@ -4,11 +4,17 @@
 \alias{fixef-actuaRE}
 \alias{fixef.hierCredGLM}
 \alias{fixef.hierCredTweedie}
+\alias{fixef.buhlmannStraubGLM}
+\alias{fixef.buhlmannStraubTweedie}
 \title{Extract the fixed-effects estimates from a fitted random effects model}
 \usage{
 \method{fixef}{hierCredGLM}(object, ...)
 
 \method{fixef}{hierCredTweedie}(object, ...)
+
+\method{fixef}{buhlmannStraubGLM}(object, ...)
+
+\method{fixef}{buhlmannStraubTweedie}(object, ...)
 }
 \arguments{
 \item{object}{an object of type \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}}

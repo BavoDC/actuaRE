@@ -22,9 +22,9 @@
 #'
 #' @examples
 #' \donttest{
-#' data("dataCar")
-#' fitTweedieGLMM = tweedieGLMM(Y ~ area + gender + (1 | VehicleType / VehicleBody), dataCar,
-#'  weights = w, verbose = TRUE, epsilon = 1e-4)
+#' data("tweedietraindata")
+#' fitTweedieGLMM = tweedieGLMM(y ~ x1 + (1 | cluster / subcluster), tweedietraindata,
+#'  weights = wt, verbose = TRUE, epsilon = 1e-4)
 #' }
 tweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4,
                         maxiter = 5e2, verbose = FALSE, balanceProperty = TRUE) {
@@ -149,7 +149,7 @@ tweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4
 #'                         weights = weight.1, verbose = TRUE)
 #' }
 newtweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4,
-                        maxiter = 5e2, verbose = FALSE, balanceProperty = TRUE) {
+                           maxiter = 5e2, verbose = FALSE, balanceProperty = TRUE) {
   # Combining credibility models with a Tweedie GLMM (Ohlsson, 2008)
   call = match.call()
   if(!is.logical(muHatGLM))
@@ -210,8 +210,8 @@ newtweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1
     for(i in names(ArgzFn) %>% .[!. %in% names(formals(hierCredTweedie))] %>% .[. != ""])
       ArgzFn[[i]] = NULL
     ArgzFn$weights = weights
-
-    initTw = eval(do.call("substitute", list(expr = ArgzFn, env = list(tweedieGLMM = as.name("hierCredTweedie")))))
+    
+    initTw = eval(do.call("substitute", list(expr = ArgzFn, env = list(newtweedieGLMM = as.name("hierCredTweedie")))))
 
     REs = unique(unlist(sapply(formulaRE, all.vars)))
     for(i in REs)
@@ -234,109 +234,19 @@ newtweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1
     if(any(table(data$.MLFj) == 1))
       warning("There are clusters with only 1 observation.", immediate. = TRUE)
 
-    if(is.factor(data$.MLFj))
-      data$.MLFj = as.character(data$.MLFj)
-
-    data$Uj = 1
-
-    Conv = FALSE
-    iter = 1
-    RelFactorsHist = list()
-    FormulaGLM     = formula(paste0(deparse(formulaGLM, width.cutoff = 5e2), "+ offset(log(Uj))"))
-    Covars         = all.vars(FormulaGLM)[-1]
-
-    if(verbose)
-      cat("\nRunning algorithm for single random effect.\n")
-
-    # Run Buhlmann-Straub + GLM algorithm
-    while(!Conv) {
-      Start = Sys.time()
-
-      #### 1. Fit GLM ####
-      fitGLM = tryCatch(cpglm(FormulaGLM, data = data, link = "log", weights = wij,
-                              control = list(bound.p = c(1.01, 1.99)),
-                              optimizer = "bobyqa"),
-                        error = function(e) TRUE,
-                        warning = function(w) TRUE)
-      if(is.logical(fitGLM))
-        break
-
-      p      = fitGLM$p
-      muHat  = coef(fitGLM)[1]
-      data[, Gammai := exp(as.vector(as(cplm::model.matrix(fitGLM, data = data)[, -1], "sparseMatrix") %*% coef(fitGLM)[-1]))]
-      GammaiRaw = c(coef(fitGLM)[-1], p)
-
-      #### 2. Backtransform data for Buhlmann-Straub model ####
-      data[, Ytilde := Yij / Gammai]
-      data[, wtilde := wij * Gammai^(2 - p)]
-
-      BuhlmannStraub =
-        if (muHatGLM) {
-          eval(
-            substitute(
-              buhlmannStraub(Ytilde, wtilde, MLFj, data, muHat = exp(muHat), type = "multiplicative"),
-              list(MLFj = as.name(MLFj))
-            ))
-        } else {
-          eval(
-            substitute(
-              buhlmannStraub(Ytilde, wtilde, MLFj, data, type = "multiplicative"),
-              list(MLFj = as.name(MLFj))
-            ))
-        }
-
-      data[, Uj := BuhlmannStraub$Relativity$MLFj$Uj[match(.MLFj, BuhlmannStraub$Relativity$MLFj[[MLFj]])]]
-
-      End = Sys.time()
-      RelFactorsHist[[iter]] = GammaiRaw
-
-      if(length(all.vars(FormulaGLM)[-1]) == 2)
-        break
-
-      if(iter > 1) {
-        RelDiff = sqrt(crossprod(GammaiRaw - Gammai0)) / sqrt(crossprod(Gammai0))
-        if(verbose & iter %% 2 == 0)
-          cat("\nIteration", iter, ": relative difference =", RelDiff,
-              "\nTime since last iteration = ", round(difftime(End, Start, units = "mins"), 2), "minutes\n")
-        if(RelDiff  < epsilon)
-          break
-      }
-
-      if(iter > maxiter)
-        break
-
-      iter = iter + 1
-      Gammai0 = GammaiRaw
-    }
-
-    if(iter > maxiter)
-      warning("Maximum number of iterations reached.", immediate. = TRUE)
-
-    if(is.logical(fitGLM)) {
-      warning("Convergence problems with model!")
-      TmpForm = formula(paste0(all.vars(FormulaGLM)[1], " ~ 1"))
-      fitGLM  = cpglm(TmpForm, data = data, link = "log", weights = wij,
-                      control = list(bound.p = c(1.01, 1.99)),
-                      optimizer = "bobyqa")
-      fitGLM@converged = FALSE
-      fitGLM@aic = Inf
-    } else {
-      fitGLM = cpglm(FormulaGLM, data = data, link = "log", weights = wij,
-                     control = list(bound.p = c(1.01, 1.99)),
-                     optimizer = "bobyqa")
-    }
-
-    # Store as initTw for consistency with nested case
-    initTw = list(
-      fitGLM = fitGLM,
-      iter = iter,
-      Converged = iter <= maxiter & fitGLM$converged
-    )
-
-    # Convert MLFj to factor
-    data[[MLFj]] %<>% as.factor
-
-    # Number of variance components for single random effect
+    # Prepare arguments for hierCredTweedie
+    ArgzFn = match.call()
+    for(i in names(ArgzFn) %>% .[!. %in% names(formals(buhlmannStraubGLM))] %>% .[. != ""])
+      ArgzFn[[i]] = NULL
+    ArgzFn$weights = weights
+    
+    initTw = eval(do.call("substitute", list(expr = ArgzFn, env = list(newtweedieGLMM = as.name("buhlmannStraubTweedie")))))
+    
+    REs = unique(unlist(sapply(formulaRE, all.vars)))
+    for(i in REs)
+      data[[i]] %<>% as.factor
+    
+    # Number of variance components for nested structure
     nVarComp = 1
   }
 

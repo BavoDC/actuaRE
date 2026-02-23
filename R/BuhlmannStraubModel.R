@@ -165,4 +165,5 @@ buhlmannStraub <- function(Yij, wij, MLFj, data, muHat = NULL,
   Results
 }
 
+utils::globalVariables(c("Yj_Bar", "nj", "wj", "zj"))
 

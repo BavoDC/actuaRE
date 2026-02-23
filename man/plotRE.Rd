@@ -12,10 +12,10 @@ plotRE(
 )
 }
 \arguments{
-\item{obj}{an object of type \code{\link{hierCredibility}}, \code{\link{hierCredGLM}} or \code{\link{hierCredTweedie}}}
+\item{obj}{an object of type \code{\link{hierCredibility}}, \code{\link{hierCredGLM}}, \code{\link{hierCredTweedie}}, or \code{\link{buhlmannStraub}}}
 
 \item{levelRE}{indicates which hierarchical level has to be used. \code{"all"} plots both levels in the hierarchy,
-\code{"first"} the first level in the hierarchy and \code{"second"} the second level.}
+\code{"first"} the first level in the hierarchy and \code{"second"} the second level. For \code{buhlmannStraub} objects, this parameter is ignored.}
 
 \item{colour}{colour for \code{\link[ggplot2]{geom_point}}}
 
@@ -30,7 +30,17 @@ the plots, we rely on the \code{\link[ggplot2]{ggplot2}} package.
 }
 \examples{
 \donttest{
-fitHGLM <- hierCredGLM(Y ~ area + gender + (1 | VehicleType / VehicleBody), dataCar, weights = w)
+data("tweedietraindata")
+fitHGLM <- hierCredGLM(y ~ x1 + (1 | cluster / subcluster), tweedietraindata, weights = wt)
 plotRE(fitHGLM)
+
+# Buhlmann-Straub example
+data("hachemeister", package = "actuar")
+X = as.data.frame(hachemeister)
+Df = reshape(X, idvar = "state",
+             varying = list(paste0("ratio.", 1:12), paste0("weight.", 1:12)),
+             direction = "long")
+fitBS = buhlmannStraub(ratio.1, weight.1, state, Df)
+plotRE(fitBS)
 }
 }

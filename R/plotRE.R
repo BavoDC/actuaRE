@@ -13,7 +13,8 @@
 #'
 #' @examples
 #' \donttest{
-#' fitHGLM <- hierCredGLM(Y ~ area + gender + (1 | VehicleType / VehicleBody), dataCar, weights = w)
+#' data("tweedietraindata")
+#' fitHGLM <- hierCredGLM(y ~ x1 + (1 | cluster / subcluster), tweedietraindata, weights = wt)
 #' plotRE(fitHGLM)
 #'
 #' # Buhlmann-Straub example
@@ -31,17 +32,20 @@ plotRE <- function(obj, levelRE = c("all", "first", "second"), colour = "black",
   REs     = ranef(obj)
 
   # Check object class
-  validClasses = c("hierCredibility", "hierCredTweedie", "hierCredGLM", "buhlmannStraub")
+  validClasses = c("hierCredibility", "hierCredTweedie", "hierCredGLM", 
+                   "buhlmannStraub", "buhlmannStraubGLM", "buhlmannStraubTweedie")
   if(!any(validClasses %in% class(obj)))
-    stop("Function is only allowed for objects of class hierCredibility, hierCredGLM, hierCredTweedie, and buhlmannStraub.")
-
+    stop(paste0("Function is only allowed for objects of class hierCredibility, hierCredGLM, hierCredTweedie,", 
+                " buhlmannStraub, buhlmannStraubGLM and buhlmannStraubTweedie."))
+  
   # Handle buhlmannStraub separately (single level)
-  if("buhlmannStraub" %in% class(obj)) {
-    type  = obj$type
-    MLFj  = obj$Hierarchy$MLFj
+  if(any(c("buhlmannStraub", "buhlmannStraubGLM", "buhlmannStraubTweedie")  %in% class(obj))) {
+    bsObj = if("buhlmannStraub" %in% class(obj)) obj else obj$CredibilityResults
+    type  = bsObj$type
+    MLFj  = bsObj$Hierarchy$MLFj
 
     ggMLFj =
-      do.call("ggplot", list(data = REs, mapping = substitute(aes(x = Uj, y = reorder(MLFj, Uj)), list(MLFj = as.name(MLFj))))) +
+      do.call("ggplot", list(data = REs[[1]], mapping = substitute(aes(x = Uj, y = reorder(MLFj, Uj)), list(MLFj = as.name(MLFj))))) +
       geom_point(size = 3, colour = colour) +
       geom_vline(xintercept = if(type == "additive") 0 else 1) +
       xlab(expression(U[j])) + ylab(MLFj) +

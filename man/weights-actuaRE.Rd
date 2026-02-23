@@ -5,6 +5,8 @@
 \alias{weights.cpglm}
 \alias{weights.hierCredGLM}
 \alias{weights.hierCredTweedie}
+\alias{weights.buhlmannStraubGLM}
+\alias{weights.buhlmannStraubTweedie}
 \title{Extract the model weights}
 \usage{
 \method{weights}{cpglm}(object, type = c("prior", "working"), ...)
@@ -12,6 +14,10 @@
 \method{weights}{hierCredGLM}(object, type = c("prior", "working"), ...)
 
 \method{weights}{hierCredTweedie}(object, type = c("prior", "working"), ...)
+
+\method{weights}{buhlmannStraubGLM}(object, type = c("prior", "working"), ...)
+
+\method{weights}{buhlmannStraubTweedie}(object, type = c("prior", "working"), ...)
 }
 \arguments{
 \item{object}{an object for which the extraction of model weights is meaningful. Can be either \code{\link[cplm]{cpglm}},
