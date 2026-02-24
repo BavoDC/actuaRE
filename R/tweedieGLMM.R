@@ -23,11 +23,11 @@
 #' @examples
 #' \donttest{
 #' data("tweedietraindata")
-#' fitTweedieGLMM = tweedieGLMM(y ~ x1 + (1 | cluster / subcluster), tweedietraindata,
-#'  weights = wt, verbose = TRUE, epsilon = 1e-4)
+#' fit = tweedieGLMM(y ~ x1 + (1 | cluster / subcluster), tweedietraindata, weights = wt)
+#' fit
 #' }
-tweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4,
-                        maxiter = 5e2, verbose = FALSE, balanceProperty = TRUE) {
+.oldtweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4,
+                            maxiter = 5e2, verbose = FALSE, balanceProperty = TRUE) {
   # Combining the hierarchical credibility model with a GLM (Ohlsson, 2008)
   call = match.call()
   if(!is.logical(muHatGLM))
@@ -114,7 +114,7 @@ tweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4
 #'
 #' @param formula object of type \code{\link{formula}} that specifies which model should be fitted. Syntax is the same as for
 #' \code{\link[lme4]{lmer}} and \code{\link[lme4]{glmer}}. For single random effect: \code{Y ~ x1 + x2 + (1 | Cluster)}.
-#' For nested random effects: \code{Y ~ x1 + x2 + (1 | Industry / Branch)}.
+#' For nested random effects: \code{Y ~ x1 + x2 + (1 | cluster / subcluster)}.
 #' @param data an object that is coercible by \code{\link[data.table]{as.data.table}}, containing the variables in the model.
 #' @param weights variable name of the exposure weight.
 #' @param muHatGLM indicates which estimate has to be used in the algorithm for the intercept term. Default is \code{FALSE},
@@ -134,21 +134,11 @@ tweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4
 #' @examples
 #' \donttest{
 #' # Nested random effects example
-#' data("dataCar")
-#' fitNested = tweedieGLMM(Y ~ area + gender + (1 | VehicleType / VehicleBody), dataCar,
-#'                         weights = w, verbose = TRUE, epsilon = 1e-4)
-#'
-#' # Single random effect example
-#' data("hachemeister", package = "actuar")
-#' X = as.data.frame(hachemeister)
-#' Df = reshape(X, idvar = "state",
-#'              varying = list(paste0("ratio.", 1:12), paste0("weight.", 1:12)),
-#'              direction = "long")
-#' Df$time_factor = factor(Df$time)
-#' fitSingle = tweedieGLMM(ratio.1 ~ time_factor + (1 | state), Df,
-#'                         weights = weight.1, verbose = TRUE)
+#' data("tweedietraindata")
+#' fit = tweedieGLMM(y ~ x1 + (1 | cluster / subcluster), tweedietraindata, weights = wt)
+#' fit
 #' }
-newtweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4,
+tweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4,
                            maxiter = 5e2, verbose = FALSE, balanceProperty = TRUE) {
   # Combining credibility models with a Tweedie GLMM (Ohlsson, 2008)
   call = match.call()
@@ -210,7 +200,7 @@ newtweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1
     for(i in names(ArgzFn) %>% .[!. %in% names(formals(hierCredTweedie))] %>% .[. != ""])
       ArgzFn[[i]] = NULL
     ArgzFn$weights = weights
-    
+
     initTw = eval(do.call("substitute", list(expr = ArgzFn, env = list(newtweedieGLMM = as.name("hierCredTweedie")))))
 
     REs = unique(unlist(sapply(formulaRE, all.vars)))
@@ -239,13 +229,13 @@ newtweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1
     for(i in names(ArgzFn) %>% .[!. %in% names(formals(buhlmannStraubGLM))] %>% .[. != ""])
       ArgzFn[[i]] = NULL
     ArgzFn$weights = weights
-    
+
     initTw = eval(do.call("substitute", list(expr = ArgzFn, env = list(newtweedieGLMM = as.name("buhlmannStraubTweedie")))))
-    
+
     REs = unique(unlist(sapply(formulaRE, all.vars)))
     for(i in REs)
       data[[i]] %<>% as.factor
-    
+
     # Number of variance components for nested structure
     nVarComp = 1
   }

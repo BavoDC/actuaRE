@@ -32,12 +32,12 @@ plotRE <- function(obj, levelRE = c("all", "first", "second"), colour = "black",
   REs     = ranef(obj)
 
   # Check object class
-  validClasses = c("hierCredibility", "hierCredTweedie", "hierCredGLM", 
+  validClasses = c("hierCredibility", "hierCredTweedie", "hierCredGLM",
                    "buhlmannStraub", "buhlmannStraubGLM", "buhlmannStraubTweedie")
   if(!any(validClasses %in% class(obj)))
-    stop(paste0("Function is only allowed for objects of class hierCredibility, hierCredGLM, hierCredTweedie,", 
+    stop(paste0("Function is only allowed for objects of class hierCredibility, hierCredGLM, hierCredTweedie,",
                 " buhlmannStraub, buhlmannStraubGLM and buhlmannStraubTweedie."))
-  
+
   # Handle buhlmannStraub separately (single level)
   if(any(c("buhlmannStraub", "buhlmannStraubGLM", "buhlmannStraubTweedie")  %in% class(obj))) {
     bsObj = if("buhlmannStraub" %in% class(obj)) obj else obj$CredibilityResults
@@ -64,44 +64,44 @@ plotRE <- function(obj, levelRE = c("all", "first", "second"), colour = "black",
       print(ggMLFj)
 
     return(ggPlots)
+  } else {
+    # Handle hierarchical models (two levels)
+    hierObj = if("hierCredibility" %in% class(obj)) obj else obj$HierarchicalResults
+    type    = hierObj$type
+    MLFj    = hierObj$Hierarchy$sector
+    MLFjk   = hierObj$Hierarchy$group
+
+    ggMLFj =
+      do.call("ggplot", list(data = REs[[1]], mapping = substitute(aes(x = Uj, reorder(MLFj, Uj)), list(MLFj = as.name(MLFj))))) +
+      geom_point(size = 3, colour = colour) + theme(legend.position="none") +
+      geom_vline(xintercept = if(type == "additive") 0 else 1) +
+      xlab(expression(U[j])) + ylab(MLFj) +
+      theme_bw() +
+      theme(legend.key = element_rect(fill = "gray"),
+            plot.background=element_blank(),
+            panel.border = element_rect(colour = "black",
+                                        fill = NA),
+            axis.text = element_text(size = 12),
+            axis.title = element_text(size = 14, face = "bold"),
+            legend.position = "none")
+    ggMLFjk =
+      do.call("ggplot", list(data = REs[[2]], mapping = substitute(aes(x = Ujk, reorder(MLFjk, Ujk)), list(MLFjk = as.name(MLFjk))))) +
+      geom_point(size = 3, colour = colour) + theme(legend.position="none") +
+      do.call("facet_wrap", list(facets = substitute(MLFj ~ .,  list(MLFj = as.name(MLFj))), ncol = 3, scales = "free_y")) +
+      geom_vline(xintercept = if(type == "additive") 0 else 1) +
+      xlab(expression(U[jk])) + ylab(MLFjk) +
+      theme_bw() +
+      theme(legend.key = element_rect(fill = "gray"),
+            plot.background=element_blank(),
+            panel.border = element_rect(colour = "black",
+                                        fill = NA),
+            axis.text = element_text(size = 12),
+            axis.title = element_text(size = 14, face = "bold"),
+            legend.position = "none")
+    ggPlots = list(ggMLFj = if(levelRE == "second") NULL else ggMLFj,
+                   ggMLFjk = if(levelRE == "first") NULL else ggMLFjk)
+    if(plot)
+      lapply(ggPlots, print)
+    return(ggPlots)
   }
-
-  # Handle hierarchical models (two levels)
-  hierObj = if("hierCredibility" %in% class(obj)) obj else obj$HierarchicalResults
-  type    = hierObj$type
-  MLFj    = hierObj$Hierarchy$sector
-  MLFjk   = hierObj$Hierarchy$group
-
-  ggMLFj =
-    do.call("ggplot", list(data = REs[[1]], mapping = substitute(aes(x = Uj, reorder(MLFj, Uj)), list(MLFj = as.name(MLFj))))) +
-    geom_point(size = 3, colour = colour) + theme(legend.position="none") +
-    geom_vline(xintercept = if(type == "additive") 0 else 1) +
-    xlab(expression(U[j])) + ylab(MLFj) +
-    theme_bw() +
-    theme(legend.key = element_rect(fill = "gray"),
-          plot.background=element_blank(),
-          panel.border = element_rect(colour = "black",
-                                      fill = NA),
-          axis.text = element_text(size = 12),
-          axis.title = element_text(size = 14, face = "bold"),
-          legend.position = "none")
-  ggMLFjk =
-    do.call("ggplot", list(data = REs[[2]], mapping = substitute(aes(x = Ujk, reorder(MLFjk, Ujk)), list(MLFjk = as.name(MLFjk))))) +
-    geom_point(size = 3, colour = colour) + theme(legend.position="none") +
-    do.call("facet_wrap", list(facets = substitute(MLFj ~ .,  list(MLFj = as.name(MLFj))), ncol = 3, scales = "free_y")) +
-    geom_vline(xintercept = if(type == "additive") 0 else 1) +
-    xlab(expression(U[jk])) + ylab(MLFjk) +
-    theme_bw() +
-    theme(legend.key = element_rect(fill = "gray"),
-          plot.background=element_blank(),
-          panel.border = element_rect(colour = "black",
-                                      fill = NA),
-          axis.text = element_text(size = 12),
-          axis.title = element_text(size = 14, face = "bold"),
-          legend.position = "none")
-  ggPlots = list(ggMLFj = if(levelRE == "second") NULL else ggMLFj,
-                 ggMLFjk = if(levelRE == "first") NULL else ggMLFjk)
-  if(plot)
-    lapply(ggPlots, print)
-  return(ggPlots)
 }

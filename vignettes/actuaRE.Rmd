@@ -148,7 +148,7 @@ ggPlots = plotRE(fit, plot = FALSE)
 ### Mixed models
 Alternatively, we can rely on the mixed models framework [@Molenberghs2005] to estimate the model parameters. Here, we can use the \code{\link[cplm]{cpglmm}} function to estimate a 
 Tweedie generalized linear mixed model. Fitting the model, however, takes quite some time. We can speed up the fitting process by providing some initial estimates and this is exactly
-what the `tweedieGLMM` function does! Nonetheless, even with the initial estimates the fitting process does take some time (approximately 5 minutes using Windows 10 with an intel i7 and 32 gigabytes of RAM).
+what the `tweedieGLMM` function does! Nonetheless, even with the initial estimates the fitting process does take some time.
 
 ```{r, eval = FALSE}
 fitGLMM = tweedieGLMM(y ~ x1 + (1 | cluster / subcluster), tweedietraindata, weights = wt, verbose = TRUE)
