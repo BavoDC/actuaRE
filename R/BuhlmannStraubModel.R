@@ -1,9 +1,9 @@
 #' Buhlmann-Straub credibility model
 #'
-#' Fit a credibility model using the Buhlmann-Straub approach with heterogeneous exposures.
+#' Fit a credibility model using the Buhlmann-Straub model.
 #'
-#' @param Yij variable name of the response variable (the loss cost within actuarial applications).
-#' @param wij variable name of the exposure weight.
+#' @param Yijt variable name of the response variable.
+#' @param wijt variable name of the exposure weight.
 #' @param MLFj variable name of the risk class or cluster.
 #' @param data an object that is coercible by \code{\link[data.table]{as.data.table}}, containing the variables in the model.
 #' @param muHat estimate for the collective premium (portfolio mean). Default is \code{NULL} and in this case, the credibility-weighted estimator is used.
@@ -13,9 +13,9 @@
 #' @return An object of type \code{buhlmannStraub} with the following slots:
 #' @return \item{call}{the matched call}
 #' @return \item{type}{Whether additive or multiplicative credibility model is used.}
-#' @return \item{Variances}{The estimated variance components. \code{Sigma} is the estimated within-group variance (process variance),
-#'  and \code{Tau} is the estimate of the between-group variance (variance of the hypothetical means).}
-#' @return \item{Means}{The estimated averages at the portfolio level (collective premium \eqn{\mu}) and
+#' @return \item{Variances}{The estimated variance components. \code{Sigma} is the estimated within-group variance,
+#'  and \code{Tau} is the estimate of the between-group variance.}
+#' @return \item{Means}{The estimated averages at the portfolio level (collective premium \eqn{\hat{\mu}}) and
 #' at the cluster level (weighted average \eqn{\bar{Y}_j}).}
 #' @return \item{Weights}{The total weights \eqn{w_j} for each cluster.}
 #' @return \item{Credibility}{The credibility factors \eqn{z_j} for each cluster.}
@@ -44,7 +44,7 @@
 #' fit <- cm(~state, hachemeister, ratios = ratio.1:ratio.12,
 #'           weights = weight.1:weight.12)
 #' summary(fit)
-buhlmannStraub <- function(Yij, wij, MLFj, data, muHat = NULL,
+buhlmannStraub <- function(Yijt, wijt, MLFj, data, muHat = NULL,
                            type = c("additive", "multiplicative"),
                            returnData = FALSE) {
   #### 1. Settings ####
@@ -53,8 +53,8 @@ buhlmannStraub <- function(Yij, wij, MLFj, data, muHat = NULL,
   type = match.arg(type)
 
   Df = copy(data)
-  Df$Yij    = eval(Argz$Yij, Df)
-  Df$wij    = eval(Argz$wij, Df)
+  Df$Yijt    = eval(Argz$Yijt, Df)
+  Df$wijt    = eval(Argz$wijt, Df)
   Df$MLFj   = eval(Argz$MLFj, Df)
 
   if(is.factor(Df$MLFj))
@@ -67,24 +67,24 @@ buhlmannStraub <- function(Yij, wij, MLFj, data, muHat = NULL,
   setkey(Dt, MLFj)
 
   #### 2. Input validation ####
-  if(!is.numeric(Dt$Yij))
+  if(!is.numeric(Dt$Yijt))
     stop("Response variable must be numeric.")
-  if(!is.numeric(Dt$wij))
+  if(!is.numeric(Dt$wijt))
     stop("Weight variable must be numeric.")
-  if(any(Dt$wij <= 0))
+  if(any(Dt$wijt <= 0))
     stop("Weights must be positive.")
 
   #### 3. Buhlmann-Straub credibility ####
   # Calculate statistics by cluster
   Dfj = Dt[, .(
-    Yj_Bar = as.vector(crossprod(Yij, wij) / sum(wij)),
-    wj = sum(wij),
+    Yj_Bar = as.vector(crossprod(Yijt, wijt) / sum(wijt)),
+    wj = sum(wijt),
     nj = .N
   ), by = MLFj]
 
   # Calculate within-cluster variance for each cluster
   Dt[, Yj_Bar := Dfj$Yj_Bar[which(Dfj$MLFj == .BY)], by = MLFj]
-  SigmaJ = Dt[, .(SigmaJ = sum(wij * (Yij - Yj_Bar)^2) / (.N - 1)), by = MLFj]$SigmaJ
+  SigmaJ = Dt[, .(SigmaJ = sum(wijt * (Yijt - Yj_Bar)^2) / (.N - 1)), by = MLFj]$SigmaJ
   Dfj[, SigmaJ := SigmaJ]
 
   # Number of clusters

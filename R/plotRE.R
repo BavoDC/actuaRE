@@ -16,15 +16,6 @@
 #' data("tweedietraindata")
 #' fitHGLM <- hierCredGLM(y ~ x1 + (1 | cluster / subcluster), tweedietraindata, weights = wt)
 #' plotRE(fitHGLM)
-#'
-#' # Buhlmann-Straub example
-#' data("hachemeister", package = "actuar")
-#' X = as.data.frame(hachemeister)
-#' Df = reshape(X, idvar = "state",
-#'              varying = list(paste0("ratio.", 1:12), paste0("weight.", 1:12)),
-#'              direction = "long")
-#' fitBS = buhlmannStraub(ratio.1, weight.1, state, Df)
-#' plotRE(fitBS)
 #' }
 plotRE <- function(obj, levelRE = c("all", "first", "second"), colour = "black",
                    plot = TRUE) {

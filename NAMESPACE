@@ -13,7 +13,7 @@ importFrom("methods", "as")
 importFrom("utils", "packageVersion")
 export(ranef, fixef, nobars, glFormula, findbars, isNested,
        hierCredibility, hierCredGLM, hierCredTweedie, tweedieGLMM, adjustIntercept,
-       BalanceProperty, NrUnique, is.formula, buhlmannStraub, newtweedieGLMM)
+       BalanceProperty, NrUnique, is.formula, buhlmannStraub)
 
 S3method(print, hierCredibility)
 S3method(print, hierCredTweedie)

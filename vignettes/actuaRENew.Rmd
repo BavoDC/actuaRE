@@ -39,23 +39,24 @@ The `actuaRE` package provides a comprehensive toolkit for handling both single-
 |------------|----------|-------------|
 | Single-level credibility | `buhlmannStraub` | Buhlmann-Straub credibility model |
 | Single-level GLM + credibility | `buhlmannStraubGLM` | Combines Buhlmann-Straub with GLM (fixed $p$) |
+| Single-level GLM + credibility | `buhlmannStraubTweedie` | Combines Buhlmann-Straub with GLM (estimates $p$) |
 | Hierarchical credibility | `hierCredibility` | Jewell's hierarchical credibility model |
 | Hierarchical GLM + credibility | `hierCredGLM` | Combines hierarchical credibility with GLM (fixed $p$) |
 | Hierarchical GLM + credibility | `hierCredTweedie` | Combines hierarchical credibility with GLM (estimates $p$) |
-| Mixed model (auto-detect) | `tweedieGLMM` | Tweedie GLMM with credibility-based initial estimates |
+| Generalized Linear Mixed Model | `tweedieGLMM` | Tweedie GLMM with credibility-based initial estimates |
 
-All models support both additive and multiplicative formulations and share common S3 methods: `summary`, `fitted`, `predict`, `ranef`, `weights`, and `plotRE`.
+All models support both additive and multiplicative formulations and share common S3 methods: `summary`, `fitted`, `predict`, `fixef`, `ranef`, `weights`, and `plotRE`.
 
 
 # Handling multi-level factors using random effects models
-Multi-level factors (MLFs) are nominal variables with too many levels for ordinary generalized linear model (GLM) estimation [@Ohlsson]. Within the machine learning literature, these type of risk factors are better known as high-cardinality attributes [@Micci2001]. This package allows to incorporate both a single MLF and MLFs that have a hierarchical structure. A typical example of the latter, within workers' compensation insurance, is the NACE code with a hierarchical structure of industry and branch.
+Multi-level factors (MLFs) are nominal variables with too many levels for ordinary generalized linear model (GLM) estimation [@Ohlsson]. Within the machine learning literature, these type of risk factors are better known as high-cardinality attributes [@Micci2001]. This package allows to incorporate both a single MLF and MLFs that have a hierarchical structure. A typical example of the latter, within workers' compensation insurance, is the NACE code with a hierarchical structure of industry and branch. Further, the package allows to combine the MLF with contract-specific covariates.
 
 ## Random effects model structures
 
 The `actuaRE` package supports two types of random effects structures: single-level random effects and hierarchical or nested random effects.
 
 ### Single-level random effects
-For a single MLF (e.g., clusters, states, or regions), we can fit models of the form:
+For a single MLF (e.g., clusters, states, or lines of business), we can fit models of the form:
 
 \begin{align*}
 g(E[Y_{ijt} | U_j]) &= \mu + \boldsymbol{x}_{ijt}^\top \boldsymbol{\beta} + U_j \\&= \zeta_{ijt}.\\
@@ -66,7 +67,7 @@ Here, $Y_{ijt}$ denotes the loss cost of risk profile $i$ (based on the contract
 \begin{align*}
   Y_{ijt} = \frac{Z_{ijt}}{w_{ijt}}
 \end{align*}
-where $Z_{ijt}$ denotes the total claim cost and $w_{ijt}$ is an appropriate volume measure (exposure). $g(\cdot)$ denotes the link function (for example the identity or log link), $\mu$ the intercept, $\boldsymbol{x}_{ijt}$ the contract-specific covariate vector and $\boldsymbol{\beta}$ the corresponding parameter vector. The random effect $U_j$ captures the unobservable effect of cluster $j$. We assume that the random cluster effects $U_j$ are independent and identically distributed (i.i.d.) with $E[U_j] = 0$ and $Var(U_j) = \tau^2$.
+where $Z_{ijt}$ denotes the total claim cost and $w_{ijt}$ is an appropriate volume measure (i.e., the exposure). $g(\cdot)$ denotes the link function (for example the identity or log link), $\mu$ the intercept, $\boldsymbol{x}_{ijt}$ the contract-specific covariate vector and $\boldsymbol{\beta}$ the corresponding parameter vector. The random effect $U_j$ captures the unobservable effect of cluster $j$. We assume that the random cluster effects $U_j$ are independent and identically distributed (i.i.d.) with $E[U_j] = 0$ and $\mathrm{Var}(U_j) = \tau^2$.
 
 ### Hierarchical (two-level) random effects
 For hierarchically structured MLFs, we fit models with two nested levels. In our illustration, we work with a hierarchical MLF that has two hierarchical levels: industry and branch. Figure 1 visualizes this hierarchical structure with a hypothetical example.
@@ -81,7 +82,7 @@ The hierarchical model has the functional form:
 g(E[Y_{ijkt} | U_j, U_{jk}]) &= \mu + \boldsymbol{x}_{ijkt}^\top \boldsymbol{\beta} + U_j + U_{jk} \\&= \zeta_{ijkt}.\\
 \end{align*}
 
-Here, $Y_{ijkt}$ denotes the loss cost of risk profile $i$ operating in branch $k$ within industry $j$ at time $t$. $U_j$ denotes the industry-specific deviation from $\mu + \boldsymbol{x}_{ijkt}^\top \boldsymbol{\beta}$ and $U_{jk}$ denotes the branch-specific deviation from $\mu + \boldsymbol{x}_{ijkt}^\top \boldsymbol{\beta} + U_{j}$. We assume that the random industry effects $U_j$ are i.i.d. with $E[U_j] = 0$ and $Var(U_j) = \tau^2$. Similarly, the random branch effects $U_{jk}$ are assumed to be i.i.d. with $E[U_{jk}] = 0$ and $Var(U_{jk}) = \nu^2$.
+Here, $Y_{ijkt}$ denotes the loss cost of risk profile $i$ operating in branch $k$ within industry $j$ at time $t$. $U_j$ denotes the industry-specific deviation from $\mu + \boldsymbol{x}_{ijkt}^\top \boldsymbol{\beta}$ and $U_{jk}$ denotes the branch-specific deviation from $\mu + \boldsymbol{x}_{ijkt}^\top \boldsymbol{\beta} + U_{j}$. We assume that the random industry effects $U_j$ are i.i.d. with $E[U_j] = 0$ and $\mathrm{Var}(U_j) = \tau^2$. Similarly, the random branch effects $U_{jk}$ are assumed to be i.i.d. with $E[U_{jk}] = 0$ and $\mathrm{Var}(U_{jk}) = \nu^2$.
 
 This package offers three different estimation methods to estimate the model parameters:
  <br /> - Credibility models: Buhlmann-Straub [@Buhlmann2005] for single-level and hierarchical credibility [@JewellModel] for two-level structures
@@ -92,10 +93,10 @@ This package offers three different estimation methods to estimate the model par
 ## Just the code please
 
 ### Example data sets
-To illustrate the functions, we make use of different data sets. We illustrate the credibility models using the Hachemeister [@Hachemeister] data set. The GLM-based methods and GLMMs use the `tweedietraindata` data sets.
+To illustrate the functions, we use different data sets. We illustrate the credibility models using the Hachemeister [@Hachemeister] data set. The GLM-based methods and GLMMs use the `tweedietraindata` and `tweedietesdata` data sets.
 
 ### Buhlmann-Straub credibility model (single random effect)
-To estimate parameters for a single-level random effects structure, we use the Buhlmann-Straub credibility model via the function `buhlmannStraub`. By default, the additive credibility model is fit:
+To estimate the parameters for a single-level random effects structure, we use the Buhlmann-Straub credibility model using the function `buhlmannStraub`. By default, the additive credibility model is fit:
 
 \begin{align*}
 E[Y_{ijt} | U_j] &= \mu + U_j.
@@ -146,7 +147,7 @@ With the package, we can also fit the multiplicative Buhlmann-Straub credibility
 E[Y_{ijt} | \widetilde{U}_j] &= \tilde{\mu} \ \widetilde{U}_j
 \end{align*}
 by specifying `type = "multiplicative"`.
-```{r, eval = FALSE}
+```{r multBS}
 fitBSMult = buhlmannStraub(ratio.1, weight.1, state, Df, type = "multiplicative")
 fitBSMult
 ```
@@ -257,7 +258,7 @@ ggPlots = plotRE(fit, plot = FALSE)
 ```
 
 ### Mixed models
-Alternatively, we can rely on the mixed models framework [@Molenberghs2005] to estimate the model parameters. We use the `cpglmm` function to estimate a Tweedie generalized linear mixed model. Fitting the model, however, takes quite some time. We can speed up the fitting process by providing initial estimates from the credibility models, and this is exactly what the `tweedieGLMM` function does! 
+Alternatively, we can rely on the mixed models framework [@Molenberghs2005] to estimate the model parameters. We use the `cpglmm` function to estimate a Tweedie generalized linear mixed model. Fitting the model, however, can take some time if we have a large data set. We can speed up the fitting process by providing initial estimates from the credibility models, and this is exactly what the `tweedieGLMM` function does! 
 
 The `tweedieGLMM` function **automatically detects** whether you have a single random effect or nested random effects based on your formula:
 
@@ -275,7 +276,7 @@ fitGLMM_nested = tweedieGLMM(y ~ x1 + (1 | cluster / subcluster),
                               tweedietraindata, weights = wt, verbose = TRUE)
 ```
 
-Note: Even with the initial estimates, the fitting process can take some time depending on the size of the data set. Setting `verbose = TRUE` allows you to monitor the progress of the fitting process.
+Note: Even with the initial estimates, the fitting process can take some time with large data sets. Setting `verbose = TRUE` allows you to monitor the progress.
 
 ### Balance property
 For insurance applications, it is crucial that the models provide us a reasonable premium volume at portfolio level. Hereto, we examine the balance property [@Buhlmann2005][@Wuthrich] on the training set. That is,
@@ -284,7 +285,7 @@ For insurance applications, it is crucial that the models provide us a reasonabl
 		\sum_{i, j, k, t} w_{ijkt} \ Y_{ijkt} &= \sum_{i, j, k, t} w_{ijkt} \ \widehat{Y}_{ijkt}\\
 	\end{aligned}
 \end{equation}
-where $i$ serves as an index for the tariff class. GLMs fulfill the balance property when we use the canonical link (see [@Wuthrich]). For linear mixed models (LMMs) and hence, the credibility models, this property also holds. Conversely, most GLMMs do not have this property. To regain the balance property, we introduce a quantity $\alpha$ 
+where $i$ serves as an index for the tariff class. GLMs with a canonical link function fulfill the balance property when we use the canonical link (see [@Wuthrich]). For linear mixed models (LMMs) and hence, the credibility models, this property also holds. Conversely, most GLMMs do not have this property. To regain the balance property, we introduce a quantity $\alpha$ 
 \begin{equation}
 	\begin{aligned}
 		\alpha &= \frac{\sum_{i, j, k, t} w_{ijkt} \ Y_{ijkt}}{\sum_{i, j, k, t} w_{ijkt} \ \widehat{Y}_{ijkt}}\\
@@ -292,7 +293,7 @@ where $i$ serves as an index for the tariff class. GLMs fulfill the balance prop
 \end{equation}
 which quantifies the deviation of the total predicted damage from the total observed damage. In case of the log link, we can then use $\alpha$ to update the intercept to $\hat{\mu} + \log(\alpha)$ to regain the balance property.
 
-By default, the intercept is updated when fitting models using `buhlmannStraubGLM`, `hierCredGLM`, `hierCredTweedie` and `tweedieGLMM`. If you do not wish to update the intercept, you can set the argument `balanceProperty = FALSE`.
+By default, the intercept is updated when fitting models using `buhlmannStraubGLM`, `buhlmannStraubTweedie`, `hierCredGLM`, `hierCredTweedie` and `tweedieGLMM`. If you do not wish to update the intercept, you can set the argument `balanceProperty = FALSE`.
 
 ```{r}
 fitnoBP  = hierCredGLM(y ~ x1 + (1 | cluster / subcluster), tweedietraindata, weights = wt, balanceProperty = FALSE)

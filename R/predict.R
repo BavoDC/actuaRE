@@ -21,7 +21,9 @@ predict.hierCredibility <- function(object, newdata = NULL, ...) {
       newdata = as.data.table(newdata)
     setkeyv(olddata, REs)
     setkeyv(newdata, REs)
-    olddata$Vjk[olddata[, ..REs][newdata[, ..REs], nomatch = 0L, which = T]]
+    yHat              = olddata$Vjk[olddata[, ..REs][newdata[, ..REs], nomatch = 0L, which = T]]
+    yHat[is.na(yHat)] = object$Premiums$Portfolio 
+    return(yHat)
   }
 }
 
@@ -80,32 +82,32 @@ predict.hierCredTweedie <- function(object, newdata = NULL, ...) {
 predict.buhlmannStraub <- function(object, newdata = NULL, ...) {
   if(is.null(newdata)) {
     return(fitted(object))
+  } else {
+    MLF = object$Hierarchy$MLFj
+    Argz = as.list(object$call)[-1]
+    
+    newDf = copy(newdata)
+    newDf$MLFj = eval(Argz$MLFj, newDf)
+    
+    if(is.factor(newDf$MLFj))
+      newDf$MLFj = as.character(newDf$MLFj)
+    
+    newDt = as.data.table(newDf)
+    
+    # Get premiums for each cluster
+    Premiums = copy(object$Premiums$MLFj)
+    setnames(Premiums, MLF, "MLFj")
+    setkeyv(Premiums, "MLFj")
+    setkeyv(newDt, "MLFj")
+    
+    # Match clusters and get predictions
+    predictions = Premiums$Vj[match(newDt$MLFj, Premiums$MLFj)]
+    
+    # For clusters not in training data, use portfolio mean
+    predictions[is.na(predictions)] = object$Premiums$Portfolio
+    
+    return(predictions)
   }
-  
-  MLF = object$Hierarchy$MLFj
-  Argz = as.list(object$call)[-1]
-  
-  newDf = copy(newdata)
-  newDf$MLFj = eval(Argz$MLFj, newDf)
-  
-  if(is.factor(newDf$MLFj))
-    newDf$MLFj = as.character(newDf$MLFj)
-  
-  newDt = as.data.table(newDf)
-  
-  # Get premiums for each cluster
-  Premiums = object$Premiums$MLFj
-  setnames(Premiums, MLF, "MLFj")
-  setkeyv(Premiums, "MLFj")
-  setkeyv(newDt, "MLFj")
-  
-  # Match clusters and get predictions
-  predictions = Premiums$Vj[match(newDt$MLFj, Premiums$MLFj)]
-  
-  # For clusters not in training data, use portfolio mean
-  predictions[is.na(predictions)] = object$Premiums$Portfolio
-  
-  return(predictions)
 }
 
 #' @rdname buhlmannStraubGLM-class
@@ -130,29 +132,9 @@ predict.buhlmannStraubGLM <- function(object, newdata = NULL, ...) {
 predict.buhlmannStraubTweedie <- function(object, newdata = NULL, ...) {
   if(is.null(newdata)) {
     return(fitted(object))
+  } else {
+    newdata = .addREs(object, newdata)
+    newdata[is.na(Uj)] = 1
+    predict(object$fitGLM, newdata, ...)
   }
-  
-  # Get predictions from GLM part
-  pred_glm = predict(object$fitGLM, newdata = newdata, type = "response")
-  
-  # Get random effects
-  MLF = object$CredibilityResults$Hierarchy$MLFj
-  Argz = as.list(object$call)[-1]
-  
-  newDf = copy(newdata)
-  newDf$MLFj = eval(Argz[[which(names(Argz) == "weights") - 1]], newDf) # Get cluster variable
-  
-  if(is.factor(newDf$MLFj))
-    newDf$MLFj = as.character(newDf$MLFj)
-  
-  # Get random effects for each cluster
-  Relativity = object$CredibilityResults$Relativity$MLFj
-  setnames(Relativity, MLF, "MLFj")
-  
-  Uj = Relativity$Uj[match(newDf$MLFj, Relativity$MLFj)]
-  
-  # For clusters not in training data, use 1
-  Uj[is.na(Uj)] = 1
-  
-  return(pred_glm * Uj)
 }

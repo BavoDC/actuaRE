@@ -85,17 +85,17 @@ buhlmannStraubGLM <-
       stop("Exactly one random effect must be specified, e.g., (1 | Cluster)")
 
     MLFj       = all.vars(formulaRE[[1]])
-    data$Yij   = model.extract(glmod$fr, "response")
-    data$wij   = model.extract(glmod$fr, "weights")
-    if(is.null(data$wij))
-      data[, wij := rep(1, nrow(data))]
+    data$Yijt   = model.extract(glmod$fr, "response")
+    data$wijt   = model.extract(glmod$fr, "weights")
+    if(is.null(data$wijt))
+      data[, wijt := rep(1, nrow(data))]
     data$.MLFj = data[[MLFj]]
 
     if(length(all.vars(nobars(formulaGLM))[-1]) == 0) {
       warning("No contract-specific covariates specified. Returning results of the multiplicative Buhlmann-Straub credibility model", immediate. = TRUE)
       return(eval(
         substitute(
-          buhlmannStraub(Yij, wij, MLFj, data, type = "multiplicative"),
+          buhlmannStraub(Yijt, wijt, MLFj, data, type = "multiplicative"),
           list(MLFj = as.name(MLFj))
         )))
     }
@@ -120,7 +120,7 @@ buhlmannStraubGLM <-
       Start = Sys.time()
 
       #### 1. Fit GLM ####
-      fitGLM = glm(FormulaGLM, data = data, weights = data$wij,
+      fitGLM = glm(FormulaGLM, data = data, weights = data$wijt,
                    family = tweedie(var.power = p, link.power = link.power),
                    control = glm.control(maxit = maxiterGLM), ...)
       muHat  = coef(fitGLM)[1]
@@ -128,8 +128,8 @@ buhlmannStraubGLM <-
       GammaiRaw = coef(fitGLM)[-1]
 
       #### 2. Backtransform data for Buhlmann-Straub model ####
-      data[, Ytilde := Yij / Gammai]
-      data[, wtilde := wij * Gammai^(2 - p)]
+      data[, Ytilde := Yijt / Gammai]
+      data[, wtilde := wijt * Gammai^(2 - p)]
 
       BuhlmannStraub =
         if (muHatGLM) {
@@ -173,10 +173,10 @@ buhlmannStraubGLM <-
     if(iter > maxiter)
       warning("Maximum number of iterations reached.", immediate. = TRUE)
 
-    fitGLM = glm(FormulaGLM, data = data, weights = data$wij,
+    fitGLM = glm(FormulaGLM, data = data, weights = data$wijt,
                  family = tweedie(var.power = p, link.power = 0),
                  y = TRUE, model = TRUE, ...)
-    fitGLM$prior.weights = data$wij
+    fitGLM$prior.weights = data$wijt
 
     if(balanceProperty)
       fitGLM = adjustIntercept(fitGLM, data = data)
@@ -268,7 +268,7 @@ buhlmannStraubGLM <-
 #' fixef(fit)
 #' }
 buhlmannStraubTweedie <-
-  function(formula, data, weights, muHatGLM = TRUE, epsilon = 1e-4,
+  function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4,
            maxiter = 5e2, verbose = FALSE, returnData = TRUE, cpglmControl = list(bound.p = c(1.01, 1.99)),
            balanceProperty = TRUE, optimizer = "bobyqa", y = TRUE, ...) {
     
@@ -300,15 +300,15 @@ buhlmannStraubTweedie <-
     
     MLFj  = all.vars(formulaRE[[1]])
     
-    data$Yij   = model.extract(glmod$fr, "response")
-    data$wij   = model.extract(glmod$fr, "weights")
+    data$Yijt   = model.extract(glmod$fr, "response")
+    data$wijt   = model.extract(glmod$fr, "weights")
     data$.MLFj  = data[[MLFj]]
     
     if(length(all.vars(nobars(formulaGLM))[-1]) == 0) {
       warning("No contract-specific covariates specified. Returning results of the multiplicative Buhlmann-Straub credibility model", immediate. = TRUE)
       return(eval(
         substitute(
-          buhlmannStraub(Yij, wij, MLFj, data, type = "multiplicative"),
+          buhlmannStraub(Yijt, wijt, MLFj, data, type = "multiplicative"),
           list(MLFj = as.name(MLFj))
         )))
     }
@@ -334,7 +334,7 @@ buhlmannStraubTweedie <-
       Start = Sys.time()
       
       #### 1. Fit GLM ####
-      fitGLM = tryCatch(cpglm(FormulaGLM, data = data, link = "log", weights = wij, control = cpglmControl,
+      fitGLM = tryCatch(cpglm(FormulaGLM, data = data, link = "log", weights = wijt, control = cpglmControl,
                               optimizer = optimizer, ...),
                         error = function(e) TRUE,
                         warning = function(w) TRUE)
@@ -347,8 +347,8 @@ buhlmannStraubTweedie <-
       GammaiRaw = c(coef(fitGLM)[-1], p)
       
       #### 2. Backtransform data for Buhlmann-Straub model ####
-      data[, Ytilde := Yij / Gammai]
-      data[, wtilde := wij * Gammai^(2 - p)]
+      data[, Ytilde := Yijt / Gammai]
+      data[, wtilde := wijt * Gammai^(2 - p)]
       
       BuhlmannStraub =
         if (muHatGLM) {
@@ -395,14 +395,14 @@ buhlmannStraubTweedie <-
     if(is.logical(fitGLM)) {
       warning("Convergence problems with model!")
       TmpForm = formula(paste0(all.vars(FormulaGLM)[1], " ~ 1"))
-      fitGLM  = cpglm(TmpForm, data = data, link = "log", weights = wij, control = cpglmControl,
+      fitGLM  = cpglm(TmpForm, data = data, link = "log", weights = wijt, control = cpglmControl,
                       optimizer = optimizer, ...)
       fitGLM@converged = FALSE
       fitGLM@aic = Inf
       BuhlmannStraub = list()
     } else {
       fitGLM = cpglm(FormulaGLM, data = data, link = "log",
-                     weights = wij, control = cpglmControl,
+                     weights = wijt, control = cpglmControl,
                      optimizer = optimizer, ...)
       if(balanceProperty)
         fitGLM = adjustIntercept(fitGLM, data)
@@ -439,4 +439,4 @@ buhlmannStraubTweedie <-
   }
 
 
-utils::globalVariables(c("Gammai", "Ytilde", "Yij", "wtilde", "wij", "Uj", ".MLFj"))
+utils::globalVariables(c("Gammai", "Ytilde", "Yijt", "wtilde", "wijt", "Uj", ".MLFj"))
