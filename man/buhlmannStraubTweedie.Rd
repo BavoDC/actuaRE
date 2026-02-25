@@ -8,7 +8,7 @@ buhlmannStraubTweedie(
   formula,
   data,
   weights,
-  muHatGLM = TRUE,
+  muHatGLM = FALSE,
   epsilon = 1e-04,
   maxiter = 500,
   verbose = FALSE,
