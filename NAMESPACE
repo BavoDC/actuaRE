@@ -11,6 +11,7 @@ importFrom(lme4, glFormula)
 importFrom(reformulas, nobars, findbars, isNested)
 importFrom("methods", "as")
 importFrom("utils", "packageVersion")
+importFrom("bookdown", "html_document2")
 export(ranef, fixef, nobars, glFormula, findbars, isNested,
        hierCredibility, hierCredGLM, hierCredTweedie, tweedieGLMM, adjustIntercept,
        BalanceProperty, NrUnique, is.formula, buhlmannStraub)
