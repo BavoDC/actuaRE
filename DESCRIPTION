@@ -10,6 +10,7 @@ Depends: R (>= 3.5.0), stats, methods, cplm
 Imports: statmod, nlme, lme4, magrittr, data.table, ggplot2, knitr, reformulas
 Suggests: 
     plyr,
+    knitr,
     insuranceData,
     actuar,
     utils,

@@ -5,8 +5,8 @@
 \title{Buhlmann-Straub credibility model}
 \usage{
 buhlmannStraub(
-  Yij,
-  wij,
+  Yijt,
+  wijt,
   MLFj,
   data,
   muHat = NULL,
@@ -15,9 +15,9 @@ buhlmannStraub(
 )
 }
 \arguments{
-\item{Yij}{variable name of the response variable (the loss cost within actuarial applications).}
+\item{Yijt}{variable name of the response variable.}
 
-\item{wij}{variable name of the exposure weight.}
+\item{wijt}{variable name of the exposure weight.}
 
 \item{MLFj}{variable name of the risk class or cluster.}
 
@@ -36,10 +36,10 @@ An object of type \code{buhlmannStraub} with the following slots:
 
 \item{type}{Whether additive or multiplicative credibility model is used.}
 
-\item{Variances}{The estimated variance components. \code{Sigma} is the estimated within-group variance (process variance),
- and \code{Tau} is the estimate of the between-group variance (variance of the hypothetical means).}
+\item{Variances}{The estimated variance components. \code{Sigma} is the estimated within-group variance,
+ and \code{Tau} is the estimate of the between-group variance.}
 
-\item{Means}{The estimated averages at the portfolio level (collective premium \eqn{\mu}) and
+\item{Means}{The estimated averages at the portfolio level (collective premium \eqn{\hat{\mu}}) and
 at the cluster level (weighted average \eqn{\bar{Y}_j}).}
 
 \item{Weights}{The total weights \eqn{w_j} for each cluster.}
@@ -55,7 +55,7 @@ at the cluster level (weighted average \eqn{\bar{Y}_j}).}
 \item{fitted.values}{the fitted mean values, resulting from the model fit.}
 }
 \description{
-Fit a credibility model using the Buhlmann-Straub approach with heterogeneous exposures.
+Fit a credibility model using the Buhlmann-Straub model.
 }
 \examples{
 library(actuar)

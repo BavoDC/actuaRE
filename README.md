@@ -1,6 +1,10 @@
-<br /> actuaRE: Handling hierarchically structured <br /> risk factors using random effects models. <img style= "float:right;position: relative; top: -80px" src="vignettes/actuaRE.png" alt="" align="right" width="15%" height = "15%">
+actuaRE: Handling Single-Level and Hierarchically Structured Risk Factors using Credibility and Random Effects Models
 ====
-<br clear="right">
+Fits random effects models for multi-level/high-cardinality factors using credibility theory (Buhlmann-Straub for single-level, Jewell for hierarchical structures), GLM extensions following Ohlsson (2008) <doi:10.1080/03461230701878612>, or Tweedie generalized linear mixed models. Provides functions for model fitting, visualization, and prediction. See Campo, B.D.C. and Antonio, K. (2023) <doi:10.1080/03461238.2022.2161413>.
+
+<p align="left">
+  <img src="vignettes/actuaRE.png" width="25%">
+</p>
 
 
 ## Installation
@@ -24,4 +28,4 @@ or via the [homepage](https://bavodc.github.io/websiteactuaRE/articles/actuaRE.h
 If you use this package, please cite:
 
 - Campo, B.D.C. and Antonio, Katrien (2023). Insurance pricing with hierarchically structured data an illustration with a workers' compensation insurance portfolio. _Scandinavian Actuarial Journal_, doi: 10.1080/03461238.2022.2161413
-- Campo, B.D.C. (2023). _The actuaRE package: Handling Hierarchically Structured Risk Factors using Random Effects Models_. R package version 0.1.3, [https://cran.r-project.org/package=actuaRE](https://cran.r-project.org/package=actuaRE)
+- Campo, B.D.C. (2026). _The actuaRE package: Handling Single-Level and Hierarchically Structured Risk Factors using Credibility and Random Effects Models_. R package version 1.0.0, [https://cran.r-project.org/package=actuaRE](https://cran.r-project.org/package=actuaRE)
