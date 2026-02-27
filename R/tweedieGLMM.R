@@ -93,7 +93,7 @@ tweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4
       ArgzFn[[i]] = NULL
     ArgzFn$weights = weights
 
-    initTw = eval(do.call("substitute", list(expr = ArgzFn, env = list(newtweedieGLMM = as.name("hierCredTweedie")))))
+    initTw = eval(do.call("substitute", list(expr = ArgzFn, env = list(tweedieGLMM = as.name("hierCredTweedie")))))
 
     REs = unique(unlist(sapply(formulaRE, all.vars)))
     for(i in REs)
@@ -122,7 +122,7 @@ tweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4
       ArgzFn[[i]] = NULL
     ArgzFn$weights = weights
 
-    initTw = eval(do.call("substitute", list(expr = ArgzFn, env = list(newtweedieGLMM = as.name("buhlmannStraubTweedie")))))
+    initTw = eval(do.call("substitute", list(expr = ArgzFn, env = list(tweedieGLMM = as.name("buhlmannStraubTweedie")))))
 
     REs = unique(unlist(sapply(formulaRE, all.vars)))
     for(i in REs)
