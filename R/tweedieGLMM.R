@@ -43,8 +43,8 @@ tweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4
 
   ## Extract x, y, etc from the model formula and frame
   mc <- mcout <- match.call()
-  mc[[1]] = quote(lme4::glFormula)
-  for(i in names(mc) %>% .[!. %in% names(formals(lme4::glFormula))] %>% .[. != ""])
+  mc[[1]] = quote(glFormula)
+  for(i in names(mc) %>% .[!. %in% names(formals(glFormula))] %>% .[. != ""])
     mc[[i]] = NULL
   glmod   = eval(mc, parent.frame(1L))
   mcout$formula = glmod$formula
@@ -52,8 +52,8 @@ tweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4
   glmod$REML    = NULL
   weights       = tryCatch(eval(weights, model.frame(1L)), error = function(e) eval(call$weights, data))
 
-  formulaGLM = lme4::nobars(formula)
-  formulaRE  = lme4::findbars(formula)
+  formulaGLM = nobars(formula)
+  formulaRE  = findbars(formula)
 
   # Check number of random effects
   if(length(formulaRE) == 0)
@@ -64,7 +64,7 @@ tweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4
   # Determine if single or nested random effects
   isNested = length(formulaRE) == 2 && any(sapply(formulaRE, function(x) grepl(":", deparse(x))))
 
-  if(length(all.vars(lme4::nobars(formulaGLM))[-1]) == 0)
+  if(length(all.vars(nobars(formulaGLM))[-1]) == 0)
     stop("No contract-specific covariates specified.")
 
   # Get initial estimates based on structure
@@ -81,7 +81,7 @@ tweedieGLMM <- function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4
     data$MLFj    = data[[MLFj]]
     data$MLFjk   = data[[MLFjk]]
 
-    if(!lme4::isNested(data$MLFjk, data$MLFj))
+    if(!isNested(data$MLFjk, data$MLFj))
       stop(paste(MLFjk, "is not nested within", MLFj))
 
     if(any(table(data$MLFj) == 1) | any(table(data$MLFjk) == 1))
