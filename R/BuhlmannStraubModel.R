@@ -27,7 +27,9 @@
 #' @references Buhlmann, H. and Straub, E. (1970). Glaubwurdigkeit fur Schadensatze.
 #' \emph{Mitteilungen der Vereinigung schweizerischer Versicherungsmathematiker}, 70, 111-133.
 #' @references Buhlmann, H. and Gisler, A. (2005). \emph{A Course in Credibility Theory and its Applications}. Springer.
-#' @seealso \code{\link{hierCredibility}}, \code{\link{hierCredTweedie}}, \code{\link{hierCredGLM}}
+#' @seealso \code{\link{buhlmannStraub-class}}, \code{\link{plotRE}}, \code{\link{buhlmannStraubGLM}}, \code{\link{buhlmannStraubTweedie}},
+#'  \code{\link{tweedieGLMM}}, \code{\link{adjustIntercept}}, \code{\link{BalanceProperty}}
+#'
 #' @examples
 #' library(actuar)
 #' library(actuaRE)

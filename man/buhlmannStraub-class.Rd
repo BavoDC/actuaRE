@@ -32,10 +32,10 @@ The function \code{\link{buhlmannStraub}} returns an object of class \code{buhlm
 
 \item{type}{Whether additive or multiplicative credibility model is used.}
 
-\item{Variances}{The estimated variance components. \code{Sigma} is the estimated within-group variance (process variance),
- and \code{Tau} is the estimate of the between-group variance (variance of the hypothetical means).}
+\item{Variances}{The estimated variance components. \code{Sigma} is the estimated within-group variance,
+ and \code{Tau} is the estimate of the between-group variance.}
 
-\item{Means}{The estimated averages at the portfolio level (collective premium \eqn{\mu}) and
+\item{Means}{The estimated averages at the portfolio level (collective premium \eqn{\hat{\mu}}) and
 at the cluster level (weighted average \eqn{\bar{Y}_j}).}
 
 \item{Weights}{The total weights \eqn{w_j} for each cluster.}

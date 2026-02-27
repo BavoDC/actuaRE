@@ -28,6 +28,9 @@
 }
 \keyword{ package }
 \seealso{
+  \code{\link{buhlmannStraub}}
+  \code{\link{buhlmannStraubGLM}}
+  \code{\link{buhlmannStraubTweedie}}
   \code{\link{hierCredibility}}
   \code{\link{hierCredGLM}}
   \code{\link{hierCredTweedie}}

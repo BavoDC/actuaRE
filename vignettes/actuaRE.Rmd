@@ -5,8 +5,7 @@ date: "`r Sys.Date()`"
 output: 
  bookdown::html_document2:
     toc: true
-    rmarkdown::html_vignette:
-      fig_caption: yes
+    fig_caption: yes
 bibliography: references.bib
 latex_engine: xelatex
 biblio-style: "apalike"

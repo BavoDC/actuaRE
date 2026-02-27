@@ -29,8 +29,7 @@
 #' @references Dannenburg, D. R., Kaas, R. and Goovaerts, M. J. (1996). \emph{Practical actuarial credibility models}. Amsterdam: IAE (Institute of Actuarial Science and Econometrics of the University of Amsterdam).
 #' @references Jewell, W. S. (1975). \emph{The use of collateral data in credibility theory: a hierarchical model}. Laxenburg: IIASA.
 #' @references Ohlsson, E. (2005). Simplified estimation of structure parameters in hierarchical credibility. \emph{Presented at the Zurich ASTIN Colloquium}.
-#' @seealso \code{\link{hierCredibility-class}}, \code{\link{fitted.hierCredibility}}, \code{\link{predict.hierCredibility}}, \code{\link{ranef-actuaRE}},
-#'  \code{\link{weights-actuaRE}}, \code{\link{hierCredTweedie}}, \code{\link{hierCredGLM}}, \code{\link[cplm]{cpglm}}, \code{\link{plotRE}}
+#' @seealso \code{\link{hierCredibility-class}}, \code{\link{hierCredTweedie}}, \code{\link{hierCredGLM}}, \code{\link[cplm]{cpglm}}, \code{\link{plotRE}}
 #' @examples
 #' library(actuar)
 #' library(actuaRE)

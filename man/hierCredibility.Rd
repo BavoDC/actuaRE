@@ -84,6 +84,5 @@ Jewell, W. S. (1975). \emph{The use of collateral data in credibility theory: a 
 Ohlsson, E. (2005). Simplified estimation of structure parameters in hierarchical credibility. \emph{Presented at the Zurich ASTIN Colloquium}.
 }
 \seealso{
-\code{\link{hierCredibility-class}}, \code{\link{fitted.hierCredibility}}, \code{\link{predict.hierCredibility}}, \code{\link{ranef-actuaRE}},
- \code{\link{weights-actuaRE}}, \code{\link{hierCredTweedie}}, \code{\link{hierCredGLM}}, \code{\link[cplm]{cpglm}}, \code{\link{plotRE}}
+\code{\link{hierCredibility-class}}, \code{\link{hierCredTweedie}}, \code{\link{hierCredGLM}}, \code{\link[cplm]{cpglm}}, \code{\link{plotRE}}
 }

@@ -3,7 +3,8 @@
 #' Using this function, you can create plots of the random effect estimates from fitted random effects models. To make
 #' the plots, we rely on the \code{\link[ggplot2]{ggplot2}} package.
 #'
-#' @param obj an object of type \code{\link{hierCredibility}}, \code{\link{hierCredGLM}}, \code{\link{hierCredTweedie}}, or \code{\link{buhlmannStraub}}
+#' @param obj an object of type \code{\link{hierCredibility}}, \code{\link{hierCredGLM}}, \code{\link{hierCredTweedie}},
+#' \code{\link{buhlmannStraub}}, \code{\link{buhlmannStraubGLM}} or \code{\link{buhlmannStraubTweedie}}
 #' @param levelRE indicates which hierarchical level has to be used. \code{"all"} plots both levels in the hierarchy,
 #' \code{"first"} the first level in the hierarchy and \code{"second"} the second level. For \code{buhlmannStraub} objects, this parameter is ignored.
 #' @param colour colour for \code{\link[ggplot2]{geom_point}}

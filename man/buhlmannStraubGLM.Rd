@@ -102,6 +102,6 @@ Campo, B.D.C. and Antonio, Katrien (2023). Insurance pricing with hierarchically
 Ohlsson, E. (2008). Combining generalized linear models and credibility models in practice. \emph{Scandinavian Actuarial Journal} \bold{2008}(4), 301–314.
 }
 \seealso{
-\code{\link{buhlmannStraubGLM-class}}, \code{\link{buhlmannStraub}}, \code{\link{hierCredGLM}},
-\code{\link{hierCredTweedie}}, \code{\link{plotRE}}, \code{\link{adjustIntercept}}, \code{\link{BalanceProperty}}
+\code{\link{buhlmannStraubGLM-class}}, \code{\link{buhlmannStraubTweedie}}, \code{\link{buhlmannStraub}}, \code{\link{plotRE}},
+\code{\link{adjustIntercept}}, \code{\link{BalanceProperty}}, \code{\link{tweedieGLMM}}
 }

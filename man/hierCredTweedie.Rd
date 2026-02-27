@@ -93,11 +93,11 @@ fixef(fit)
 }
 }
 \references{
+Campo, B.D.C. and Antonio, Katrien (2023). Insurance pricing with hierarchically structured data an illustration with a workers' compensation insurance portfolio. \emph{Scandinavian Actuarial Journal}, doi: 10.1080/03461238.2022.2161413
+
 Ohlsson, E. (2008). Combining generalized linear models and credibility models in practice. \emph{Scandinavian Actuarial Journal} \bold{2008}(4), 301–314.
 }
 \seealso{
-\code{\link{hierCredTweedie-class}}, \code{\link{fitted.hierCredTweedie}}, \code{\link{predict.hierCredTweedie}}, \code{\link{ranef-actuaRE}},
- \code{\link{weights-actuaRE}}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}}, \code{\link[cplm]{cpglm}}, \code{\link{plotRE}},
- \code{\link{adjustIntercept}}, \code{\link{BalanceProperty}}
- @references   Campo, B.D.C. and Antonio, Katrien (2023). Insurance pricing with hierarchically structured data an illustration with a workers' compensation insurance portfolio. \emph{Scandinavian Actuarial Journal}, doi: 10.1080/03461238.2022.2161413
+\code{\link{hierCredTweedie-class}}, \code{\link{hierCredibility}}, \code{\link{hierCredGLM}}, \code{\link[cplm]{cpglm}},
+\code{\link{plotRE}}, \code{\link{adjustIntercept}}, \code{\link{BalanceProperty}}
 }

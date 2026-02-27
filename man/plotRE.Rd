@@ -12,7 +12,8 @@ plotRE(
 )
 }
 \arguments{
-\item{obj}{an object of type \code{\link{hierCredibility}}, \code{\link{hierCredGLM}}, \code{\link{hierCredTweedie}}, or \code{\link{buhlmannStraub}}}
+\item{obj}{an object of type \code{\link{hierCredibility}}, \code{\link{hierCredGLM}}, \code{\link{hierCredTweedie}},
+\code{\link{buhlmannStraub}}, \code{\link{buhlmannStraubGLM}} or \code{\link{buhlmannStraubTweedie}}}
 
 \item{levelRE}{indicates which hierarchical level has to be used. \code{"all"} plots both levels in the hierarchy,
 \code{"first"} the first level in the hierarchy and \code{"second"} the second level. For \code{buhlmannStraub} objects, this parameter is ignored.}

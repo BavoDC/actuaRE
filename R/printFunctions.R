@@ -255,9 +255,9 @@ fitted.hierCredTweedie <- function(object, ...) object$fitted.values
 #' @return The function \code{\link{buhlmannStraub}} returns an object of class \code{buhlmannStraub}, which has the following slots:
 #' @return \item{call}{the matched call}
 #' @return \item{type}{Whether additive or multiplicative credibility model is used.}
-#' @return \item{Variances}{The estimated variance components. \code{Sigma} is the estimated within-group variance (process variance),
-#'  and \code{Tau} is the estimate of the between-group variance (variance of the hypothetical means).}
-#' @return \item{Means}{The estimated averages at the portfolio level (collective premium \eqn{\mu}) and
+#' @return \item{Variances}{The estimated variance components. \code{Sigma} is the estimated within-group variance,
+#'  and \code{Tau} is the estimate of the between-group variance.}
+#' @return \item{Means}{The estimated averages at the portfolio level (collective premium \eqn{\hat{\mu}}) and
 #' at the cluster level (weighted average \eqn{\bar{Y}_j}).}
 #' @return \item{Weights}{The total weights \eqn{w_j} for each cluster.}
 #' @return \item{Credibility}{The credibility factors \eqn{z_j} for each cluster.}
@@ -427,19 +427,19 @@ print.buhlmannStraubTweedie <- function(x, ...) {
   cat("Call:\n",
       paste(deparse(x$call), sep = "\n", collapse = "\n"),
       "\n\n", sep = "")
-  
+
   cat("Buhlmann-Straub GLM credibility model\n\n")
   cat("Convergence:", ifelse(x$Converged, "YES", "NO"), "\n")
   cat("Number of iterations:", x$iter, "\n\n")
-  
+
   cat("Fixed Effects (GLM coefficients):\n")
   print(coef(x$fitGLM))
-  
+
   cat("\n")
   cat("Variance parameters from Buhlmann-Straub model:\n")
   cat("  Sigma (within-group variance):", x$CredibilityResults$Variances[1], "\n")
   cat("  Tau (between-group variance):", x$CredibilityResults$Variances[2], "\n")
-  
+
   return(invisible(x))
 }
 
@@ -449,24 +449,24 @@ summary.buhlmannStraubTweedie <- function(object, ...) {
   cat("Call:\n",
       paste(deparse(object$call), sep = "\n", collapse = "\n"),
       "\n\n", sep = "")
-  
+
   cat("Buhlmann-Straub GLM credibility model\n\n")
   cat("Convergence:", ifelse(object$Converged, "YES", "NO"), "\n")
   cat("Number of iterations:", object$iter, "\n\n")
-  
+
   cat("GLM Summary:\n")
   print(summary(object$fitGLM))
-  
+
   cat("\n")
   cat("Variance parameters from Buhlmann-Straub model:\n")
   cat("  Sigma (within-group variance):", object$CredibilityResults$Variances[1], "\n")
   cat("  Tau (between-group variance):", object$CredibilityResults$Variances[2], "\n\n")
-  
+
   MLF = object$CredibilityResults$Hierarchy$MLFj
   cat("Random effects at the", MLF, "level:\n\n")
   Dfj = object$CredibilityResults$RawResults
   print(Dfj[, c(MLF, "zj", "Uj"), with = FALSE], ...)
-  
+
   return(invisible(object))
 }
 

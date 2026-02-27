@@ -33,8 +33,8 @@
 #' @return \item{prior.weights}{the weights (exposure) initially supplied.}
 #' @return \item{y}{if requested, the response vector. Default is \code{TRUE}.}
 #'
-#' @seealso \code{\link{buhlmannStraubGLM-class}}, \code{\link{buhlmannStraub}}, \code{\link{hierCredGLM}},
-#' \code{\link{hierCredTweedie}}, \code{\link{plotRE}}, \code{\link{adjustIntercept}}, \code{\link{BalanceProperty}}
+#' @seealso \code{\link{buhlmannStraubGLM-class}}, \code{\link{buhlmannStraubTweedie}}, \code{\link{buhlmannStraub}}, \code{\link{plotRE}},
+#' \code{\link{adjustIntercept}}, \code{\link{BalanceProperty}}, \code{\link{tweedieGLMM}}
 #' @references Campo, B.D.C. and Antonio, Katrien (2023). Insurance pricing with hierarchically structured data an illustration with a workers' compensation insurance portfolio. \emph{Scandinavian Actuarial Journal}, doi: 10.1080/03461238.2022.2161413
 #' @references Ohlsson, E. (2008). Combining generalized linear models and credibility models in practice. \emph{Scandinavian Actuarial Journal} \bold{2008}(4), 301–314.
 #'
@@ -271,7 +271,7 @@ buhlmannStraubTweedie <-
   function(formula, data, weights, muHatGLM = FALSE, epsilon = 1e-4,
            maxiter = 5e2, verbose = FALSE, returnData = TRUE, cpglmControl = list(bound.p = c(1.01, 1.99)),
            balanceProperty = TRUE, optimizer = "bobyqa", y = TRUE, ...) {
-    
+
     call = match.call()
     if(!is.logical(muHatGLM))
       stop("Argument muHatGLM has to be of type logical.")
@@ -281,7 +281,7 @@ buhlmannStraubTweedie <-
       stop("Did not find the variables in the formula in the dataframe")
     if(!is.data.table(data))
       data = as.data.table(data)
-    
+
     ## Extract x, y, etc from the model formula and frame
     mc <- mcout <- match.call()
     mc[[1]] = quote(glFormula)
@@ -291,19 +291,19 @@ buhlmannStraubTweedie <-
     mcout$formula = glmod$formula
     glmod$formula = NULL
     glmod$REML    = NULL
-    
+
     formulaGLM = nobars(formula)
     formulaRE  = findbars(formula)
-    
+
     if(length(formulaRE) != 1)
       stop("Exactly one random effect must be specified, e.g., (1 | Cluster)")
-    
+
     MLFj  = all.vars(formulaRE[[1]])
-    
+
     data$Yijt   = model.extract(glmod$fr, "response")
     data$wijt   = model.extract(glmod$fr, "weights")
     data$.MLFj  = data[[MLFj]]
-    
+
     if(length(all.vars(nobars(formulaGLM))[-1]) == 0) {
       warning("No contract-specific covariates specified. Returning results of the multiplicative Buhlmann-Straub credibility model", immediate. = TRUE)
       return(eval(
@@ -312,27 +312,27 @@ buhlmannStraubTweedie <-
           list(MLFj = as.name(MLFj))
         )))
     }
-    
+
     if(any(table(data$.MLFj) == 1))
       warning("There are clusters with only 1 observation.", immediate. = TRUE)
-    
+
     if(is.factor(data$.MLFj))
       data$.MLFj = as.character(data$.MLFj)
-    
+
     data$Uj = 1
-    
+
     Conv = FALSE
     iter = 1
     RelFactorsHist = list()
     FormulaGLM     = formula(paste0(deparse(formulaGLM, width.cutoff = 5e2), "+ offset(log(Uj))"))
     Covars         = all.vars(FormulaGLM)[-1]
-    
+
     if(verbose)
       cat("\nRunning algorithm.\n")
-    
+
     while(!Conv) {
       Start = Sys.time()
-      
+
       #### 1. Fit GLM ####
       fitGLM = tryCatch(cpglm(FormulaGLM, data = data, link = "log", weights = wijt, control = cpglmControl,
                               optimizer = optimizer, ...),
@@ -340,16 +340,16 @@ buhlmannStraubTweedie <-
                         warning = function(w) TRUE)
       if(is.logical(fitGLM))
         break
-      
+
       p      = fitGLM$p
       muHat  = coef(fitGLM)[1]
       data[, Gammai := exp(as.vector(as(cplm::model.matrix(fitGLM, data = data)[, -1], "sparseMatrix") %*% coef(fitGLM)[-1]))]
       GammaiRaw = c(coef(fitGLM)[-1], p)
-      
+
       #### 2. Backtransform data for Buhlmann-Straub model ####
       data[, Ytilde := Yijt / Gammai]
       data[, wtilde := wijt * Gammai^(2 - p)]
-      
+
       BuhlmannStraub =
         if (muHatGLM) {
           eval(
@@ -364,15 +364,15 @@ buhlmannStraubTweedie <-
               list(MLFj = as.name(MLFj))
             ))
         }
-      
+
       data[, Uj := BuhlmannStraub$Relativity$MLFj$Uj[match(.MLFj, BuhlmannStraub$Relativity$MLFj[[MLFj]])]]
-      
+
       End = Sys.time()
       RelFactorsHist[[iter]] = GammaiRaw
-      
+
       if(length(all.vars(FormulaGLM)[-1]) == 2)
         break
-      
+
       if(iter > 1) {
         RelDiff = sqrt(crossprod(GammaiRaw - Gammai0)) / sqrt(crossprod(Gammai0))
         if(verbose & iter %% 2 == 0)
@@ -381,17 +381,17 @@ buhlmannStraubTweedie <-
         if(RelDiff  < epsilon)
           break
       }
-      
+
       if(iter > maxiter)
         break
-      
+
       iter = iter + 1
       Gammai0 = GammaiRaw
     }
-    
+
     if(iter > maxiter)
       warning("Maximum number of iterations reached.", immediate. = TRUE)
-    
+
     if(is.logical(fitGLM)) {
       warning("Convergence problems with model!")
       TmpForm = formula(paste0(all.vars(FormulaGLM)[1], " ~ 1"))
@@ -407,10 +407,10 @@ buhlmannStraubTweedie <-
       if(balanceProperty)
         fitGLM = adjustIntercept(fitGLM, data)
     }
-    
+
     Convergence = (iter <= maxiter & fitGLM$converged)
     fitted = fitted(fitGLM)
-    
+
     LevelsCov   = setNames(lapply(
       Covars, function(x) {
         if(is.factor(data[[x]]))
@@ -418,7 +418,7 @@ buhlmannStraubTweedie <-
         else
           unique(data[[x]])
       }), Covars)
-    
+
     Results = structure(
       list(call = call,
            CredibilityResults = BuhlmannStraub,
@@ -431,10 +431,10 @@ buhlmannStraubTweedie <-
            y = if(y) fitGLM@y else NULL
       ),
       class = "buhlmannStraubTweedie")
-    
+
     if(returnData)
       Results$data = data
-    
+
     return(Results)
   }
 
