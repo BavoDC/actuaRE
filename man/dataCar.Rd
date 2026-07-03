@@ -30,7 +30,7 @@
   }
 }
 
-\details{Adjusted data set \code{dataCar}, where we removed claims with a loss ratio larger than 1 000 000. In addition, we summed the exposure per vehicle body and removed those where
+\details{Adjusted data set \code{dataCar}, where we removed claims with a loss cost larger than 1 000 000. In addition, we summed the exposure per vehicle body and removed those where
 the summed exposure was less than 100. Hereby, we ensure that there is sufficient exposure for each vehicle body category.}
 \source{http://www.acst.mq.edu.au/GLMsforInsuranceData}
 
