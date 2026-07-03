@@ -11,8 +11,8 @@
 #' @param link.power index of power link function, which is passed to \code{\link[statmod]{tweedie}}. \code{link.power = 0} produces a log-link.
 #' Defaults to the canonical link, which is \code{1 - p}.
 #' @param muHatGLM indicates which estimate has to be used in the algorithm for the intercept term. Default is \code{TRUE},
-#'  which used the intercept as estimated by the GLM. If \code{FALSE}, the estimate of the hierarchical credibility model is used.
-#' @param epsilon positive convergence tolerance \eqn{\epsilon}; the iterations converge when 7
+#'  which used the intercept as estimated by the GLM. If \code{FALSE} (default), the estimate of the hierarchical credibility model is used.
+#' @param epsilon positive convergence tolerance \eqn{\epsilon}; the iterations converge when 
 #' \eqn{||\theta[k] - \theta[k - 1]||^2[[2]]/||\theta[k - 1]||^2[[2]] < \epsilon}. Here, \eqn{\theta[k]} is the parameter vector at the \eqn{k^{th}} iteration.
 #' @param maxiter maximum number of iterations.
 #' @param maxiterGLM maximum number of iterations when fitting the GLM part. Passed to \code{glm}.
@@ -216,7 +216,7 @@ hierCredGLM <-
 #' @param data an object that is coercible by \code{\link[data.table]{as.data.table}}, containing the variables in the model.
 #' @param weights variable name of the exposure weight.
 #' @param muHatGLM indicates which estimate has to be used in the algorithm for the intercept term. Default is \code{TRUE},
-#'  which used the intercept as estimated by the GLM. If \code{FALSE}, the estimate of the hierarchical credibility model is used.
+#'  which used the intercept as estimated by the GLM. If \code{FALSE} (default), the estimate of the hierarchical credibility model is used.
 #' @param epsilon positive convergence tolerance \eqn{\epsilon}; the iterations converge when
 #' \eqn{||\theta[k] - \theta[k - 1]||^2[[2]]/||\theta[k - 1]||^2[[2]] < \epsilon}. Here, \eqn{\theta[k]} is the parameter vector at the \eqn{k^{th}} iteration.
 #' @param maxiter maximum number of iterations.

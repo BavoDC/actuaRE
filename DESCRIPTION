@@ -1,7 +1,7 @@
 Package: actuaRE
 Type: Package
 Title: Handling Single-Level and Hierarchically Structured Risk Factors using Credibility and Random Effects Models
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(person("Campo", "Bavo D.C.", role = c("aut", "cre"),
 		     email = "bavo.decock@kuleuven.be"))
 Description: Fits random effects models for multi-level/high-cardinality factors using credibility theory (Buhlmann-Straub for single-level, Jewell for hierarchical structures), GLM extensions following Ohlsson (2008) <doi:10.1080/03461230701878612>, or Tweedie generalized linear mixed models. Provides functions for model fitting, visualization, and prediction. See Campo, B.D.C. and Antonio, K. (2023) <doi:10.1080/03461238.2022.2161413>.

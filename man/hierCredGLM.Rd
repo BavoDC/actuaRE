@@ -35,9 +35,9 @@ hierCredGLM(
 Defaults to the canonical link, which is \code{1 - p}.}
 
 \item{muHatGLM}{indicates which estimate has to be used in the algorithm for the intercept term. Default is \code{TRUE},
-which used the intercept as estimated by the GLM. If \code{FALSE}, the estimate of the hierarchical credibility model is used.}
+which used the intercept as estimated by the GLM. If \code{FALSE} (default), the estimate of the hierarchical credibility model is used.}
 
-\item{epsilon}{positive convergence tolerance \eqn{\epsilon}; the iterations converge when 7
+\item{epsilon}{positive convergence tolerance \eqn{\epsilon}; the iterations converge when 
 \eqn{||\theta[k] - \theta[k - 1]||^2[[2]]/||\theta[k - 1]||^2[[2]] < \epsilon}. Here, \eqn{\theta[k]} is the parameter vector at the \eqn{k^{th}} iteration.}
 
 \item{maxiter}{maximum number of iterations.}

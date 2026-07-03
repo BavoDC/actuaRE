@@ -10,8 +10,8 @@
 #' @param p the value for the power parameter of the Tweedie distribution, which is passed to \code{\link[statmod]{tweedie}}. Default is \code{1.5}.
 #' @param link.power index of power link function, which is passed to \code{\link[statmod]{tweedie}}. \code{link.power = 0} produces a log-link.
 #' Defaults to the canonical link, which is \code{1 - p}.
-#' @param muHatGLM indicates which estimate has to be used in the algorithm for the intercept term. Default is \code{TRUE},
-#'  which uses the intercept as estimated by the GLM. If \code{FALSE}, the estimate of the Buhlmann-Straub credibility model is used.
+#' @param muHatGLM indicates which estimate has to be used in the algorithm for the intercept term. Set to \code{TRUE}
+#'  to use the intercept as estimated by the GLM. If \code{FALSE}, the estimate of the Buhlmann-Straub credibility model is used.
 #' @param epsilon positive convergence tolerance \eqn{\epsilon}; the iterations converge when
 #' \eqn{||\theta[k] - \theta[k - 1]||^2_2/||\theta[k - 1]||^2_2 < \epsilon}. Here, \eqn{\theta[k]} is the parameter vector at the \eqn{k^{th}} iteration.
 #' @param maxiter maximum number of iterations.
@@ -219,8 +219,8 @@ buhlmannStraubGLM <-
 #' \code{\link[lme4]{lmer}}: e.g., \code{Y ~ x1 + x2 + (1 | Cluster)}. Only one random effect is allowed.
 #' @param data an object that is coercible by \code{\link[data.table]{as.data.table}}, containing the variables in the model.
 #' @param weights variable name of the exposure weight.
-#' @param muHatGLM indicates which estimate has to be used in the algorithm for the intercept term. Default is \code{TRUE},
-#'  which uses the intercept as estimated by the GLM. If \code{FALSE}, the estimate of the Buhlmann-Straub credibility model is used.
+#' @param muHatGLM indicates which estimate has to be used in the algorithm for the intercept term. Set to \code{TRUE}
+#'  to use the intercept as estimated by the GLM. If \code{FALSE}, the estimate of the Buhlmann-Straub credibility model is used.
 #' @param epsilon positive convergence tolerance \eqn{\epsilon}; the iterations converge when
 #' \eqn{||\theta[k] - \theta[k - 1]||^2_2/||\theta[k - 1]||^2_2 < \epsilon}. Here, \eqn{\theta[k]} is the parameter vector at the \eqn{k^{th}} iteration.
 #' @param maxiter maximum number of iterations.

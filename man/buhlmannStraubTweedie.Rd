@@ -28,8 +28,8 @@ buhlmannStraubTweedie(
 
 \item{weights}{variable name of the exposure weight.}
 
-\item{muHatGLM}{indicates which estimate has to be used in the algorithm for the intercept term. Default is \code{TRUE},
-which uses the intercept as estimated by the GLM. If \code{FALSE}, the estimate of the Buhlmann-Straub credibility model is used.}
+\item{muHatGLM}{indicates which estimate has to be used in the algorithm for the intercept term. Set to \code{TRUE}
+to use the intercept as estimated by the GLM. If \code{FALSE}, the estimate of the Buhlmann-Straub credibility model is used.}
 
 \item{epsilon}{positive convergence tolerance \eqn{\epsilon}; the iterations converge when
 \eqn{||\theta[k] - \theta[k - 1]||^2_2/||\theta[k - 1]||^2_2 < \epsilon}. Here, \eqn{\theta[k]} is the parameter vector at the \eqn{k^{th}} iteration.}

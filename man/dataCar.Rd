@@ -23,7 +23,7 @@
     \item{\code{area}}{a factor with levels \code{A} \code{B} \code{C} \code{D} \code{E} \code{F}}
     \item{\code{agecat}}{1 (youngest), 2, 3, 4, 5, 6}
     \item{\code{X_OBSTAT_}}{a factor with levels \code{01101    0    0    0}}
-    \item{\code{Y}}{the loss ratio, defined as the number of claims divided by the exposure}
+    \item{\code{Y}}{the loss cost, defined as the claim amount divided by the exposure}
     \item{\code{w}}{the exposure, identical to \code{exposure}}
     \item{\code{VehicleType}}{type of vehicle, \code{common vehicle} or \code{uncommon vehicle}}
     \item{\code{VehicleBody}}{vehicle body, identical to \code{veh_body}}
