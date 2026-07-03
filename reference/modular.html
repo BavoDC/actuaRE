@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">actuaRE</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.1</span>
       </span>
     </div>
 
@@ -226,11 +226,12 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "fr"      "X"       "reTrms"  "REML"    "formula" "wmsgs"  </span>
 <span class="r-in"><span>  <span class="co">## 2.  Create the deviance function to be optimized:</span></span></span>
 <span class="r-in"><span>  <span class="op">(</span><span class="va">devfun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">mkLmerDevfun</span>, <span class="va">lmod</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> function (theta) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> .Call(lmer_Deviance, pp$ptr(), resp$ptr(), as.double(theta))</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b67e623870&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (par) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> .Call(lmer_Deviance, pp$ptr(), resp$ptr(), mkTheta(as.double(par)))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55c6cd213fe8&gt;</span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">environment</a></span><span class="op">(</span><span class="va">devfun</span><span class="op">)</span><span class="op">)</span> <span class="co"># the environment of 'devfun' contains objects</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "lmer_Deviance" "lower"         "pp"            "resp"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "lmer_Deviance" "lower"         "mkPar"         "mkTheta"      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "pp"            "resp"          "upper"        </span>
 <span class="r-in"><span>  <span class="co"># required for its evaluation</span></span></span>
 <span class="r-in"><span>  <span class="co">## 3.  Optimize the deviance function:</span></span></span>
 <span class="r-in"><span>  <span class="va">opt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/modular.html" class="external-link">optimizeLmer</a></span><span class="op">(</span><span class="va">devfun</span><span class="op">)</span></span></span>
@@ -249,10 +250,10 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> Linear mixed model fit by REML ['lmerMod']</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> REML criterion at convergence: 1743.628</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random effects:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups   Name        Std.Dev. Corr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Subject  (Intercept) 24.741       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           Days         5.922   0.07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Residual             25.592       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups   Name        Std.Dev. Corr </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Subject  (Intercept) 24.741        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           Days         5.922   0.07 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Residual             25.592        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of obs: 180, groups:  Subject, 18</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fixed Effects:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)         Days  </span>
@@ -266,10 +267,10 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Data: sleepstudy</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> REML criterion at convergence: 1743.628</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random effects:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups   Name        Std.Dev. Corr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Subject  (Intercept) 24.741       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           Days         5.922   0.07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Residual             25.592       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Groups   Name        Std.Dev. Corr </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Subject  (Intercept) 24.741        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           Days         5.922   0.07 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Residual             25.592        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of obs: 180, groups:  Subject, 18</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Fixed Effects:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)         Days  </span>
@@ -286,25 +287,26 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ fr     :'data.frame':	56 obs. of  3 variables:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ X      : num [1:56, 1:4] 1 1 1 1 1 1 1 1 1 1 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ reTrms :List of 11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ reTrms :List of 14</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ family :List of 13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ formula:Class 'formula'  language cbind(incidence, size - incidence) ~ period + (1 | herd)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ wmsgs  : chr(0) </span>
 <span class="r-in"><span>  <span class="co">## 2.  Create the deviance function for optimizing over theta:</span></span></span>
 <span class="r-in"><span>  <span class="op">(</span><span class="va">devfun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">mkGlmerDevfun</span>, <span class="va">glmod</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> function (theta) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (par) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     resp$updateMu(lp0)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     pp$setTheta(theta)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     pp$setTheta(mkTheta(as.double(par)))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     p &lt;- pwrssUpdate(pp, resp, tol = tolPwrss, GQmat = GHrule(0L), </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         compDev = compDev, maxit = maxit, verbose = verbose)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     resp$updateWts()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     p</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b6801287b0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55c6db6ec510&gt;</span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">environment</a></span><span class="op">(</span><span class="va">devfun</span><span class="op">)</span><span class="op">)</span> <span class="co"># the environment of devfun contains lots of info</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "compDev"     "lower"       "lp0"         "maxit"       "pp"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "pwrssUpdate" "resp"        "tolPwrss"    "verbose"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "compDev"     "lower"       "lp0"         "maxit"       "mkPar"      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] "mkTheta"     "nAGQ"        "pp"          "pwrssUpdate" "resp"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "tolPwrss"    "upper"       "verbose"    </span>
 <span class="r-in"><span>  <span class="co">## 3.  Optimize over theta using a rough approximation (i.e. nAGQ = 0):</span></span></span>
 <span class="r-in"><span>  <span class="op">(</span><span class="va">opt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/modular.html" class="external-link">optimizeGlmer</a></span><span class="op">(</span><span class="va">devfun</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> parameter estimates: 0.641838555349172 </span>
@@ -316,8 +318,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     resp$setOffset(baseOffset)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     resp$updateMu(lp0)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     pp$setTheta(as.double(pars[dpars]))</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     spars &lt;- as.numeric(pars[-dpars])</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     pp$setTheta(mkTheta(as.double(pars[dpars])))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     spars &lt;- as.double(pars[-dpars])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     offset &lt;- if (length(spars) == 0) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         baseOffset</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     else baseOffset + pp$X %*% spars</span>
@@ -327,7 +329,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>     resp$updateWts()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     p</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55b6801287b0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55c6db6ec510&gt;</span>
 <span class="r-in"><span>  <span class="co">## 5.  Optimize over theta and beta:</span></span></span>
 <span class="r-in"><span>  <span class="va">opt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/modular.html" class="external-link">optimizeGlmer</a></span><span class="op">(</span><span class="va">devfun</span>, stage<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">opt</span>, max<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="co"># seeing what we'got</span></span></span>
